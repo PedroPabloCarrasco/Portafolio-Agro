@@ -1,0 +1,500 @@
+/* ─── Flotación suave ─────────────────────────────── */
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.float {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* ─── Flotación lenta para elementos decorativos ──── */
+@keyframes floatSlow {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    33% {
+        transform: translateY(-8px) rotate(2deg);
+    }
+
+    66% {
+        transform: translateY(-4px) rotate(-1deg);
+    }
+
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+}
+
+.float-slow {
+    animation: floatSlow 10s ease-in-out infinite;
+}
+
+/* ─── Balanceo de hojas ───────────────────────────── */
+@keyframes sway {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(3deg);
+    }
+
+    75% {
+        transform: rotate(-3deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.sway {
+    animation: sway 8s ease-in-out infinite;
+    transform-origin: bottom center;
+}
+
+/* ─── Entrada desde abajo (reveal on scroll) ─────── */
+@keyframes revealUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ─── Entrada desde la izquierda ─────────────────── */
+@keyframes revealLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-48px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ─── Entrada desde la derecha ───────────────────── */
+@keyframes revealRight {
+    from {
+        opacity: 0;
+        transform: translateX(48px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ─── Escalado desde cero ────────────────────────── */
+@keyframes revealScale {
+    from {
+        opacity: 0;
+        transform: scale(0.88);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ─── Fade simple ────────────────────────────────── */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* ─── Clases base (estado invisible) ─────────────── */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: none;
+}
+
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-48px);
+}
+
+.reveal-right {
+    opacity: 0;
+    transform: translateX(48px);
+}
+
+.reveal-scale {
+    opacity: 0;
+    transform: scale(0.88);
+}
+
+/* ─── Estado visible (añadido por useReveal hook) ── */
+.reveal.is-visible {
+    animation: revealUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.reveal-left.is-visible {
+    animation: revealLeft 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.reveal-right.is-visible {
+    animation: revealRight 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.reveal-scale.is-visible {
+    animation: revealScale 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ─── Delays escalonados para hijos ──────────────── */
+.reveal-delay-1 {
+    animation-delay: 0.10s !important;
+}
+
+.reveal-delay-2 {
+    animation-delay: 0.20s !important;
+}
+
+.reveal-delay-3 {
+    animation-delay: 0.30s !important;
+}
+
+.reveal-delay-4 {
+    animation-delay: 0.40s !important;
+}
+
+.reveal-delay-5 {
+    animation-delay: 0.50s !important;
+}
+
+/* ─── Legado ─────────────────────────────────────── */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-up {
+    animation: fadeUp .8s ease forwards;
+}
+
+/* ─── Pulso botánico (semillas/flores) ───────────── */
+@keyframes botanicalPulse {
+    0% {
+        opacity: 0.07;
+    }
+
+    50% {
+        opacity: 0.13;
+    }
+
+    100% {
+        opacity: 0.07;
+    }
+}
+
+.botanical-pulse {
+    animation: botanicalPulse 6s ease-in-out infinite;
+}
+
+/* ─── Volteo de páginas del libro ────────────────── */
+.book-stage {
+    perspective: 1600px;
+}
+
+.book-shell {
+    transform-style: preserve-3d;
+    will-change: transform, filter;
+    position: relative;
+}
+
+/* El contenedor del libro permanece fijo. */
+
+/* ─── Hoja 3D (frente / reverso) ────────────────── */
+.book-flip-layer {
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    width: 50%;
+    left: 50%;
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    pointer-events: none;
+    z-index: 30;
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+.book-flip-layer-next {
+    left: 50%;
+    transform-origin: left center;
+}
+
+.book-flip-layer-prev {
+    left: 0;
+    transform-origin: right center;
+}
+
+.book-flip-face {
+    position: absolute;
+    inset: 0;
+    border-radius: 6px;
+    backface-visibility: hidden;
+    background: #fdfaf4;
+    border: 1px solid rgba(69, 99, 75, 0.18);
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.04);
+    padding: 18px 18px;
+}
+
+.book-flip-curvature {
+    position: absolute;
+    inset: 0;
+    border-radius: 6px;
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0.34) 0%,
+            rgba(255, 255, 255, 0.06) 28%,
+            rgba(0, 0, 0, 0.09) 52%,
+            rgba(255, 255, 255, 0.08) 76%,
+            rgba(0, 0, 0, 0.12) 100%);
+    opacity: 0;
+    z-index: 2;
+    transform-origin: center center;
+}
+
+.book-flip-face-front {
+    transform: rotateY(0deg);
+}
+
+.book-flip-face-back {
+    transform: rotateY(180deg);
+}
+
+.book-flip-label {
+    font-family: Inter, sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.book-flip-mini {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    color: #2d4a35;
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+
+.book-flip-line {
+    width: 56px;
+    height: 2px;
+    border-radius: 2px;
+}
+
+.book-flip-edge {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    right: -4px;
+    background: linear-gradient(180deg, rgba(60, 47, 35, 0.35), rgba(90, 72, 52, 0.15), rgba(60, 47, 35, 0.3));
+    transform: translateZ(1px);
+    border-radius: 2px;
+}
+
+@keyframes edgeRebound {
+    0% {
+        transform: translateZ(1px) scaleX(1);
+        opacity: 0.85;
+    }
+
+    45% {
+        transform: translateZ(1px) scaleX(1.28);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateZ(1px) scaleX(1);
+        opacity: 0.9;
+    }
+}
+
+.book-page-shadow {
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    width: 45%;
+    pointer-events: none;
+    z-index: 25;
+    opacity: 0;
+}
+
+.book-page-shadow-next {
+    left: 50%;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.08), transparent);
+}
+
+.book-page-shadow-prev {
+    right: 50%;
+    background: linear-gradient(270deg, rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.08), transparent);
+}
+
+.book-spine-press {
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: calc(52% - 3px);
+    width: 6px;
+    border-radius: 8px;
+    pointer-events: none;
+    z-index: 28;
+    opacity: 0;
+    background: radial-gradient(ellipse at center,
+            rgba(0, 0, 0, 0.30) 0%,
+            rgba(0, 0, 0, 0.14) 35%,
+            rgba(0, 0, 0, 0.04) 72%,
+            transparent 100%);
+}
+
+@keyframes spinePress {
+    0% {
+        opacity: 0;
+        transform: scaleX(1);
+        filter: blur(0px);
+    }
+
+    40% {
+        opacity: 1;
+        transform: scaleX(1.8);
+        filter: blur(0.3px);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scaleX(1);
+        filter: blur(0px);
+    }
+}
+
+@keyframes pageShadowPulse {
+    0% {
+        opacity: 0;
+    }
+
+    40% {
+        opacity: 0.95;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.book-page-shadow-active {
+    animation: pageShadowPulse 0.42s ease-out;
+}
+
+.book-spine-press-active {
+    animation: spinePress 0.42s ease-out;
+}
+
+@keyframes flipLayerNext {
+    0% {
+        opacity: 0;
+        transform: translateX(0) rotateY(0deg) skewY(0deg) scaleY(1);
+    }
+
+    12% {
+        opacity: 1;
+    }
+
+    42% {
+        transform: translateX(-1px) rotateY(-92deg) skewY(-1.8deg) scaleY(1.02);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0) rotateY(-178deg) skewY(0deg) scaleY(1);
+    }
+}
+
+@keyframes flipLayerPrev {
+    0% {
+        opacity: 0;
+        transform: translateX(0) rotateY(0deg) skewY(0deg) scaleY(1);
+    }
+
+    12% {
+        opacity: 1;
+    }
+
+    42% {
+        transform: translateX(1px) rotateY(92deg) skewY(1.8deg) scaleY(1.02);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0) rotateY(178deg) skewY(0deg) scaleY(1);
+    }
+}
+
+@keyframes flipCurvatureGlow {
+    0% {
+        opacity: 0;
+        transform: scaleX(0.98);
+    }
+
+    35% {
+        opacity: 0.85;
+        transform: scaleX(1.03);
+    }
+
+    100% {
+        opacity: 0.2;
+        transform: scaleX(1);
+    }
+}
+
+.book-flip-layer-next.book-flip-layer-active {
+    animation: flipLayerNext 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.book-flip-layer-prev.book-flip-layer-active {
+    animation: flipLayerPrev 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.book-flip-layer-active .book-flip-curvature {
+    animation: flipCurvatureGlow 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.book-flip-layer-active .book-flip-edge {
+    animation: edgeRebound 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}

@@ -1,0 +1,21 @@
+:root {
+
+    --bg: #f6f2ea;
+
+    --paper: #fbf8f3;
+
+    --green: #45634B;
+
+    --green-light: #7E9C74;
+
+    --brown: #8B6D4D;
+
+    --beige: #DDD1BF;
+
+    --text: #2d2d2d;
+
+    --shadow: 0 25px 60px rgba(0, 0, 0, .15);
+
+    --radius: 22px;
+
+}
