@@ -96,7 +96,7 @@ export default function About() {
                             Claudia Barrera Salas
                         </p>
                         <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', letterSpacing: '0.14em', color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', position: 'relative', zIndex: 1, marginTop: '4px' }}>
-                            Ingeniera Agrónoma · PhD
+                            Ing. Agrónoma · Máster · Dra.
                         </p>
                     </div>
 
@@ -130,10 +130,10 @@ export default function About() {
                         borderLeft: '3px solid var(--green)',
                         paddingLeft: '20px',
                     }}>
-                        "Creo que la agroecología no es solo una disciplina científica, es una forma de entender y habitar el territorio con responsabilidad."
+                        "Ing. Agrónoma. Máster en Agricultura y Ganadería Ecológica (UPO, España). Dra. en Territorio, Patrimonio y Medio Ambiente, especialidad en Agroecología, Universidad de Granada, España."
                     </p>
                     <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '15px', color: 'rgba(45,45,45,0.72)', lineHeight: '1.85', marginBottom: '16px' }}>
-                        Soy Ingeniera Agrónoma con Máster en Agricultura y Ganadería Ecológica por la Universidad Pablo de Olavide (España) y Doctora en Territorio, Patrimonio y Medio Ambiente con especialidad en Agroecología por la Universidad de Granada.
+                        Mi trabajo se centra en la agroecología, los sistemas agroalimentarios, la biodiversidad y el desarrollo rural sostenible. He participado en proyectos de investigación y cooperación en España, América Latina y África subsahariana, siempre con un enfoque participativo y transdisciplinar.
                     </p>
                     <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '15px', color: 'rgba(45,45,45,0.72)', lineHeight: '1.85', marginBottom: '36px' }}>
                         Mi trabajo se centra en la intersección entre los sistemas agroalimentarios, la biodiversidad y el desarrollo rural sostenible. He participado en proyectos de investigación en España, América Latina y África subsahariana, siempre con un enfoque participativo y transdisciplinar.

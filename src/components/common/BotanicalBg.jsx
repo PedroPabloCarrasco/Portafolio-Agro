@@ -237,10 +237,109 @@ export default function BotanicalBg() {
                     </g>
                 ))}
 
+                {/* ── FRANJA DE SURCOS AGRICOLAS (inferior centro) ── */}
+                <g opacity="0.05" transform="translate(520, 790)">
+                    {[0, 16, 32, 48, 64, 80, 96, 112].map((y, i) => (
+                        <path
+                            key={i}
+                            d={`M0 ${y} Q120 ${y - 18} 240 ${y} Q360 ${y + 16} 480 ${y}`}
+                            stroke="#6f5a3e"
+                            strokeWidth="1.4"
+                            fill="none"
+                            strokeLinecap="round"
+                        />
+                    ))}
+                    {[40, 120, 220, 320, 420].map((x, i) => (
+                        <path key={i} d={`M${x} -10 Q${x + 8} 45 ${x} 125`} stroke="#4a7050" strokeWidth="1" fill="none" opacity="0.5" />
+                    ))}
+                </g>
+
+                {/* ── SISTEMA DE RIEGO por goteo (superior centro) ── */}
+                <g opacity="0.09" transform="translate(560, 120)">
+                    <path d="M0 10H320" stroke="#4E8080" strokeWidth="1.8" strokeLinecap="round" />
+                    {[28, 92, 156, 220, 284].map((x, i) => (
+                        <g key={i} transform={`translate(${x}, 10)`}>
+                            <line x1="0" y1="0" x2="0" y2="32" stroke="#4E8080" strokeWidth="1.1" strokeLinecap="round" />
+                            <path d="M0 40 C-4 34 -4 28 0 24 C4 28 4 34 0 40Z" fill="#4E8080" opacity="0.7" />
+                        </g>
+                    ))}
+                </g>
+
+                {/* ── HERRAMIENTAS AGRONOMICAS (pala + rastrillo) ── */}
+                <g opacity="0.08" transform="translate(1180, 300) rotate(18)">
+                    {/* Pala */}
+                    <line x1="0" y1="0" x2="0" y2="120" stroke="#8B6D4D" strokeWidth="3" strokeLinecap="round" />
+                    <path d="M0 122 C-14 114 -14 98 0 90 C14 98 14 114 0 122Z" fill="#6f7f8c" />
+                    {/* Mango */}
+                    <rect x="-9" y="-10" width="18" height="8" rx="3" fill="#8B6D4D" />
+                </g>
+                <g opacity="0.08" transform="translate(1240, 320) rotate(24)">
+                    {/* Rastrillo */}
+                    <line x1="0" y1="0" x2="0" y2="110" stroke="#8B6D4D" strokeWidth="3" strokeLinecap="round" />
+                    <rect x="-24" y="110" width="48" height="7" rx="2" fill="#6f7f8c" />
+                    {[-18, -10, -2, 6, 14, 22].map((x, i) => (
+                        <line key={i} x1={x} y1="117" x2={x} y2="130" stroke="#6f7f8c" strokeWidth="1.2" strokeLinecap="round" />
+                    ))}
+                </g>
+
+                {/* ── POLINIZADOR (abeja) lateral derecho ── */}
+                <g opacity="0.10" transform="translate(1320, 210) rotate(-12)">
+                    <ellipse cx="0" cy="0" rx="12" ry="7" fill="#c8a840" />
+                    <rect x="-7" y="-7" width="3" height="14" fill="#4a3020" opacity="0.55" />
+                    <rect x="-1" y="-7" width="3" height="14" fill="#4a3020" opacity="0.55" />
+                    <rect x="5" y="-7" width="3" height="14" fill="#4a3020" opacity="0.55" />
+                    <ellipse cx="-5" cy="-9" rx="6" ry="4" fill="#d8f0f2" opacity="0.7" transform="rotate(-25 -5 -9)" />
+                    <ellipse cx="5" cy="-9" rx="6" ry="4" fill="#d8f0f2" opacity="0.7" transform="rotate(25 5 -9)" />
+                    <circle cx="-12" cy="0" r="3" fill="#4a3020" />
+                    <line x1="-13" y1="-3" x2="-17" y2="-8" stroke="#4a3020" strokeWidth="0.9" strokeLinecap="round" />
+                    <line x1="-11" y1="-3" x2="-8" y2="-8" stroke="#4a3020" strokeWidth="0.9" strokeLinecap="round" />
+                </g>
+
+                {/* ── PERFIL DE SUELO VIVO (inferior derecha) ── */}
+                <g opacity="0.09" transform="translate(1010, 835)">
+                    <rect x="0" y="0" width="260" height="52" rx="6" fill="#6b4f32" />
+                    <rect x="0" y="0" width="260" height="17" rx="6" fill="#7f6241" opacity="0.7" />
+                    <path d="M28 20 Q44 28 32 40" stroke="#4a3020" strokeWidth="1.4" fill="none" strokeLinecap="round" />
+                    <path d="M82 22 Q96 30 86 44" stroke="#4a3020" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+                    <path d="M150 18 Q166 28 152 42" stroke="#4a3020" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+                    <path d="M210 24 Q224 31 215 46" stroke="#4a3020" strokeWidth="1.1" fill="none" strokeLinecap="round" />
+                    {[22, 54, 112, 178, 230].map((x, i) => (
+                        <g key={i} transform={`translate(${x}, -2)`}>
+                            <line x1="0" y1="0" x2="0" y2="-18" stroke="#3d5e3f" strokeWidth="1" strokeLinecap="round" />
+                            <path d="M0 -10 Q-9 -13 -7 -22 Q0 -15 0 -10Z" fill="#5a8060" />
+                            <path d="M0 -10 Q9 -13 7 -22 Q0 -15 0 -10Z" fill="#5a8060" />
+                        </g>
+                    ))}
+                </g>
+
+                {/* ── COMPOST / BIOMASA (lateral izquierda baja, mas sutil) ── */}
+                <g opacity="0.05" transform="translate(120, 710)">
+                    <ellipse cx="0" cy="0" rx="40" ry="16" fill="#7a5f44" />
+                    <ellipse cx="0" cy="-1" rx="30" ry="10" fill="#6b4f32" />
+                    {[-14, 0, 14].map((x, i) => (
+                        <path key={i} d={`M${x} -5 Q${x + 5} -11 ${x + 2} -16`} stroke="#5a8060" strokeWidth="0.8" fill="none" strokeLinecap="round" />
+                    ))}
+                </g>
+
+                {/* ── ZONA LIMPIA CENTRAL para priorizar contenido ── */}
+                <ellipse cx="720" cy="440" rx="360" ry="235" fill="#f6f2ea" opacity="0.34" />
+                <ellipse cx="720" cy="440" rx="290" ry="185" fill="#f6f2ea" opacity="0.26" />
+
+                {/* ── VIGNETTE suave hacia bordes (profundidad) ── */}
+                <rect x="0" y="0" width="1440" height="900" fill="url(#agroVignette)" opacity="0.23" />
+
                 {/* ── CÍRCULOS ORGÁNICOS de fondo (textura) ── */}
                 <circle cx="400" cy="200" r="120" fill="none" stroke="#4a7050" strokeWidth="0.4" opacity="0.05" strokeDasharray="4 8" />
                 <circle cx="1100" cy="600" r="90" fill="none" stroke="#4a7050" strokeWidth="0.4" opacity="0.05" strokeDasharray="4 8" />
                 <circle cx="720" cy="450" r="200" fill="none" stroke="#4a7050" strokeWidth="0.3" opacity="0.04" strokeDasharray="6 12" />
+
+                <defs>
+                    <radialGradient id="agroVignette" cx="50%" cy="48%" r="70%">
+                        <stop offset="0%" stopColor="#f6f2ea" stopOpacity="0" />
+                        <stop offset="62%" stopColor="#f6f2ea" stopOpacity="0" />
+                        <stop offset="100%" stopColor="#d8cfbf" stopOpacity="1" />
+                    </radialGradient>
+                </defs>
             </svg>
         </div>
     );
