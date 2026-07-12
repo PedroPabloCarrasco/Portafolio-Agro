@@ -367,6 +367,117 @@ export default function Hero() {
                             <div style={{ position: 'absolute', inset: 0, background: current.overlay }} />
 
                             <div
+                                aria-hidden="true"
+                                style={{
+                                    position: 'absolute',
+                                    inset: 0,
+                                    pointerEvents: 'none',
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        inset: 0,
+                                        background: 'radial-gradient(circle at 16% 14%, rgba(198,224,188,0.2), transparent 44%), radial-gradient(circle at 82% 16%, rgba(173,207,165,0.17), transparent 36%), linear-gradient(180deg, rgba(250,255,246,0.04), rgba(16,39,25,0.2))',
+                                    }}
+                                />
+
+                                <div
+                                    className="float-slow"
+                                    style={{
+                                        position: 'absolute',
+                                        top: '8%',
+                                        left: '5%',
+                                        right: '5%',
+                                        opacity: 0.33,
+                                        animationDelay: '1.1s',
+                                    }}
+                                >
+                                    <svg width="100%" height="170" viewBox="0 0 560 170" preserveAspectRatio="none" fill="none">
+                                        <path d="M42 152C42 125 42 100 42 78" stroke="rgba(220,238,198,0.42)" strokeWidth="1.5" strokeLinecap="round" />
+                                        <path d="M42 88C53 77 63 65 70 52" stroke="rgba(220,238,198,0.4)" strokeWidth="1.2" strokeLinecap="round" />
+                                        <path d="M42 102C30 91 21 80 15 68" stroke="rgba(220,238,198,0.38)" strokeWidth="1.2" strokeLinecap="round" />
+                                        <path d="M13 71C24 55 41 47 58 51C73 54 84 66 85 82C70 84 56 90 44 100C30 93 18 84 13 71Z" fill="rgba(220,238,198,0.15)" />
+
+                                        <path d="M172 156C172 122 172 97 172 63" stroke="rgba(220,238,198,0.48)" strokeWidth="1.7" strokeLinecap="round" />
+                                        <path d="M172 74C184 63 197 48 208 30" stroke="rgba(220,238,198,0.44)" strokeWidth="1.3" strokeLinecap="round" />
+                                        <path d="M172 90C157 75 145 60 133 46" stroke="rgba(220,238,198,0.42)" strokeWidth="1.3" strokeLinecap="round" />
+                                        <path d="M128 50C142 31 163 22 186 27C207 32 224 50 227 74C205 80 188 90 173 106C156 95 140 79 128 50Z" fill="rgba(220,238,198,0.16)" />
+
+                                        <path d="M316 158C316 126 316 95 316 68" stroke="rgba(220,238,198,0.54)" strokeWidth="1.9" strokeLinecap="round" />
+                                        <path d="M316 78C332 63 345 46 356 26" stroke="rgba(220,238,198,0.5)" strokeWidth="1.4" strokeLinecap="round" />
+                                        <path d="M316 96C301 81 286 64 273 50" stroke="rgba(220,238,198,0.48)" strokeWidth="1.4" strokeLinecap="round" />
+                                        <path d="M266 54C284 30 311 18 338 25C366 31 387 55 390 86C362 91 340 103 319 123C298 110 278 90 266 54Z" fill="rgba(220,238,198,0.18)" />
+
+                                        <path d="M466 153C466 123 466 98 466 73" stroke="rgba(220,238,198,0.46)" strokeWidth="1.6" strokeLinecap="round" />
+                                        <path d="M466 82C477 72 488 59 498 46" stroke="rgba(220,238,198,0.42)" strokeWidth="1.2" strokeLinecap="round" />
+                                        <path d="M466 95C455 84 444 72 434 61" stroke="rgba(220,238,198,0.4)" strokeWidth="1.2" strokeLinecap="round" />
+                                        <path d="M432 64C445 46 463 38 482 41C502 45 516 60 519 79C500 83 485 92 469 104C455 96 442 83 432 64Z" fill="rgba(220,238,198,0.14)" />
+                                    </svg>
+                                </div>
+
+                                <div
+                                    className="float-slow"
+                                    style={{
+                                        position: 'absolute',
+                                        top: '16%',
+                                        right: '8%',
+                                        opacity: 0.28,
+                                        animationDelay: '2.4s',
+                                    }}
+                                >
+                                    <svg width="120" height="140" viewBox="0 0 120 140" fill="none">
+                                        <path d="M60 131C60 131 59 95 60 52" stroke="rgba(220,238,198,0.52)" strokeWidth="1.8" strokeLinecap="round" />
+                                        <path d="M60 63C71 58 82 49 92 37" stroke="rgba(220,238,198,0.46)" strokeWidth="1.2" strokeLinecap="round" />
+                                        <path d="M60 76C48 68 37 57 27 46" stroke="rgba(220,238,198,0.46)" strokeWidth="1.2" strokeLinecap="round" />
+                                        <path d="M60 90C71 84 82 76 92 66" stroke="rgba(220,238,198,0.42)" strokeWidth="1.2" strokeLinecap="round" />
+                                        <path d="M60 103C49 96 39 88 29 80" stroke="rgba(220,238,198,0.42)" strokeWidth="1.2" strokeLinecap="round" />
+                                        <path d="M34 44C43 31 56 24 70 24C84 24 97 31 106 44C93 50 81 60 70 73C55 64 43 54 34 44Z" fill="rgba(220,238,198,0.16)" />
+                                    </svg>
+                                </div>
+
+                                <div
+                                    className="float-slow"
+                                    style={{
+                                        position: 'absolute',
+                                        left: '0',
+                                        right: '0',
+                                        bottom: '0',
+                                        opacity: 0.36,
+                                        animationDelay: '0.7s',
+                                    }}
+                                >
+                                    <svg width="100%" height="132" viewBox="0 0 520 132" preserveAspectRatio="none" fill="none">
+                                        <path d="M0 102C46 90 88 83 134 85C180 87 216 99 262 102C306 105 344 94 389 86C435 78 474 80 520 91V132H0V102Z" fill="rgba(10,28,18,0.52)" />
+
+                                        <path d="M42 103C42 103 44 78 42 58" stroke="rgba(229,244,206,0.52)" strokeWidth="1.4" strokeLinecap="round" />
+                                        <path d="M42 67C51 61 59 53 65 44" stroke="rgba(229,244,206,0.48)" strokeWidth="1.1" strokeLinecap="round" />
+                                        <path d="M42 79C33 72 25 65 20 57" stroke="rgba(229,244,206,0.46)" strokeWidth="1.1" strokeLinecap="round" />
+
+                                        <path d="M126 97C126 97 127 73 126 47" stroke="rgba(229,244,206,0.56)" strokeWidth="1.5" strokeLinecap="round" />
+                                        <path d="M126 58C136 50 146 40 154 29" stroke="rgba(229,244,206,0.5)" strokeWidth="1.2" strokeLinecap="round" />
+                                        <path d="M126 71C115 61 106 51 99 41" stroke="rgba(229,244,206,0.48)" strokeWidth="1.2" strokeLinecap="round" />
+
+                                        <path d="M214 104C214 104 214 80 214 60" stroke="rgba(229,244,206,0.53)" strokeWidth="1.4" strokeLinecap="round" />
+                                        <path d="M214 71C223 64 231 57 238 49" stroke="rgba(229,244,206,0.47)" strokeWidth="1.1" strokeLinecap="round" />
+                                        <path d="M214 82C205 75 198 69 191 63" stroke="rgba(229,244,206,0.45)" strokeWidth="1.1" strokeLinecap="round" />
+
+                                        <path d="M302 106C302 106 303 79 302 51" stroke="rgba(229,244,206,0.57)" strokeWidth="1.5" strokeLinecap="round" />
+                                        <path d="M302 62C313 53 323 43 331 31" stroke="rgba(229,244,206,0.5)" strokeWidth="1.2" strokeLinecap="round" />
+                                        <path d="M302 76C292 66 282 56 274 47" stroke="rgba(229,244,206,0.48)" strokeWidth="1.2" strokeLinecap="round" />
+
+                                        <path d="M390 99C390 99 390 76 390 58" stroke="rgba(229,244,206,0.53)" strokeWidth="1.4" strokeLinecap="round" />
+                                        <path d="M390 67C399 60 407 53 413 46" stroke="rgba(229,244,206,0.47)" strokeWidth="1.1" strokeLinecap="round" />
+                                        <path d="M390 78C382 72 374 66 367 60" stroke="rgba(229,244,206,0.45)" strokeWidth="1.1" strokeLinecap="round" />
+
+                                        <path d="M476 95C476 95 477 70 476 43" stroke="rgba(229,244,206,0.56)" strokeWidth="1.5" strokeLinecap="round" />
+                                        <path d="M476 54C486 46 495 36 503 26" stroke="rgba(229,244,206,0.5)" strokeWidth="1.2" strokeLinecap="round" />
+                                        <path d="M476 66C466 57 457 49 449 41" stroke="rgba(229,244,206,0.48)" strokeWidth="1.2" strokeLinecap="round" />
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div
                                 style={{
                                     position: 'relative',
                                     zIndex: 1,
