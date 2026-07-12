@@ -4,37 +4,37 @@ import useReveal from '../../hooks/useReveal';
 
 const icons = {
     leaf: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 22s8-6 8-13A8 8 0 0 0 4 9c0 7 8 13 8 13z" />
             <path d="M12 22V10" />
         </svg>
     ),
     edu: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
             <path d="M6 12v5c0 1.657 2.686 3 6 3s6-1.343 6-3v-5" />
         </svg>
     ),
     brief: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <rect x="2" y="7" width="20" height="14" rx="2" />
             <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
         </svg>
     ),
     project: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
             <polyline points="14,2 14,8 20,8" />
         </svg>
     ),
     pub: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <rect x="3" y="3" width="18" height="18" rx="2" />
             <path d="M3 9h18M9 21V9" />
         </svg>
     ),
     contact: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <rect x="2" y="4" width="20" height="16" rx="2" />
             <path d="M2 7l10 7 10-7" />
         </svg>
@@ -144,6 +144,7 @@ export default function Hero() {
     const bookRef = useReveal();
     const tabsRef = useReveal({ threshold: 0.2 });
     const [activePage, setActivePage] = useState(0);
+    const [displayedPage, setDisplayedPage] = useState(0);
     const [previousPage, setPreviousPage] = useState(0);
     const [targetPage, setTargetPage] = useState(0);
     const [flipLayerDirection, setFlipLayerDirection] = useState('next');
@@ -159,7 +160,7 @@ export default function Hero() {
         };
     }, []);
 
-    const current = bookPages[activePage];
+    const current = bookPages[displayedPage];
 
     function handlePageChange(nextIndex) {
         if (nextIndex === activePage) return;
@@ -232,7 +233,10 @@ export default function Hero() {
                             key={flipKey}
                             className={`book-flip-layer ${flipLayerDirection === 'next' ? 'book-flip-layer-next' : 'book-flip-layer-prev'} ${flipLayerActive ? 'book-flip-layer-active' : ''}`}
                             aria-hidden="true"
-                            onAnimationEnd={() => setFlipLayerActive(false)}
+                            onAnimationEnd={() => {
+                                setDisplayedPage(targetPage);
+                                setFlipLayerActive(false);
+                            }}
                         >
                             <div className="book-flip-curvature" />
                             <div className="book-flip-face book-flip-face-front">
@@ -425,55 +429,74 @@ export default function Hero() {
                     style={{
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: '6px',
-                        marginLeft: '10px',
+                        gap: '8px',
+                        marginLeft: '-2px',
                         justifyContent: 'center',
+                        zIndex: 4,
                     }}
                 >
-                    <span style={{
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '10px',
-                        letterSpacing: '0.08em',
-                        color: 'rgba(45,45,45,0.55)',
-                        textTransform: 'uppercase',
-                        textAlign: 'center',
-                        marginBottom: '4px',
-                    }}>
-                        {activePage + 1}/{bookPages.length}
-                    </span>
                     {bookPages.map((tab, i) => (
                         <button
                             key={tab.tab}
                             aria-label={`Ir a página ${tab.tab}`}
                             onClick={() => handlePageChange(i)}
                             style={{
-                                width: '38px',
-                                height: '38px',
-                                borderRadius: '8px',
+                                width: i === activePage ? '50px' : '40px',
+                                height: '56px',
+                                borderRadius: '0 10px 10px 0',
                                 background: tab.color,
-                                border: i === activePage ? '2px solid rgba(255,255,255,0.9)' : 'none',
+                                border: i === activePage ? '1px solid rgba(255,255,255,0.32)' : '1px solid rgba(20,34,25,0.12)',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 cursor: 'pointer',
-                                opacity: i === activePage ? 1 : 0.82,
-                                transform: i === activePage ? 'scale(1.06)' : 'scale(1)',
-                                transition: 'opacity 0.2s, transform 0.2s, border 0.2s',
+                                opacity: i === activePage ? 1 : 0.88,
+                                transform: i === activePage ? 'translateX(6px) scale(1.02)' : 'translateX(0)',
+                                boxShadow: i === activePage
+                                    ? `0 0 0 2px rgba(255,255,255,0.22), 0 0 0 6px ${tab.color}35, 0 12px 22px rgba(20,34,25,0.3), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 -1px 0 rgba(0,0,0,0.22)`
+                                    : '0 7px 14px rgba(20,34,25,0.2), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -1px 0 rgba(0,0,0,0.18)',
+                                filter: i === activePage ? 'none' : 'saturate(0.78) brightness(0.92)',
+                                position: 'relative',
+                                overflow: 'hidden',
+                                transition: 'opacity 0.2s, transform 0.2s, width 0.2s, box-shadow 0.2s, border 0.2s, filter 0.2s',
                             }}
                             onMouseEnter={e => {
                                 if (i !== activePage) {
                                     e.currentTarget.style.opacity = '1';
-                                    e.currentTarget.style.transform = 'scale(1.08)';
+                                    e.currentTarget.style.transform = 'translateX(2px)';
+                                    e.currentTarget.style.filter = 'saturate(0.92) brightness(0.98)';
                                 }
                             }}
                             onMouseLeave={e => {
                                 if (i !== activePage) {
-                                    e.currentTarget.style.opacity = '0.82';
-                                    e.currentTarget.style.transform = 'scale(1)';
+                                    e.currentTarget.style.opacity = '0.88';
+                                    e.currentTarget.style.transform = 'translateX(0)';
+                                    e.currentTarget.style.filter = 'saturate(0.78) brightness(0.92)';
                                 }
                             }}
                         >
-                            {tab.icon}
+                            <span
+                                aria-hidden="true"
+                                style={{
+                                    position: 'absolute',
+                                    left: 0,
+                                    top: 0,
+                                    bottom: 0,
+                                    width: '5px',
+                                    background: 'rgba(0,0,0,0.2)',
+                                }}
+                            />
+                            <span
+                                aria-hidden="true"
+                                style={{
+                                    position: 'absolute',
+                                    inset: 0,
+                                    background: 'linear-gradient(180deg, rgba(255,255,255,0.2), rgba(255,255,255,0) 40%, rgba(0,0,0,0.12))',
+                                }}
+                            />
+                            <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                {tab.icon}
+                            </span>
                         </button>
                     ))}
                 </div>

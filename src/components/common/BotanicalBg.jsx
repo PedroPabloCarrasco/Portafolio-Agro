@@ -212,6 +212,75 @@ export default function BotanicalBg() {
                     ))}
                 </g>
 
+                {/* ── BANDA DE CULTIVO EN SURCOS (lateral izquierdo superior) ── */}
+                <g opacity="0.07" transform="translate(70, 240) rotate(-8)">
+                    {[0, 18, 36, 54, 72, 90].map((y, i) => (
+                        <path
+                            key={i}
+                            d={`M0 ${y} Q70 ${y - 8} 140 ${y} Q210 ${y + 8} 280 ${y}`}
+                            stroke="#6f5a3e"
+                            strokeWidth="1.1"
+                            fill="none"
+                            strokeLinecap="round"
+                        />
+                    ))}
+                    {[28, 92, 158, 226].map((x, i) => (
+                        <path key={i} d={`M${x} -6 Q${x + 5} 22 ${x} 46`} stroke="#4a7050" strokeWidth="0.8" fill="none" opacity="0.55" />
+                    ))}
+                </g>
+
+                {/* ── MACETA / PLÁNTULA superior izquierda ── */}
+                <g opacity="0.10" transform="translate(260, 250) rotate(10)">
+                    <ellipse cx="0" cy="42" rx="24" ry="8" fill="#7a5f44" />
+                    <path d="M-20 20 Q0 10 20 20 L15 42 Q0 48 -15 42Z" fill="#8b6d4d" />
+                    <path d="M0 20 Q-5 0 0 -20" stroke="#3d5e3f" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+                    <path d="M0 -8 Q-16 -18 -12 -34 Q0 -20 0 -8Z" fill="#6a9c50" />
+                    <path d="M0 -8 Q16 -18 12 -34 Q0 -20 0 -8Z" fill="#6a9c50" />
+                </g>
+
+                {/* ── GRAPAS DE HOJAS / HERBARIO superior centro-derecha ── */}
+                <g opacity="0.06" transform="translate(930, 180)">
+                    {[0, 1, 2].map((i) => (
+                        <g key={i} transform={`translate(${i * 78}, ${i % 2 === 0 ? 0 : 18}) rotate(${i % 2 === 0 ? -12 : 8})`}>
+                            <path d="M0 54 Q-16 30 -4 4 Q14 30 0 54Z" fill="#5a8060" opacity="0.8" />
+                            <path d="M0 54 Q16 30 4 4 Q-14 30 0 54Z" fill="#4a7050" opacity="0.8" />
+                            <line x1="0" y1="54" x2="0" y2="4" stroke="#2d4a35" strokeWidth="0.7" opacity="0.5" />
+                        </g>
+                    ))}
+                </g>
+
+                {/* ── BROTES PEQUEÑOS dispersos ── */}
+                <g opacity="0.08" transform="translate(520, 160)">
+                    <path d="M0 48 Q-2 28 0 10" stroke="#3d5e3f" strokeWidth="1.4" fill="none" strokeLinecap="round" />
+                    <path d="M0 28 Q-12 18 -9 6 Q0 14 0 28Z" fill="#6a9c50" />
+                    <path d="M0 28 Q12 18 9 6 Q0 14 0 28Z" fill="#6a9c50" />
+                </g>
+                <g opacity="0.07" transform="translate(620, 760) rotate(-14)">
+                    <path d="M0 42 Q-2 22 0 0" stroke="#3d5e3f" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+                    <path d="M0 24 Q-10 16 -8 4 Q0 10 0 24Z" fill="#5a8060" />
+                    <path d="M0 24 Q10 16 8 4 Q0 10 0 24Z" fill="#5a8060" />
+                </g>
+
+                {/* ── RAMILLETE DE HOJAS inferior derecho ── */}
+                <g opacity="0.08" transform="translate(1240, 760) rotate(22)">
+                    <path d="M0 100 Q-8 74 -5 50 Q-2 24 0 0" stroke="#3d5e3f" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+                    {[18, 40, 62, 84].map((y, i) => (
+                        <g key={i} transform={`translate(0, ${y}) rotate(${i % 2 === 0 ? -35 : 35})`}>
+                            <path d="M0 24 Q-11 12 -4 0 Q8 12 0 24Z" fill={i % 2 === 0 ? '#4a7050' : '#5a8060'} />
+                        </g>
+                    ))}
+                </g>
+
+                {/* ── HERRAMIENTA PEQUEÑA / REGADERA inferior izquierda ── */}
+                <g opacity="0.07" transform="translate(90, 560) rotate(-18)">
+                    <path d="M0 26 Q18 8 42 16 Q54 20 54 34 Q54 48 40 50 L16 50 Q0 50 0 36Z" fill="#6f7f8c" />
+                    <path d="M52 28 Q72 28 84 16" stroke="#6f7f8c" strokeWidth="4" strokeLinecap="round" fill="none" />
+                    <path d="M82 16 Q88 12 92 18" stroke="#6f7f8c" strokeWidth="3" strokeLinecap="round" fill="none" />
+                    <circle cx="18" cy="36" r="2.5" fill="#d8f0f2" opacity="0.8" />
+                    <circle cx="26" cy="32" r="2.5" fill="#d8f0f2" opacity="0.8" />
+                    <circle cx="34" cy="36" r="2.5" fill="#d8f0f2" opacity="0.8" />
+                </g>
+
                 {/* ── BROTE GERMINAR centro izquierda ── */}
                 <g opacity="0.10" transform="translate(350, 820)">
                     {/* Semilla en tierra */}
@@ -318,6 +387,107 @@ export default function BotanicalBg() {
                     <ellipse cx="0" cy="-1" rx="30" ry="10" fill="#6b4f32" />
                     {[-14, 0, 14].map((x, i) => (
                         <path key={i} d={`M${x} -5 Q${x + 5} -11 ${x + 2} -16`} stroke="#5a8060" strokeWidth="0.8" fill="none" strokeLinecap="round" />
+                    ))}
+                </g>
+
+                {/* ── ENREDADERA LATERAL IZQUIERDA (borde completo) ── */}
+                <g opacity="0.36" transform="translate(26, 58)">
+                    <path d="M0 0 Q16 90 0 180 Q-13 270 0 360 Q13 450 0 540 Q-11 630 0 760" stroke="#3d5e3f" strokeWidth="3.4" fill="none" strokeLinecap="round" />
+                    {[34, 78, 122, 164, 206, 248, 290, 332, 376, 422, 468, 514, 560, 606, 652, 706, 748].map((y, i) => (
+                        <g key={i} transform={`translate(0, ${y}) rotate(${i % 2 === 0 ? -32 : 34})`}>
+                            <path d="M0 52 Q-22 28 -8 0 Q14 28 0 52Z" fill={i % 2 === 0 ? '#4a7050' : '#5a8060'} />
+                            <path d="M0 52 Q22 28 8 0 Q-14 28 0 52Z" fill={i % 2 === 0 ? '#5a8060' : '#4a7050'} opacity="0.8" />
+                            <line x1="0" y1="52" x2="0" y2="0" stroke="#2d4a35" strokeWidth="0.9" opacity="0.58" />
+                        </g>
+                    ))}
+                </g>
+
+                {/* ── ENREDADERA SECUNDARIA IZQUIERDA (selva) ── */}
+                <g opacity="0.26" transform="translate(58, 46)">
+                    <path d="M0 0 Q-12 80 0 160 Q12 240 0 320 Q-10 400 0 480 Q10 560 0 640 Q-8 720 0 800" stroke="#2f5033" strokeWidth="2.6" fill="none" strokeLinecap="round" />
+                    {[24, 66, 108, 150, 194, 238, 282, 326, 372, 420, 468, 516, 566, 616, 668, 722, 778].map((y, i) => (
+                        <g key={i} transform={`translate(0, ${y}) rotate(${i % 2 === 0 ? 28 : -30})`}>
+                            <path d="M0 46 Q-19 24 -7 0 Q12 24 0 46Z" fill={i % 2 === 0 ? '#3f6545' : '#5a8060'} />
+                            <path d="M0 46 Q19 24 7 0 Q-12 24 0 46Z" fill={i % 2 === 0 ? '#5a8060' : '#3f6545'} opacity="0.75" />
+                        </g>
+                    ))}
+                </g>
+
+                {/* ── ENREDADERA LATERAL DERECHA (borde completo) ── */}
+                <g opacity="0.38" transform="translate(1416, 44)">
+                    <path d="M0 0 Q-20 96 0 192 Q18 288 0 384 Q-15 480 0 576 Q16 672 0 780" stroke="#3d5e3f" strokeWidth="3.8" fill="none" strokeLinecap="round" />
+                    {[30, 76, 120, 164, 208, 252, 298, 344, 392, 442, 494, 548, 604, 660, 716, 770].map((y, i) => (
+                        <g key={i} transform={`translate(0, ${y}) rotate(${i % 2 === 0 ? 148 : -152})`}>
+                            <path d="M0 56 Q-24 29 -9 0 Q15 29 0 56Z" fill={i % 2 === 0 ? '#4a7050' : '#5a8060'} />
+                            <path d="M0 56 Q24 29 9 0 Q-15 29 0 56Z" fill={i % 2 === 0 ? '#5a8060' : '#4a7050'} opacity="0.8" />
+                            <line x1="0" y1="56" x2="0" y2="0" stroke="#2d4a35" strokeWidth="1" opacity="0.58" />
+                        </g>
+                    ))}
+                </g>
+
+                {/* ── ENREDADERA SECUNDARIA DERECHA (selva) ── */}
+                <g opacity="0.28" transform="translate(1378, 40)">
+                    <path d="M0 0 Q14 82 0 164 Q-12 246 0 328 Q12 410 0 492 Q-10 574 0 656 Q10 738 0 820" stroke="#2f5033" strokeWidth="2.8" fill="none" strokeLinecap="round" />
+                    {[20, 60, 102, 146, 190, 236, 284, 334, 386, 438, 492, 548, 606, 666, 728, 790].map((y, i) => (
+                        <g key={i} transform={`translate(0, ${y}) rotate(${i % 2 === 0 ? -150 : 152})`}>
+                            <path d="M0 48 Q-20 24 -7 0 Q13 24 0 48Z" fill={i % 2 === 0 ? '#3f6545' : '#5a8060'} />
+                            <path d="M0 48 Q20 24 7 0 Q-13 24 0 48Z" fill={i % 2 === 0 ? '#5a8060' : '#3f6545'} opacity="0.76" />
+                        </g>
+                    ))}
+                </g>
+
+                {/* ── RACIMO DE HOJAS DERECHA INFERIOR (como marco) ── */}
+                <g opacity="0.28" transform="translate(1318, 692) rotate(18)">
+                    {[0, 1, 2, 3, 4, 5, 6].map((i) => (
+                        <g key={i} transform={`translate(${i * 16}, ${i % 2 === 0 ? 0 : 14}) rotate(${i % 2 === 0 ? -18 : 24})`}>
+                            <path d="M0 82 Q-28 42 -10 0 Q18 42 0 82Z" fill="#4a7050" />
+                            <path d="M0 82 Q28 42 10 0 Q-18 42 0 82Z" fill="#5a8060" opacity="0.8" />
+                            <line x1="0" y1="82" x2="0" y2="0" stroke="#2d4a35" strokeWidth="1.1" opacity="0.56" />
+                        </g>
+                    ))}
+                </g>
+
+                {/* ── RACIMO DE HOJAS IZQUIERDA SUPERIOR (nuevo) ── */}
+                <g opacity="0.26" transform="translate(10, 90) rotate(-18)">
+                    {[0, 1, 2, 3, 4, 5].map((i) => (
+                        <g key={i} transform={`translate(${i * 12}, ${i % 2 === 0 ? 0 : 12}) rotate(${i % 2 === 0 ? -24 : 30})`}>
+                            <path d="M0 74 Q-24 38 -8 0 Q16 38 0 74Z" fill="#4a7050" />
+                            <path d="M0 74 Q24 38 8 0 Q-16 38 0 74Z" fill="#5a8060" opacity="0.8" />
+                            <line x1="0" y1="74" x2="0" y2="0" stroke="#2d4a35" strokeWidth="1" opacity="0.55" />
+                        </g>
+                    ))}
+                </g>
+
+                {/* ── RACIMO DE HOJAS IZQUIERDA INFERIOR (nuevo) ── */}
+                <g opacity="0.24" transform="translate(8, 662) rotate(14)">
+                    {[0, 1, 2, 3, 4].map((i) => (
+                        <g key={i} transform={`translate(${i * 14}, ${i % 2 === 0 ? 0 : 10}) rotate(${i % 2 === 0 ? 20 : -18})`}>
+                            <path d="M0 68 Q-22 34 -7 0 Q15 34 0 68Z" fill="#4a7050" />
+                            <path d="M0 68 Q22 34 7 0 Q-15 34 0 68Z" fill="#5a8060" opacity="0.78" />
+                            <line x1="0" y1="68" x2="0" y2="0" stroke="#2d4a35" strokeWidth="0.95" opacity="0.53" />
+                        </g>
+                    ))}
+                </g>
+
+                {/* ── MASA DE HOJAS CENTRO-IZQUIERDA (selva) ── */}
+                <g opacity="0.23" transform="translate(36, 320) rotate(-10)">
+                    {[0, 1, 2, 3, 4, 5].map((i) => (
+                        <g key={i} transform={`translate(${i * 22}, ${i % 2 === 0 ? 0 : 22}) rotate(${i % 2 === 0 ? -26 : 26})`}>
+                            <path d="M0 88 Q-30 44 -10 0 Q20 44 0 88Z" fill="#4a7050" />
+                            <path d="M0 88 Q30 44 10 0 Q-20 44 0 88Z" fill="#5a8060" opacity="0.8" />
+                            <line x1="0" y1="88" x2="0" y2="0" stroke="#2d4a35" strokeWidth="1.1" opacity="0.55" />
+                        </g>
+                    ))}
+                </g>
+
+                {/* ── MASA DE HOJAS CENTRO-DERECHA (selva) ── */}
+                <g opacity="0.24" transform="translate(1266, 286) rotate(12)">
+                    {[0, 1, 2, 3, 4, 5].map((i) => (
+                        <g key={i} transform={`translate(${i * 22}, ${i % 2 === 0 ? 0 : 20}) rotate(${i % 2 === 0 ? 24 : -24})`}>
+                            <path d="M0 90 Q-30 45 -10 0 Q20 45 0 90Z" fill="#4a7050" />
+                            <path d="M0 90 Q30 45 10 0 Q-20 45 0 90Z" fill="#5a8060" opacity="0.8" />
+                            <line x1="0" y1="90" x2="0" y2="0" stroke="#2d4a35" strokeWidth="1.1" opacity="0.56" />
+                        </g>
                     ))}
                 </g>
 

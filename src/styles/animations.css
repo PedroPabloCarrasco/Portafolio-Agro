@@ -266,10 +266,14 @@
     inset: 0;
     border-radius: 6px;
     backface-visibility: hidden;
-    background: #fdfaf4;
+    background: linear-gradient(180deg, #fefcf7 0%, #f6f1e6 100%);
     border: 1px solid rgba(69, 99, 75, 0.18);
-    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.04);
+    box-shadow:
+        inset 0 0 26px rgba(0, 0, 0, 0.04),
+        inset 10px 0 18px rgba(255, 255, 255, 0.22),
+        inset -10px 0 18px rgba(0, 0, 0, 0.03);
     padding: 18px 18px;
+    overflow: hidden;
 }
 
 .book-flip-curvature {
@@ -278,10 +282,12 @@
     border-radius: 6px;
     background: linear-gradient(90deg,
             rgba(255, 255, 255, 0.34) 0%,
-            rgba(255, 255, 255, 0.06) 28%,
-            rgba(0, 0, 0, 0.09) 52%,
-            rgba(255, 255, 255, 0.08) 76%,
-            rgba(0, 0, 0, 0.12) 100%);
+            rgba(255, 255, 255, 0.08) 20%,
+            rgba(0, 0, 0, 0.04) 36%,
+            rgba(0, 0, 0, 0.16) 50%,
+            rgba(0, 0, 0, 0.06) 64%,
+            rgba(255, 255, 255, 0.10) 82%,
+            rgba(0, 0, 0, 0.14) 100%);
     opacity: 0;
     z-index: 2;
     transform-origin: center center;
@@ -333,17 +339,17 @@
 @keyframes edgeRebound {
     0% {
         transform: translateZ(1px) scaleX(1);
-        opacity: 0.85;
+        opacity: 0.72;
     }
 
-    45% {
-        transform: translateZ(1px) scaleX(1.28);
+    38% {
+        transform: translateZ(1px) scaleX(1.42);
         opacity: 1;
     }
 
     100% {
         transform: translateZ(1px) scaleX(1);
-        opacity: 0.9;
+        opacity: 0.82;
     }
 }
 
@@ -355,6 +361,7 @@
     pointer-events: none;
     z-index: 25;
     opacity: 0;
+    filter: blur(0.2px);
 }
 
 .book-page-shadow-next {
@@ -391,10 +398,10 @@
         filter: blur(0px);
     }
 
-    40% {
+    34% {
         opacity: 1;
-        transform: scaleX(1.8);
-        filter: blur(0.3px);
+        transform: scaleX(2.05);
+        filter: blur(0.45px);
     }
 
     100% {
@@ -407,23 +414,31 @@
 @keyframes pageShadowPulse {
     0% {
         opacity: 0;
+        transform: scaleX(0.96);
     }
 
-    40% {
-        opacity: 0.95;
+    30% {
+        opacity: 0.78;
+        transform: scaleX(1.03);
+    }
+
+    55% {
+        opacity: 0.98;
+        transform: scaleX(1.08);
     }
 
     100% {
         opacity: 0;
+        transform: scaleX(1);
     }
 }
 
 .book-page-shadow-active {
-    animation: pageShadowPulse 0.42s ease-out;
+    animation: pageShadowPulse 0.68s cubic-bezier(0.2, 0.9, 0.15, 1);
 }
 
 .book-spine-press-active {
-    animation: spinePress 0.42s ease-out;
+    animation: spinePress 0.68s cubic-bezier(0.2, 0.9, 0.15, 1);
 }
 
 @keyframes flipLayerNext {
@@ -432,17 +447,25 @@
         transform: translateX(0) rotateY(0deg) skewY(0deg) scaleY(1);
     }
 
-    12% {
+    8% {
         opacity: 1;
     }
 
-    42% {
-        transform: translateX(-1px) rotateY(-92deg) skewY(-1.8deg) scaleY(1.02);
+    24% {
+        transform: translateX(-1px) rotateY(-28deg) skewY(-0.8deg) scaleY(1.01);
+    }
+
+    48% {
+        transform: translateX(-2px) rotateY(-112deg) skewY(-2deg) scaleY(1.03);
+    }
+
+    72% {
+        transform: translateX(-1px) rotateY(-164deg) skewY(-0.4deg) scaleY(1.005);
     }
 
     100% {
         opacity: 1;
-        transform: translateX(0) rotateY(-178deg) skewY(0deg) scaleY(1);
+        transform: translateX(0) rotateY(-180deg) skewY(0deg) scaleY(1);
     }
 }
 
@@ -452,49 +475,62 @@
         transform: translateX(0) rotateY(0deg) skewY(0deg) scaleY(1);
     }
 
-    12% {
+    8% {
         opacity: 1;
     }
 
-    42% {
-        transform: translateX(1px) rotateY(92deg) skewY(1.8deg) scaleY(1.02);
+    24% {
+        transform: translateX(1px) rotateY(28deg) skewY(0.8deg) scaleY(1.01);
+    }
+
+    48% {
+        transform: translateX(2px) rotateY(112deg) skewY(2deg) scaleY(1.03);
+    }
+
+    72% {
+        transform: translateX(1px) rotateY(164deg) skewY(0.4deg) scaleY(1.005);
     }
 
     100% {
         opacity: 1;
-        transform: translateX(0) rotateY(178deg) skewY(0deg) scaleY(1);
+        transform: translateX(0) rotateY(180deg) skewY(0deg) scaleY(1);
     }
 }
 
 @keyframes flipCurvatureGlow {
     0% {
         opacity: 0;
-        transform: scaleX(0.98);
+        transform: scaleX(0.97);
     }
 
-    35% {
-        opacity: 0.85;
-        transform: scaleX(1.03);
+    28% {
+        opacity: 0.72;
+        transform: scaleX(1.02);
+    }
+
+    52% {
+        opacity: 1;
+        transform: scaleX(1.05);
     }
 
     100% {
-        opacity: 0.2;
+        opacity: 0.28;
         transform: scaleX(1);
     }
 }
 
 .book-flip-layer-next.book-flip-layer-active {
-    animation: flipLayerNext 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: flipLayerNext 0.68s cubic-bezier(0.2, 0.9, 0.15, 1) forwards;
 }
 
 .book-flip-layer-prev.book-flip-layer-active {
-    animation: flipLayerPrev 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: flipLayerPrev 0.68s cubic-bezier(0.2, 0.9, 0.15, 1) forwards;
 }
 
 .book-flip-layer-active .book-flip-curvature {
-    animation: flipCurvatureGlow 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: flipCurvatureGlow 0.68s cubic-bezier(0.2, 0.9, 0.15, 1) forwards;
 }
 
 .book-flip-layer-active .book-flip-edge {
-    animation: edgeRebound 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+    animation: edgeRebound 0.68s cubic-bezier(0.2, 0.9, 0.15, 1);
 }
