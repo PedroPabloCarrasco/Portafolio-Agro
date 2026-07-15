@@ -1,21 +1,82 @@
 :root {
+    /* =========================================
+       PALETA PRINCIPAL
+       ========================================= */
 
-    --bg: #f6f2ea;
+    --green: #8f957f;
+    --green-deep: #747a68;
+    --green-light: #cccdbf;
 
-    --paper: #fbf8f3;
+    --sage: #aaa899;
+    --sage-light: #d9d9cf;
 
-    --green: #45634B;
+    /* =========================================
+       FONDOS
+       ========================================= */
 
-    --green-light: #7E9C74;
+    --bg: #f5f4ef;
+    --bg-alt: #e8e7df;
 
-    --brown: #8B6D4D;
+    --paper: rgba(248, 247, 242, 0.96);
+    --surface: rgba(239, 239, 232, 0.88);
+    --surface-soft: rgba(204, 205, 191, 0.48);
 
-    --beige: #DDD1BF;
+    /* =========================================
+       COLORES SECUNDARIOS
+       ========================================= */
 
-    --text: #2d2d2d;
+    --stone: #aaa899;
+    --sand: #cccdbf;
 
-    --shadow: 0 25px 60px rgba(0, 0, 0, .15);
+    /*
+       Estos colores antiguos se mantienen como tonos
+       neutros adaptados a la nueva paleta para no romper
+       componentes que todavía usen --brown o --clay.
+    */
 
-    --radius: 22px;
+    --brown: #858477;
+    --clay: #aaa899;
 
+    /* =========================================
+       TEXTO
+       ========================================= */
+
+    --ink: #34362f;
+    --text: #41433c;
+    --muted: rgba(65, 67, 60, 0.76);
+
+    /* =========================================
+       BORDES Y LÍNEAS
+       ========================================= */
+
+    --line: rgba(143, 149, 127, 0.22);
+    --border: rgba(143, 149, 127, 0.24);
+    --border-soft: rgba(170, 168, 153, 0.2);
+
+    /* =========================================
+       SOMBRAS
+       ========================================= */
+
+    --shadow:
+        0 28px 70px rgba(52, 54, 47, 0.14);
+
+    --shadow-soft:
+        0 14px 34px rgba(52, 54, 47, 0.1);
+
+    --shadow-sm:
+        0 10px 24px rgba(52, 54, 47, 0.08);
+
+    --shadow-md:
+        0 18px 40px rgba(52, 54, 47, 0.12);
+
+    --shadow-lg:
+        0 28px 70px rgba(52, 54, 47, 0.16);
+
+    /* =========================================
+       RADIOS
+       ========================================= */
+
+    --radius-sm: 18px;
+    --radius: 26px;
+    --radius-lg: 36px;
 }

@@ -1,77 +1,5 @@
 import { useEffect, useState } from 'react';
-
-const navItems = [
-    {
-        label: 'Inicio',
-        href: '#inicio',
-        icon: (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" />
-                <path d="M9 21V12h6v9" />
-            </svg>
-        ),
-    },
-    {
-        label: 'Sobre mí',
-        href: '#sobre-mi',
-        icon: (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="8" r="4" />
-                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-            </svg>
-        ),
-    },
-    {
-        label: 'Formación',
-        href: '#formacion',
-        icon: (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-                <path d="M6 12v5c0 1.657 2.686 3 6 3s6-1.343 6-3v-5" />
-            </svg>
-        ),
-    },
-    {
-        label: 'Experiencia',
-        href: '#experiencia',
-        icon: (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="7" width="20" height="14" rx="2" />
-                <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
-            </svg>
-        ),
-    },
-    {
-        label: 'Proyectos',
-        href: '#proyectos',
-        icon: (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
-                <polyline points="14,2 14,8 20,8" />
-            </svg>
-        ),
-    },
-    {
-        label: 'Publicaciones',
-        href: '#publicaciones',
-        icon: (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2" />
-                <path d="M3 9h18M9 21V9" />
-            </svg>
-        ),
-    },
-    {
-        label: 'Contacto',
-        href: '#contacto',
-        icon: (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="4" width="20" height="16" rx="2" />
-                <path d="M2 7l10 7 10-7" />
-            </svg>
-        ),
-    },
-];
+import { navigation } from '../../data/profile';
 
 export default function Sidebar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -109,95 +37,98 @@ export default function Sidebar() {
             <aside
                 className="hidden lg:flex flex-col shrink-0 h-screen sticky top-0"
                 style={{
-                    width: '210px',
-                    background: 'linear-gradient(180deg, #2A3D2E 0%, #1E2E22 100%)',
-                    color: '#e8dcc8',
+                    width: '248px',
+                    background: 'linear-gradient(180deg, rgba(31, 45, 32, 0.98) 0%, rgba(42, 61, 46, 0.98) 100%)',
+                    color: '#f3ecdf',
+                    borderRight: '1px solid rgba(255,255,255,0.06)',
+                    boxShadow: '10px 0 30px rgba(16, 27, 18, 0.08)',
                 }}
             >
-                {/* Logo */}
-                <div className="flex flex-col items-center pt-8 pb-6 px-4">
+                <div className="flex flex-col items-center pt-8 pb-6 px-5">
                     <div
                         className="flex flex-col items-center justify-center rounded-full mb-3"
                         style={{
-                            width: '64px',
-                            height: '64px',
-                            border: '1.5px solid rgba(168,196,130,0.5)',
-                            background: 'rgba(255,255,255,0.05)',
+                            width: '76px',
+                            height: '76px',
+                            border: '1px solid rgba(170, 196, 146, 0.38)',
+                            background: 'linear-gradient(135deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03))',
+                            boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08)',
                         }}
                     >
-                        {/* Leaf / plant icon */}
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a8c482" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#b7d29b" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                             <path d="M12 22s8-6 8-13A8 8 0 0 0 4 9c0 7 8 13 8 13z" />
                             <path d="M12 22V10" />
                             <path d="M8 14s1-1 4-1 4 1 4 1" />
                         </svg>
                         <span
                             style={{
-                                fontFamily: 'Playfair Display, serif',
-                                fontSize: '11px',
+                                fontFamily: 'Playfair Display, Georgia, serif',
+                                fontSize: '12px',
                                 letterSpacing: '0.12em',
                                 color: '#c8d8b0',
-                                marginTop: '2px',
+                                marginTop: '3px',
                             }}
                         >CBS</span>
                     </div>
+                    <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(243,236,223,0.58)', textAlign: 'center' }}>Agroecología · Academia · Territorio</p>
                 </div>
 
-                {/* Nav */}
-                <nav className="flex-1 px-3">
-                    {navItems.map((item, i) => (
+                <nav className="flex-1 px-4 pb-4">
+                    {navigation.map((item, i) => (
                         <a
                             key={item.href}
                             href={item.href}
-                            className="flex items-center gap-3 rounded-lg mb-1 transition-all duration-200"
+                            className="flex items-center gap-3 rounded-2xl mb-1 transition-all duration-200"
                             style={{
-                                padding: '9px 14px',
-                                color: i === 0 ? '#e8dcc8' : 'rgba(232,220,200,0.65)',
-                                background: i === 0 ? 'rgba(168,196,130,0.18)' : 'transparent',
-                                fontSize: '13.5px',
-                                fontWeight: i === 0 ? '500' : '400',
-                                fontFamily: 'Inter, sans-serif',
+                                padding: '11px 14px',
+                                color: i === 0 ? '#f7f0e3' : 'rgba(243,236,223,0.68)',
+                                background: i === 0 ? 'rgba(170,196,146,0.16)' : 'transparent',
+                                fontSize: '13px',
+                                fontWeight: i === 0 ? '600' : '400',
+                                fontFamily: 'Inter, system-ui, sans-serif',
                                 textDecoration: 'none',
+                                border: '1px solid transparent',
                             }}
                             onMouseEnter={e => {
                                 if (i !== 0) {
-                                    e.currentTarget.style.background = 'rgba(168,196,130,0.10)';
-                                    e.currentTarget.style.color = '#e8dcc8';
+                                    e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
+                                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)';
+                                    e.currentTarget.style.color = '#f7f0e3';
                                 }
                             }}
                             onMouseLeave={e => {
                                 if (i !== 0) {
                                     e.currentTarget.style.background = 'transparent';
-                                    e.currentTarget.style.color = 'rgba(232,220,200,0.65)';
+                                    e.currentTarget.style.borderColor = 'transparent';
+                                    e.currentTarget.style.color = 'rgba(243,236,223,0.68)';
                                 }
                             }}
                         >
-                            <span style={{ opacity: i === 0 ? 1 : 0.7 }}>{item.icon}</span>
+                            <span style={{ width: '18px', display: 'inline-flex', opacity: i === 0 ? 1 : 0.7 }}>{item.icon}</span>
                             {item.label}
                         </a>
                     ))}
                 </nav>
 
-                {/* Quote */}
-                <div className="px-5 py-5" style={{ borderTop: '1px solid rgba(168,196,130,0.15)' }}>
+                <div className="px-5 py-5" style={{ borderTop: '1px solid rgba(170,196,146,0.12)' }}>
                     <p
                         style={{
-                            fontFamily: 'Dancing Script, cursive',
+                            fontFamily: 'Playfair Display, Georgia, serif',
+                            fontStyle: 'italic',
                             fontSize: '13px',
-                            color: 'rgba(232,220,200,0.55)',
+                            color: 'rgba(243,236,223,0.7)',
                             lineHeight: '1.6',
                         }}
                     >
-                        "Trabajando por sistemas agrícolas sostenibles y territorios vivos."
+                        "Ciencia aplicada para territorios vivos y sistemas agroecológicos resilientes."
                     </p>
                 </div>
 
-                {/* Social */}
-                <div className="flex items-center justify-center gap-4 pb-7 pt-2">
+                <div className="flex items-center justify-center gap-3 pb-7 pt-2">
                     <a href="https://linkedin.com" target="_blank" rel="noreferrer"
-                        style={{ color: 'rgba(232,220,200,0.55)' }}
-                        onMouseEnter={e => e.currentTarget.style.color = '#a8c482'}
-                        onMouseLeave={e => e.currentTarget.style.color = 'rgba(232,220,200,0.55)'}
+                        style={{ color: 'rgba(243,236,223,0.55)' }}
+                        onMouseEnter={e => e.currentTarget.style.color = '#b7d29b'}
+                        onMouseLeave={e => e.currentTarget.style.color = 'rgba(243,236,223,0.55)'}
                     >
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" />
@@ -205,9 +136,9 @@ export default function Sidebar() {
                         </svg>
                     </a>
                     <a href="mailto:claudia@example.com"
-                        style={{ color: 'rgba(232,220,200,0.55)' }}
-                        onMouseEnter={e => e.currentTarget.style.color = '#a8c482'}
-                        onMouseLeave={e => e.currentTarget.style.color = 'rgba(232,220,200,0.55)'}
+                        style={{ color: 'rgba(243,236,223,0.55)' }}
+                        onMouseEnter={e => e.currentTarget.style.color = '#b7d29b'}
+                        onMouseLeave={e => e.currentTarget.style.color = 'rgba(243,236,223,0.55)'}
                     >
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                             <rect x="2" y="4" width="20" height="16" rx="2" />
@@ -215,9 +146,9 @@ export default function Sidebar() {
                         </svg>
                     </a>
                     <a href="#contacto"
-                        style={{ color: 'rgba(232,220,200,0.55)' }}
-                        onMouseEnter={e => e.currentTarget.style.color = '#a8c482'}
-                        onMouseLeave={e => e.currentTarget.style.color = 'rgba(232,220,200,0.55)'}
+                        style={{ color: 'rgba(243,236,223,0.55)' }}
+                        onMouseEnter={e => e.currentTarget.style.color = '#b7d29b'}
+                        onMouseLeave={e => e.currentTarget.style.color = 'rgba(243,236,223,0.55)'}
                     >
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                             <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z" />
@@ -240,10 +171,10 @@ export default function Sidebar() {
                     left: '14px',
                     width: '44px',
                     height: '44px',
-                    borderRadius: '12px',
-                    border: '1px solid rgba(168,196,130,0.45)',
-                    background: 'linear-gradient(180deg, rgba(42,61,46,0.96) 0%, rgba(30,46,34,0.96) 100%)',
-                    color: '#e8dcc8',
+                    borderRadius: '16px',
+                    border: '1px solid rgba(170,196,146,0.28)',
+                    background: 'linear-gradient(180deg, rgba(36,51,37,0.96) 0%, rgba(31,45,32,0.96) 100%)',
+                    color: '#f3ecdf',
                     display: 'grid',
                     placeItems: 'center',
                     boxShadow: '0 10px 24px rgba(0,0,0,0.28)',
@@ -299,7 +230,7 @@ export default function Sidebar() {
                         bottom: 0,
                         width: 'min(80vw, 280px)',
                         background: 'linear-gradient(180deg, #2A3D2E 0%, #1E2E22 100%)',
-                        color: '#e8dcc8',
+                        color: '#f3ecdf',
                         display: 'flex',
                         flexDirection: 'column',
                         transform: isMobileMenuOpen ? 'translateX(0)' : 'translateX(-104%)',
@@ -311,47 +242,47 @@ export default function Sidebar() {
                         <div
                             className="flex flex-col items-center justify-center rounded-full mb-2"
                             style={{
-                                width: '62px',
-                                height: '62px',
-                                border: '1.5px solid rgba(168,196,130,0.5)',
+                                width: '66px',
+                                height: '66px',
+                                border: '1px solid rgba(170,196,146,0.38)',
                                 background: 'rgba(255,255,255,0.05)',
                             }}
                         >
-                            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#a8c482" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#b7d29b" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M12 22s8-6 8-13A8 8 0 0 0 4 9c0 7 8 13 8 13z" />
                                 <path d="M12 22V10" />
                                 <path d="M8 14s1-1 4-1 4 1 4 1" />
                             </svg>
                             <span
                                 style={{
-                                    fontFamily: 'Playfair Display, serif',
-                                    fontSize: '11px',
+                                    fontFamily: 'Playfair Display, Georgia, serif',
+                                    fontSize: '12px',
                                     letterSpacing: '0.12em',
                                     color: '#c8d8b0',
-                                    marginTop: '2px',
+                                    marginTop: '3px',
                                 }}
                             >CBS</span>
                         </div>
                     </div>
 
-                    <nav className="flex-1 px-3">
-                        {navItems.map((item, i) => (
+                    <nav className="flex-1 px-4">
+                        {navigation.map((item, i) => (
                             <a
                                 key={item.href}
                                 href={item.href}
                                 onClick={closeMobileMenu}
-                                className="flex items-center gap-3 rounded-lg mb-1 transition-all duration-200"
+                                className="flex items-center gap-3 rounded-2xl mb-1 transition-all duration-200"
                                 style={{
                                     padding: '11px 14px',
-                                    color: i === 0 ? '#e8dcc8' : 'rgba(232,220,200,0.78)',
-                                    background: i === 0 ? 'rgba(168,196,130,0.2)' : 'transparent',
-                                    fontSize: '14px',
+                                    color: i === 0 ? '#f7f0e3' : 'rgba(243,236,223,0.78)',
+                                    background: i === 0 ? 'rgba(168,196,130,0.18)' : 'transparent',
+                                    fontSize: '13px',
                                     fontWeight: i === 0 ? '500' : '400',
-                                    fontFamily: 'Inter, sans-serif',
+                                    fontFamily: 'Inter, system-ui, sans-serif',
                                     textDecoration: 'none',
                                 }}
                             >
-                                <span style={{ opacity: i === 0 ? 1 : 0.78 }}>{item.icon}</span>
+                                <span style={{ width: '18px', display: 'inline-flex', opacity: i === 0 ? 1 : 0.78 }}>{item.icon}</span>
                                 {item.label}
                             </a>
                         ))}
@@ -360,13 +291,14 @@ export default function Sidebar() {
                     <div className="px-5 py-5" style={{ borderTop: '1px solid rgba(168,196,130,0.15)' }}>
                         <p
                             style={{
-                                fontFamily: 'Dancing Script, cursive',
+                                fontFamily: 'Playfair Display, Georgia, serif',
+                                fontStyle: 'italic',
                                 fontSize: '13px',
-                                color: 'rgba(232,220,200,0.62)',
+                                color: 'rgba(243,236,223,0.72)',
                                 lineHeight: '1.6',
                             }}
                         >
-                            "Trabajando por sistemas agrícolas sostenibles y territorios vivos."
+                            "Ciencia aplicada para territorios vivos y sistemas agroecológicos resilientes."
                         </p>
                     </div>
                 </aside>

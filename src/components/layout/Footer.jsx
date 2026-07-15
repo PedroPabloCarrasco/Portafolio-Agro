@@ -1,22 +1,27 @@
+import { useLanguage } from '../../context/LanguageContext';
+
 export default function Footer() {
+    const { copy } = useLanguage();
+
     return (
         <footer
             style={{
                 width: '100%',
-                padding: '32px 40px',
-                borderTop: '1px solid rgba(69,99,75,0.15)',
+                padding: '28px clamp(20px, 3vw, 40px) 40px',
+                borderTop: '1px solid rgba(73,99,77,0.12)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 flexWrap: 'wrap',
                 gap: '12px',
-                background: 'rgba(251,248,243,0.7)',
+                background: 'linear-gradient(180deg, rgba(248,243,233,0.46), rgba(241,234,221,0.78))',
+                backdropFilter: 'blur(10px)',
             }}
         >
-            <p style={{ fontFamily: 'Dancing Script, cursive', fontSize: '16px', color: 'var(--green)', opacity: 0.8 }}>
-                Ciencia, naturaleza y territorio para un futuro sostenible.
+            <p style={{ fontFamily: 'Playfair Display, Georgia, serif', fontStyle: 'italic', fontSize: '15px', color: 'var(--green)', opacity: 0.88 }}>
+                {copy.footer}
             </p>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(45,45,45,0.45)', letterSpacing: '0.05em' }}>
+            <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '12px', color: 'var(--muted)', letterSpacing: '0.05em' }}>
                 © 2026 Claudia Barrera Salas
             </p>
         </footer>

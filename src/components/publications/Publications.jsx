@@ -1,223 +1,314 @@
-import { useState } from 'react';
-import useReveal from '../../hooks/useReveal';
+import Container from '../common/Container';
+import Card from '../common/Card';
 import SectionTitle from '../common/SectionTitle';
+import EditableText from '../admin/EditableText';
 
-const publications = [
-    {
-        type: 'Artículo',
-        color: '#2d4a35',
-        year: '2024',
-        title: 'Agroecological transition pathways in peri-urban systems: lessons from southern Spain',
-        authors: 'Barrera Salas, C., Guzmán Casado, G., Sánchez-Hernández, R.',
-        journal: 'Agroecology and Sustainable Food Systems',
-        details: 'Vol. 48(3), pp. 312–338. DOI: 10.1080/21683565.2024.001234',
-        doi: 'https://doi.org/',
-        indexed: 'JCR Q1',
-    },
-    {
-        type: 'Artículo',
-        color: '#2d4a35',
-        year: '2023',
-        title: 'Local food networks and territorial resilience: a comparative study in Andalusia',
-        authors: 'Barrera Salas, C., Delgado Cabeza, M.',
-        journal: 'Journal of Rural Studies',
-        details: 'Vol. 101, pp. 58–72. DOI: 10.1016/j.jrurstud.2023.05.012',
-        doi: 'https://doi.org/',
-        indexed: 'JCR Q1',
-    },
-    {
-        type: 'Artículo',
-        color: '#2d4a35',
-        year: '2022',
-        title: 'Seed sovereignty and agrobiodiversity governance in smallholder systems',
-        authors: 'Barrera Salas, C., Nazarea, V., López García, D.',
-        journal: 'Ecology and Society',
-        details: 'Vol. 27(4), art. 18. DOI: 10.5751/ES-13542-270418',
-        doi: 'https://doi.org/',
-        indexed: 'JCR Q1',
-    },
-    {
-        type: 'Artículo',
-        color: '#2d4a35',
-        year: '2021',
-        title: 'Participatory assessment of agroecological sustainability indicators in indigenous communities',
-        authors: 'Barrera Salas, C., Altieri, M.A., Nicholls, C.',
-        journal: 'International Journal of Agricultural Sustainability',
-        details: 'Vol. 19(2), pp. 145–162.',
-        doi: 'https://doi.org/',
-        indexed: 'JCR Q2',
-    },
-    {
-        type: 'Capítulo',
-        color: '#45634B',
-        year: '2023',
-        title: 'Mercados campesinos y soberanía alimentaria: experiencias en el sur global',
-        authors: 'Barrera Salas, C.',
-        journal: 'En: Sistemas Alimentarios Sostenibles. Ed. Universitat de Barcelona',
-        details: 'Cap. 7, pp. 183–210. ISBN: 978-84-9168-XXX-X',
-        doi: null,
-        indexed: 'Libro académico',
-    },
-    {
-        type: 'Capítulo',
-        color: '#45634B',
-        year: '2022',
-        title: 'Agroecología y territorio: construyendo autonomía desde los márgenes',
-        authors: 'Barrera Salas, C., Cuéllar Padilla, M.',
-        journal: 'En: Territorios en Disputa. Perspectivas críticas sobre el desarrollo rural. Ed. Icaria',
-        details: 'Cap. 4, pp. 89–124. ISBN: 978-84-9888-XXX-X',
-        doi: null,
-        indexed: 'Libro académico',
-    },
-    {
-        type: 'Informe',
-        color: '#4E8080',
-        year: '2022',
-        title: 'Diagnóstico participativo de los sistemas agrícolas del Altiplano guatemalteco',
-        authors: 'Barrera Salas, C., et al.',
-        journal: 'FAO Technical Report. Roma: Organización de las Naciones Unidas para la Alimentación',
-        details: '128 pp.',
-        doi: null,
-        indexed: 'Informe técnico',
-    },
-    {
-        type: 'Tesis',
-        color: '#8B6D4D',
-        year: '2023',
-        title: 'Sistemas agroecológicos periurbanos y redes alimentarias alternativas: análisis multidimensional en el área metropolitana de Granada',
-        authors: 'Barrera Salas, C. — Directores: Dr. G. Guzmán Casado y Dra. M. Cuéllar Padilla',
-        journal: 'Tesis doctoral. Universidad de Granada. Mención Internacional',
-        details: '342 pp. Calificación: Sobresaliente Cum Laude.',
-        doi: 'https://digibug.ugr.es/',
-        indexed: 'Doctorado',
-    },
-];
+import { useEditor } from '../../context/EditorContext';
 
-const typeOrder = ['Artículo', 'Capítulo', 'Informe', 'Tesis'];
-const typeLabels = { 'Artículo': 'Artículos científicos', 'Capítulo': 'Capítulos de libro', 'Informe': 'Informes técnicos', 'Tesis': 'Tesis doctoral' };
-
-function PubItem({ pub, index }) {
-    const ref = useReveal({ threshold: 0.1 });
+function BotanicalLeaf({
+    color = 'rgba(73,99,77,0.28)',
+    mirrored = false,
+}) {
     return (
-        <div
-            ref={ref}
-            className="reveal"
+        <svg
+            width="84"
+            height="84"
+            viewBox="0 0 84 84"
+            fill="none"
+            aria-hidden="true"
             style={{
-                display: 'flex',
-                gap: '16px',
-                padding: '18px 20px',
-                background: 'var(--paper)',
-                border: '1px solid rgba(69,99,75,0.1)',
-                borderRadius: '12px',
-                marginBottom: '12px',
-                boxShadow: '0 2px 10px rgba(0,0,0,0.04)',
-                transition: 'box-shadow 0.2s, transform 0.2s',
-                animationDelay: `${index * 0.08}s`,
+                transform: mirrored ? 'scaleX(-1)' : 'none',
             }}
-            onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 6px 22px rgba(45,74,53,0.1)'; e.currentTarget.style.transform = 'translateX(4px)'; }}
-            onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.04)'; e.currentTarget.style.transform = 'translateX(0)'; }}
         >
-            {/* Año */}
-            <div style={{ flexShrink: 0, width: '44px', textAlign: 'center' }}>
-                <span style={{
-                    fontFamily: 'Playfair Display, serif',
-                    fontSize: '15px',
-                    fontWeight: '700',
-                    color: pub.color,
-                    display: 'block',
-                    lineHeight: '1',
-                    marginTop: '3px',
-                }}>{pub.year}</span>
-            </div>
+            <path
+                d="M11 70c8-22 20-37 36-46 9-5 18-8 26-10-3 12-7 22-13 31-11 17-27 29-49 25Z"
+                fill={color}
+            />
 
-            {/* Línea vertical */}
-            <div style={{ width: '2px', background: `${pub.color}30`, borderRadius: '2px', flexShrink: 0 }} />
+            <path
+                d="M22 62c14-8 25-20 34-35"
+                stroke="rgba(73,99,77,0.42)"
+                strokeWidth="2"
+                strokeLinecap="round"
+            />
 
-            {/* Contenido */}
-            <div style={{ flex: 1 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px', flexWrap: 'wrap' }}>
-                    <p style={{ fontFamily: 'Playfair Display, serif', fontStyle: 'italic', fontSize: '15px', color: '#1E2E22', lineHeight: '1.4', marginBottom: '6px', flex: 1 }}>
-                        {pub.title}
-                    </p>
-                    {pub.indexed && (
-                        <span style={{
-                            fontFamily: 'Inter, sans-serif',
-                            fontSize: '10px',
-                            fontWeight: '600',
-                            color: 'white',
-                            background: pub.color,
-                            padding: '2px 8px',
-                            borderRadius: '10px',
-                            flexShrink: 0,
-                            height: 'fit-content',
-                        }}>{pub.indexed}</span>
-                    )}
-                </div>
-                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(45,45,45,0.6)', marginBottom: '3px' }}>{pub.authors}</p>
-                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: pub.color, fontWeight: '500', marginBottom: '3px' }}>{pub.journal}</p>
-                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'rgba(45,45,45,0.45)' }}>{pub.details}</p>
-                {pub.doi && (
-                    <a href={pub.doi} target="_blank" rel="noreferrer" style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: pub.color, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px', marginTop: '6px' }}>
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15,3 21,3 21,9" /><line x1="10" y1="14" x2="21" y2="3" /></svg>
-                        Acceder al documento
-                    </a>
-                )}
-            </div>
-        </div>
+            <path
+                d="M32 48c6 0 12-2 18-6"
+                stroke="rgba(73,99,77,0.35)"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+            />
+
+            <path
+                d="M26 56c7 1 14 0 22-3"
+                stroke="rgba(73,99,77,0.35)"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+            />
+        </svg>
+    );
+}
+
+function PlantBadge() {
+    return (
+        <span
+            aria-hidden="true"
+            style={{
+                width: '34px',
+                height: '34px',
+                borderRadius: '50%',
+
+                background:
+                    'linear-gradient(145deg, rgba(73,99,77,0.92), rgba(127,138,111,0.92))',
+
+                display: 'grid',
+                placeItems: 'center',
+
+                boxShadow:
+                    '0 8px 16px rgba(42,51,38,0.15)',
+
+                flexShrink: 0,
+            }}
+        >
+            <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+            >
+                <path
+                    d="M12 21V10"
+                    stroke="rgba(248,248,241,0.95)"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                />
+
+                <path
+                    d="M12 15c-5 0-8-3-8-8 5 0 8 3 8 8Z"
+                    stroke="rgba(248,248,241,0.95)"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                />
+
+                <path
+                    d="M12 12c5 0 8-3 8-8-5 0-8 3-8 8Z"
+                    stroke="rgba(248,248,241,0.95)"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                />
+            </svg>
+        </span>
     );
 }
 
 export default function Publications() {
-    const titleRef = useReveal({ threshold: 0.2 });
-    const [activeType, setActiveType] = useState('Artículo');
+    const { content } = useEditor();
 
-    const filtered = publications.filter(p => p.type === activeType);
+    const publicationGroups = Array.isArray(
+        content?.publications?.groups,
+    )
+        ? content.publications.groups
+        : [];
 
     return (
-        <section id="publicaciones" style={{ padding: '80px 48px', background: 'transparent', position: 'relative' }}>
-            <div ref={titleRef} className="reveal">
+        <section
+            id="publicaciones"
+            style={{
+                padding: '18px 0 80px',
+            }}
+        >
+            <Container>
                 <SectionTitle
-                    title="Publicaciones"
-                    subtitle="Artículos científicos, capítulos de libro, informes técnicos y tesis doctoral sobre agroecología, sistemas alimentarios y desarrollo territorial."
+                    titlePath="publications.title"
+                    subtitlePath="publications.subtitle"
                 />
-            </div>
 
-            {/* Filtros */}
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '36px' }}>
-                {typeOrder.map((t) => (
-                    <button
-                        key={t}
-                        onClick={() => setActiveType(t)}
+                <div
+                    style={{
+                        display: 'grid',
+                        gap: '22px',
+
+                        gridTemplateColumns:
+                            'repeat(auto-fit, minmax(290px, 1fr))',
+                    }}
+                >
+                    {publicationGroups.map(
+                        (group, groupIndex) => {
+                            const entries = Array.isArray(
+                                group?.entries,
+                            )
+                                ? group.entries
+                                : [];
+
+                            return (
+                                <Card
+                                    key={`publication-group-${groupIndex}`}
+                                    style={{
+                                        position: 'relative',
+                                        overflow: 'hidden',
+                                        padding: '24px',
+
+                                        borderRadius:
+                                            '26px 12px 26px 12px',
+
+                                        background:
+                                            'linear-gradient(165deg, rgba(255,255,255,0.92), rgba(248,248,241,0.84))',
+
+                                        border:
+                                            '1px solid rgba(73,99,77,0.12)',
+
+                                        boxShadow:
+                                            '0 18px 32px rgba(42,51,38,0.08)',
+                                    }}
+                                >
+                                    <div
+                                        aria-hidden="true"
+                                        style={{
+                                            position: 'absolute',
+                                            right: '-12px',
+                                            top: '-8px',
+                                            opacity: 0.52,
+                                        }}
+                                    >
+                                        <BotanicalLeaf />
+                                    </div>
+
+                                    <div
+                                        aria-hidden="true"
+                                        style={{
+                                            position: 'absolute',
+                                            left: '-14px',
+                                            bottom: '-12px',
+                                            opacity: 0.4,
+                                        }}
+                                    >
+                                        <BotanicalLeaf mirrored />
+                                    </div>
+
+                                    <div
+                                        style={{
+                                            position: 'relative',
+                                            zIndex: 1,
+
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '10px',
+                                        }}
+                                    >
+                                        <PlantBadge />
+
+                                        <EditableText
+                                            path={`publications.groups.${groupIndex}.type`}
+                                            style={{
+                                                margin: 0,
+
+                                                fontFamily:
+                                                    'Inter, system-ui, sans-serif',
+
+                                                fontSize: '0.72rem',
+                                                letterSpacing:
+                                                    '0.18em',
+
+                                                textTransform:
+                                                    'uppercase',
+
+                                                color:
+                                                    'var(--green)',
+                                            }}
+                                        />
+                                    </div>
+
+                                    <div
+                                        style={{
+                                            display: 'grid',
+                                            gap: '12px',
+                                            marginTop: '16px',
+                                        }}
+                                    >
+                                        {entries.map(
+                                            (
+                                                entry,
+                                                entryIndex,
+                                            ) => (
+                                                <div
+                                                    key={`publication-entry-${groupIndex}-${entryIndex}`}
+                                                    style={{
+                                                        position:
+                                                            'relative',
+
+                                                        zIndex: 1,
+
+                                                        padding:
+                                                            '14px 16px',
+
+                                                        borderRadius:
+                                                            '16px 8px 16px 8px',
+
+                                                        background:
+                                                            'rgba(255,255,255,0.78)',
+
+                                                        border:
+                                                            '1px solid rgba(73,99,77,0.12)',
+                                                    }}
+                                                >
+                                                    <EditableText
+                                                        path={`publications.groups.${groupIndex}.entries.${entryIndex}`}
+                                                        multiline
+                                                        style={{
+                                                            margin: 0,
+
+                                                            fontFamily:
+                                                                'Playfair Display, Georgia, serif',
+
+                                                            fontSize:
+                                                                '1rem',
+
+                                                            lineHeight:
+                                                                '1.64',
+
+                                                            color:
+                                                                'var(--ink)',
+
+                                                            whiteSpace:
+                                                                'pre-line',
+                                                        }}
+                                                    />
+                                                </div>
+                                            ),
+                                        )}
+                                    </div>
+                                </Card>
+                            );
+                        },
+                    )}
+                </div>
+
+                {publicationGroups.length === 0 && (
+                    <Card
                         style={{
-                            fontFamily: 'Inter, sans-serif',
-                            fontSize: '12px',
-                            fontWeight: '500',
-                            padding: '7px 18px',
-                            borderRadius: '20px',
-                            border: activeType === t ? 'none' : '1px solid rgba(69,99,75,0.25)',
-                            background: activeType === t ? 'var(--green)' : 'transparent',
-                            color: activeType === t ? 'white' : 'var(--green)',
-                            cursor: 'pointer',
-                            transition: 'all 0.2s',
+                            padding: '24px',
+                            textAlign: 'center',
                         }}
                     >
-                        {t === 'Artículo' ? `Artículos (${publications.filter(p => p.type === 'Artículo').length})` :
-                            t === 'Capítulo' ? `Capítulos (${publications.filter(p => p.type === 'Capítulo').length})` :
-                                t === 'Informe' ? `Informes (${publications.filter(p => p.type === 'Informe').length})` :
-                                    'Tesis'}
-                    </button>
-                ))}
-            </div>
+                        <p
+                            style={{
+                                margin: 0,
 
-            {/* Lista */}
-            <div style={{ maxWidth: '860px' }}>
-                <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '18px', color: '#2d4a35', marginBottom: '20px', opacity: 0.7 }}>
-                    {typeLabels[activeType]}
-                </h3>
-                {filtered.map((pub, i) => (
-                    <PubItem key={i} pub={pub} index={i} />
-                ))}
-            </div>
+                                fontFamily:
+                                    'Inter, system-ui, sans-serif',
+
+                                fontSize: '0.95rem',
+                                color: 'var(--muted)',
+                            }}
+                        >
+                            No hay grupos de publicaciones configurados.
+                        </p>
+                    </Card>
+                )}
+            </Container>
         </section>
     );
 }

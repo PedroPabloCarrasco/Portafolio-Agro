@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import heroImg from '../../assets/hero.png';
 import useReveal from '../../hooks/useReveal';
+import { useLanguage } from '../../context/LanguageContext';
+
+const colors = ['#7f8a6f', '#a6a28f', '#d5d0c2', '#7f8a6f', '#a6a28f', '#d5d0c2'];
 
 const icons = {
     leaf: (
@@ -41,106 +44,626 @@ const icons = {
     ),
 };
 
-const bookPages = [
+const tabIcons = [icons.leaf, icons.edu, icons.brief, icons.project, icons.pub, icons.contact];
+
+
+const contentIcons = {
+    research: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-3.2-3.2" />
+            <path d="M8 11h6M11 8v6" />
+        </svg>
+    ),
+    teaching: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M22 10 12 5 2 10l10 5 10-5Z" />
+            <path d="M6 12v5c3 2 9 2 12 0v-5" />
+        </svg>
+    ),
+    consulting: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="7" width="18" height="13" rx="2" />
+            <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18" />
+        </svg>
+    ),
+    collaboration: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="8" cy="8" r="3" />
+            <circle cx="16" cy="8" r="3" />
+            <path d="M2.5 20c.6-4 2.6-6 5.5-6s4.9 2 5.5 6M10.5 20c.5-3.4 2.3-5.2 5.5-5.2s5 1.8 5.5 5.2" />
+        </svg>
+    ),
+    project: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M4 19V5a2 2 0 0 1 2-2h8l6 6v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z" />
+            <path d="M14 3v6h6M8 14h8M8 18h5" />
+        </svg>
+    ),
+    impact: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3 20h18" />
+            <path d="m5 16 4-5 4 3 6-8" />
+            <path d="M16 6h3v3" />
+        </svg>
+    ),
+    sustainability: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 22V10" />
+            <path d="M12 15c-5 0-8-3-8-8 5 0 8 3 8 8Z" />
+            <path d="M12 12c5 0 8-3 8-8-5 0-8 3-8 8Z" />
+        </svg>
+    ),
+};
+
+function getHighlightIcon(pageIndex, item, itemIndex) {
+    const normalized = item.toLowerCase();
+
+    if (pageIndex === 2) {
+        if (normalized.includes('investig')) return contentIcons.research;
+        if (normalized.includes('docen') || normalized.includes('académ')) return contentIcons.teaching;
+        if (normalized.includes('consult') || normalized.includes('asesor')) return contentIcons.consulting;
+        if (normalized.includes('equipo') || normalized.includes('colabor')) return contentIcons.collaboration;
+
+        return [contentIcons.research, contentIcons.teaching, contentIcons.consulting, contentIcons.collaboration][itemIndex % 4];
+    }
+
+    if (pageIndex === 3) {
+        if (normalized.includes('sosten') || normalized.includes('agroec')) return contentIcons.sustainability;
+        if (normalized.includes('impact') || normalized.includes('resultado')) return contentIcons.impact;
+        return contentIcons.project;
+    }
+
+    return contentIcons.sustainability;
+}
+
+const projectCatalog = [
     {
-        tab: 'Perfil',
-        color: '#5C7A50',
-        icon: icons.leaf,
-        leftTitle: ['Claudia', 'Barrera Salas'],
-        leftSubtitle: 'Ing. Agrónoma',
-        leftTagline: 'Ciencia, naturaleza y territorio para un futuro sostenible.',
-        leftHighlights: [
-            'Máster en Agricultura y Ganadería Ecológica (UPO, España).',
-            'Dra. en Territorio, Patrimonio y Medio Ambiente.',
-            'Especialista en agroecología aplicada y sistemas alimentarios locales.',
+        id: 'agroecologia-territorial',
+        title: 'Agroecología y desarrollo territorial',
+        category: 'Investigación aplicada',
+        description:
+            'Proyecto orientado al diseño de estrategias agroecológicas para fortalecer sistemas productivos locales, mejorar la resiliencia territorial y vincular conocimiento académico con prácticas de campo.',
+        location: 'Territorios rurales y comunidades agrícolas',
+        period: '2022 — Actualidad',
+        role: 'Investigadora y coordinadora técnica',
+        results: ['Diagnóstico participativo', 'Diseño de estrategias sostenibles', 'Transferencia de conocimiento'],
+        images: [
+            'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=85',
+            'https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=1400&q=85',
+            'https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?auto=format&fit=crop&w=1400&q=85',
         ],
-        quote: 'La agroecología no es solo una ciencia, es una forma de cuidar la vida y el territorio.',
-        rightFacts: ['10+ años de experiencia', '6 proyectos internacionales', '4 líneas de investigación activas'],
-        overlay: 'linear-gradient(135deg, rgba(30,46,34,0.58) 0%, rgba(30,46,34,0.25) 60%, rgba(30,46,34,0.45) 100%)',
     },
     {
-        tab: 'Formación',
-        color: '#7A8C5C',
-        icon: icons.edu,
-        leftTitle: ['Formación', 'Académica'],
-        leftSubtitle: 'Trayectoria universitaria y especialización',
-        leftTagline: 'Formación sólida para diseñar soluciones agrícolas con base científica.',
-        leftHighlights: [
-            'Máster en Agricultura y Ganadería Ecológica (UPO, España).',
-            'Dra. en Territorio, Patrimonio y Medio Ambiente.',
-            'Especialidad en Agroecología, Universidad de Granada, España.',
+        id: 'ganaderia-ecologica',
+        title: 'Ganadería ecológica y bienestar animal',
+        category: 'Producción sostenible',
+        description:
+            'Evaluación de prácticas ganaderas de bajo impacto, integrando criterios de bienestar animal, manejo eficiente de recursos y adaptación de los sistemas productivos a escenarios de cambio climático.',
+        location: 'Predios ganaderos y centros experimentales',
+        period: '2021 — 2024',
+        role: 'Especialista agroecológica',
+        results: ['Protocolos de manejo', 'Indicadores de bienestar', 'Recomendaciones productivas'],
+        images: [
+            'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1400&q=85',
+            'https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=1400&q=85',
+            'https://images.unsplash.com/photo-1545468258-576dbac5faa9?auto=format&fit=crop&w=1400&q=85',
         ],
-        quote: 'La ciencia tiene sentido cuando se traduce en soluciones reales para quienes trabajan la tierra.',
-        rightFacts: ['4 titulaciones clave', '2 universidades españolas', '1 curso internacional (CATIE)'],
-        overlay: 'linear-gradient(135deg, rgba(58,70,38,0.62) 0%, rgba(58,70,38,0.26) 60%, rgba(58,70,38,0.45) 100%)',
     },
     {
-        tab: 'Experiencia',
-        color: '#A07050',
-        icon: icons.brief,
-        leftTitle: ['Experiencia', 'Profesional'],
-        leftSubtitle: 'Investigación, consultoría y cooperación',
-        leftTagline: 'Conectar academia y territorio para generar impacto medible.',
-        leftHighlights: [
-            'Investigadora postdoctoral en agroecología y territorio.',
-            'Consultora para organismos internacionales (FAO).',
-            'Coordinación de proyectos con equipos interdisciplinares.',
+        id: 'biodiversidad-productiva',
+        title: 'Biodiversidad en sistemas productivos',
+        category: 'Conservación y territorio',
+        description:
+            'Estudio de la biodiversidad funcional presente en paisajes agrícolas y su relación con la productividad, la salud del suelo y la conservación de servicios ecosistémicos.',
+        location: 'Paisajes agrícolas mediterráneos',
+        period: '2020 — 2023',
+        role: 'Investigadora asociada',
+        results: ['Monitoreo de biodiversidad', 'Cartografía territorial', 'Buenas prácticas agrícolas'],
+        images: [
+            'https://images.unsplash.com/photo-1492496913980-501348b61469?auto=format&fit=crop&w=1400&q=85',
+            'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=1400&q=85',
+            'https://images.unsplash.com/photo-1471194402529-8e0f5a675de6?auto=format&fit=crop&w=1400&q=85',
         ],
-        quote: 'El impacto ocurre cuando el conocimiento científico dialoga con la experiencia campesina.',
-        rightFacts: ['15+ iniciativas acompañadas', '3 continentes de trabajo', '100+ actores locales vinculados'],
-        overlay: 'linear-gradient(135deg, rgba(91,58,35,0.64) 0%, rgba(91,58,35,0.26) 60%, rgba(91,58,35,0.45) 100%)',
     },
     {
-        tab: 'Proyectos',
-        color: '#4E8080',
-        icon: icons.project,
-        leftTitle: ['Proyectos', 'Estratégicos'],
-        leftSubtitle: 'Agroecología territorial y soberanía alimentaria',
-        leftTagline: 'De la idea al campo: proyectos con enfoque territorial y participación social.',
-        leftHighlights: [
-            'Diseño de redes alimentarias alternativas en Andalucía.',
-            'Diagnósticos participativos en comunidades rurales de Guatemala.',
-            'Conservación de semillas locales y biodiversidad cultivada.',
+        id: 'transferencia-rural',
+        title: 'Transferencia y capacitación rural',
+        category: 'Vinculación con el medio',
+        description:
+            'Programa de formación dirigido a agricultores, equipos técnicos y comunidades, enfocado en producción sustentable, gestión territorial y adopción de herramientas agroecológicas.',
+        location: 'Comunidades y organizaciones rurales',
+        period: '2019 — Actualidad',
+        role: 'Docente y asesora',
+        results: ['Talleres participativos', 'Material educativo', 'Acompañamiento técnico'],
+        images: [
+            'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=1400&q=85',
+            'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=1400&q=85',
+            'https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=1400&q=85',
         ],
-        quote: 'Cada proyecto debe fortalecer el ecosistema, la comunidad y la economía local al mismo tiempo.',
-        rightFacts: ['6 proyectos destacados', '24 comunidades involucradas', '3 metodologías transferibles'],
-        overlay: 'linear-gradient(135deg, rgba(32,74,74,0.62) 0%, rgba(32,74,74,0.25) 60%, rgba(32,74,74,0.45) 100%)',
-    },
-    {
-        tab: 'Publicaciones',
-        color: '#6E7F8C',
-        icon: icons.pub,
-        leftTitle: ['Publicaciones', 'Científicas'],
-        leftSubtitle: 'Producción académica con enfoque aplicado',
-        leftTagline: 'Publicar para transferir conocimiento y mejorar prácticas reales.',
-        leftHighlights: [
-            'Artículos indexados sobre transición agroecológica y resiliencia.',
-            'Capítulos de libro en sistemas alimentarios sostenibles.',
-            'Informes técnicos para políticas públicas y cooperación.',
-        ],
-        quote: 'La investigación útil es la que puede ser leída, discutida y aplicada en el territorio.',
-        rightFacts: ['8 publicaciones clave', 'Revistas JCR Q1/Q2', '1 tesis doctoral publicada'],
-        overlay: 'linear-gradient(135deg, rgba(49,61,72,0.64) 0%, rgba(49,61,72,0.24) 60%, rgba(49,61,72,0.45) 100%)',
-    },
-    {
-        tab: 'Contacto',
-        color: '#7A9070',
-        icon: icons.contact,
-        leftTitle: ['Colaboración', '& Contacto'],
-        leftSubtitle: 'Investigación aplicada y consultoría agroecológica',
-        leftTagline: 'Las mejores ideas nacen cuando conectamos disciplinas, comunidades y territorio.',
-        leftHighlights: [
-            'Consultoría para proyectos de transición agroecológica.',
-            'Diseño metodológico de investigación participativa.',
-            'Formación técnica para equipos e instituciones.',
-        ],
-        quote: 'Toda colaboración comienza con una conversación honesta sobre el territorio y sus necesidades.',
-        rightFacts: ['Email académico activo', 'Disponibilidad para alianzas', 'Respuesta en 48 horas'],
-        overlay: 'linear-gradient(135deg, rgba(52,72,48,0.62) 0%, rgba(52,72,48,0.24) 60%, rgba(52,72,48,0.45) 100%)',
     },
 ];
 
+function ProjectCarousel({ projects, activeColor }) {
+    const [projectIndex, setProjectIndex] = useState(0);
+    const [imageIndex, setImageIndex] = useState(0);
+
+    const project = projects[projectIndex];
+
+    function selectProject(index) {
+        setProjectIndex(index);
+        setImageIndex(0);
+    }
+
+    function previousProject() {
+        const previousIndex =
+            projectIndex === 0
+                ? projects.length - 1
+                : projectIndex - 1;
+
+        selectProject(previousIndex);
+    }
+
+    function nextProject() {
+        const nextIndex =
+            projectIndex === projects.length - 1
+                ? 0
+                : projectIndex + 1;
+
+        selectProject(nextIndex);
+    }
+
+    function previousImage() {
+        setImageIndex((currentIndex) =>
+            currentIndex === 0 ? project.images.length - 1 : currentIndex - 1
+        );
+    }
+
+    function nextImage() {
+        setImageIndex((currentIndex) =>
+            currentIndex === project.images.length - 1 ? 0 : currentIndex + 1
+        );
+    }
+
+    return (
+        <div
+            style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px',
+                marginBottom: '18px',
+            }}
+        >
+            <article
+                style={{
+                    position: 'relative',
+                    overflow: 'hidden',
+                    borderRadius: '34px 12px 34px 12px',
+                    background: 'rgba(255,255,255,0.48)',
+                    border: `1px solid ${activeColor}38`,
+                    boxShadow: '0 18px 36px rgba(42,51,38,0.13)',
+                    backdropFilter: 'blur(7px)',
+                    WebkitBackdropFilter: 'blur(7px)',
+                }}
+            >
+                <div
+                    style={{
+                        position: 'relative',
+                        height: '190px',
+                        overflow: 'hidden',
+                        background: '#d5d0c2',
+                    }}
+                >
+                    <img
+                        src={project.images[imageIndex]}
+                        alt={`${project.title} — imagen ${imageIndex + 1}`}
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            display: 'block',
+                            transition: 'opacity 0.25s ease',
+                        }}
+                    />
+
+                    <div
+                        aria-hidden="true"
+                        style={{
+                            position: 'absolute',
+                            inset: 0,
+                            background:
+                                'linear-gradient(180deg, rgba(28,38,26,0.04), rgba(28,38,26,0.58))',
+                        }}
+                    />
+
+                    <span
+                        style={{
+                            position: 'absolute',
+                            top: '14px',
+                            left: '14px',
+                            padding: '7px 11px',
+                            borderRadius: '999px',
+                            background: 'rgba(249,249,243,0.88)',
+                            color: '#44503f',
+                            fontFamily: 'Inter, sans-serif',
+                            fontSize: '9px',
+                            fontWeight: '700',
+                            letterSpacing: '0.12em',
+                            textTransform: 'uppercase',
+                            backdropFilter: 'blur(7px)',
+                        }}
+                    >
+                        {project.category}
+                    </span>
+
+                    <div
+                        style={{
+                            position: 'absolute',
+                            right: '12px',
+                            bottom: '12px',
+                            display: 'flex',
+                            gap: '8px',
+                        }}
+                    >
+                        <button
+                            type="button"
+                            onClick={previousImage}
+                            aria-label="Ver imagen anterior del proyecto"
+                            style={{
+                                width: '34px',
+                                height: '34px',
+                                borderRadius: '50%',
+                                border: '1px solid rgba(255,255,255,0.42)',
+                                background: 'rgba(36,45,32,0.54)',
+                                color: '#fff',
+                                cursor: 'pointer',
+                                fontSize: '18px',
+                                lineHeight: 1,
+                                backdropFilter: 'blur(6px)',
+                            }}
+                        >
+                            ‹
+                        </button>
+                        <button
+                            type="button"
+                            onClick={nextImage}
+                            aria-label="Ver siguiente imagen del proyecto"
+                            style={{
+                                width: '34px',
+                                height: '34px',
+                                borderRadius: '50%',
+                                border: '1px solid rgba(255,255,255,0.42)',
+                                background: 'rgba(36,45,32,0.54)',
+                                color: '#fff',
+                                cursor: 'pointer',
+                                fontSize: '18px',
+                                lineHeight: 1,
+                                backdropFilter: 'blur(6px)',
+                            }}
+                        >
+                            ›
+                        </button>
+                    </div>
+
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: '14px',
+                            bottom: '14px',
+                            display: 'flex',
+                            gap: '5px',
+                        }}
+                    >
+                        {project.images.map((image, index) => (
+                            <button
+                                key={image}
+                                type="button"
+                                onClick={() => setImageIndex(index)}
+                                aria-label={`Ver imagen ${index + 1}`}
+                                style={{
+                                    width: index === imageIndex ? '22px' : '7px',
+                                    height: '7px',
+                                    padding: 0,
+                                    border: 0,
+                                    borderRadius: '999px',
+                                    background:
+                                        index === imageIndex
+                                            ? '#f8f8f2'
+                                            : 'rgba(248,248,242,0.48)',
+                                    cursor: 'pointer',
+                                    transition: 'width 0.2s ease',
+                                }}
+                            />
+                        ))}
+                    </div>
+                </div>
+
+                <div style={{ padding: '17px 18px 18px' }}>
+                    <h3
+                        style={{
+                            margin: '0 0 8px',
+                            fontFamily: 'Playfair Display, serif',
+                            fontSize: '22px',
+                            lineHeight: '1.16',
+                            color: '#2e352b',
+                        }}
+                    >
+                        {project.title}
+                    </h3>
+
+                    <p
+                        style={{
+                            margin: '0 0 13px',
+                            fontFamily: 'Inter, sans-serif',
+                            fontSize: '11.5px',
+                            lineHeight: '1.62',
+                            color: '#505b4b',
+                        }}
+                    >
+                        {project.description}
+                    </p>
+
+                    <div
+                        style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+                            gap: '8px',
+                            marginBottom: '13px',
+                        }}
+                    >
+                        <div
+                            style={{
+                                padding: '9px 10px',
+                                borderRadius: '14px 5px 14px 5px',
+                                background: `${activeColor}12`,
+                            }}
+                        >
+                            <span
+                                style={{
+                                    display: 'block',
+                                    fontFamily: 'Inter, sans-serif',
+                                    fontSize: '8px',
+                                    letterSpacing: '0.12em',
+                                    textTransform: 'uppercase',
+                                    color: '#777f70',
+                                    marginBottom: '3px',
+                                }}
+                            >
+                                Periodo
+                            </span>
+                            <strong
+                                style={{
+                                    fontFamily: 'Inter, sans-serif',
+                                    fontSize: '10px',
+                                    color: '#414b3d',
+                                }}
+                            >
+                                {project.period}
+                            </strong>
+                        </div>
+
+                        <div
+                            style={{
+                                padding: '9px 10px',
+                                borderRadius: '5px 14px 5px 14px',
+                                background: `${activeColor}12`,
+                            }}
+                        >
+                            <span
+                                style={{
+                                    display: 'block',
+                                    fontFamily: 'Inter, sans-serif',
+                                    fontSize: '8px',
+                                    letterSpacing: '0.12em',
+                                    textTransform: 'uppercase',
+                                    color: '#777f70',
+                                    marginBottom: '3px',
+                                }}
+                            >
+                                Rol
+                            </span>
+                            <strong
+                                style={{
+                                    fontFamily: 'Inter, sans-serif',
+                                    fontSize: '10px',
+                                    color: '#414b3d',
+                                }}
+                            >
+                                {project.role}
+                            </strong>
+                        </div>
+                    </div>
+
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            gap: '6px',
+                        }}
+                    >
+                        {project.results.map((result) => (
+                            <span
+                                key={result}
+                                style={{
+                                    padding: '6px 8px',
+                                    borderRadius: '999px',
+                                    background: 'rgba(127,138,111,0.12)',
+                                    border: '1px solid rgba(127,138,111,0.18)',
+                                    color: '#505b4b',
+                                    fontFamily: 'Inter, sans-serif',
+                                    fontSize: '9px',
+                                }}
+                            >
+                                {result}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            </article>
+
+            <div
+                style={{
+                    display: 'grid',
+                    gridTemplateColumns: '42px 1fr 42px',
+                    alignItems: 'center',
+                    gap: '9px',
+                }}
+            >
+                <button
+                    type="button"
+                    onClick={previousProject}
+                    aria-label="Ver proyecto anterior"
+                    style={{
+                        width: '42px',
+                        height: '42px',
+                        borderRadius: '16px 6px 16px 6px',
+                        border: `1px solid ${activeColor}35`,
+                        background: 'rgba(255,255,255,0.52)',
+                        color: '#45503f',
+                        cursor: 'pointer',
+                        fontSize: '22px',
+                        boxShadow: '0 7px 16px rgba(42,51,38,0.08)',
+                    }}
+                >
+                    ‹
+                </button>
+
+                <div
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        gap: '7px',
+                    }}
+                >
+                    {projects.map((item, index) => (
+                        <button
+                            key={item.id}
+                            type="button"
+                            onClick={() => selectProject(index)}
+                            aria-label={`Abrir proyecto ${item.title}`}
+                            style={{
+                                width: index === projectIndex ? '30px' : '8px',
+                                height: '8px',
+                                padding: 0,
+                                border: 0,
+                                borderRadius: '999px',
+                                background:
+                                    index === projectIndex
+                                        ? activeColor
+                                        : `${activeColor}45`,
+                                cursor: 'pointer',
+                                transition: 'width 0.22s ease',
+                            }}
+                        />
+                    ))}
+                </div>
+
+                <button
+                    type="button"
+                    onClick={nextProject}
+                    aria-label="Ver siguiente proyecto"
+                    style={{
+                        width: '42px',
+                        height: '42px',
+                        borderRadius: '6px 16px 6px 16px',
+                        border: `1px solid ${activeColor}35`,
+                        background: 'rgba(255,255,255,0.52)',
+                        color: '#45503f',
+                        cursor: 'pointer',
+                        fontSize: '22px',
+                        boxShadow: '0 7px 16px rgba(42,51,38,0.08)',
+                    }}
+                >
+                    ›
+                </button>
+            </div>
+
+            <p
+                style={{
+                    margin: 0,
+                    textAlign: 'center',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '9px',
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    color: '#737b6e',
+                }}
+            >
+                Proyecto {projectIndex + 1} de {projects.length}
+            </p>
+        </div>
+    );
+}
+
+
+function BotanicalSprig({ color = '#8f957f', mirrored = false, scale = 1, style = {} }) {
+    return (
+        <svg
+            width={scale > 1 ? '120' : '90'}
+            height={scale > 1 ? '120' : '90'}
+            viewBox="0 0 120 120"
+            fill="none"
+            style={{ transform: `${mirrored ? 'scaleX(-1)' : 'none'} scale(${scale})`, transformOrigin: 'center', ...style }}
+            aria-hidden="true"
+        >
+            <g fill="none" stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.6" opacity="0.72">
+                <path d="M18 102C26 84 39 63 56 39C64 29 75 20 89 12" />
+                <path d="M45 80c-9-2-18-9-25-20" />
+                <path d="M54 63c-10-3-18-10-24-21" />
+                <path d="M67 47c-10-3-18-10-24-21" />
+                <path d="M82 31c-8-3-15-8-20-15" />
+                <path d="M34 90c8-6 15-10 23-12" />
+                <path d="M58 60c6 8 13 13 21 16" />
+                <path d="M79 37c6 7 13 12 21 15" />
+            </g>
+            <g fill={color} opacity="0.34">
+                <path d="M36 84c7-11 18-17 28-18-3 11-10 20-20 26-6-1-10-3-8-8z" />
+                <path d="M58 57c8-10 19-15 31-15-3 11-10 20-21 27-6-1-10-4-10-12z" />
+                <path d="M74 35c6-8 15-12 25-13-2 9-7 16-16 22-5-1-9-4-9-9z" />
+            </g>
+            <g fill={color} opacity="0.55">
+                <circle cx="42" cy="79" r="2.8" />
+                <circle cx="64" cy="53" r="2.8" />
+                <circle cx="83" cy="33" r="2.8" />
+            </g>
+        </svg>
+    );
+}
+
+function BotanicalFlower({ color = '#aaa899', style = {} }) {
+    return (
+        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" style={style} aria-hidden="true">
+            <g fill="none" stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.4" opacity="0.84">
+                <path d="M35 60c0-8 0-16 0-24" />
+                <path d="M35 36c-7-3-13-8-16-15" />
+                <path d="M35 36c7-3 13-8 16-15" />
+                <path d="M35 40c-8 2-15 7-20 14" />
+                <path d="M35 40c8 2 15 7 20 14" />
+            </g>
+            <g fill={color} opacity="0.4">
+                <path d="M35 20c5 0 9 4 9 9 0 7-6 12-9 14-3-2-9-7-9-14 0-5 4-9 9-9z" />
+                <path d="M35 24c4 0 7 3 7 7 0 5-4 9-7 11-3-2-7-6-7-11 0-4 3-7 7-7z" />
+            </g>
+            <circle cx="35" cy="35" r="3.4" fill={color} opacity="0.58" />
+        </svg>
+    );
+}
+
+function BookPageImage() {
+    return (
+        <div style={{ position: 'relative', borderRadius: '30px', overflow: 'hidden', height: '100%', minHeight: '200px', background: 'linear-gradient(180deg, #dfe1d1, #c1c5b5 48%, #a6ab97 100%)', boxShadow: '0 14px 28px rgba(31,46,34,0.16)' }}>
+            <img src={heroImg} alt="Paisaje agrícola" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(249,247,241,0.10), rgba(28,40,26,0.18))' }} />
+            <div style={{ position: 'absolute', right: '10px', bottom: '10px', opacity: 0.18 }}>
+                <BotanicalFlower color="#8f957f" />
+            </div>
+        </div>
+    );
+}
+
 export default function Hero() {
+    const { copy } = useLanguage();
     const bookRef = useReveal();
     const tabsRef = useReveal({ threshold: 0.2 });
     const [activePage, setActivePage] = useState(0);
@@ -160,7 +683,8 @@ export default function Hero() {
         };
     }, []);
 
-    const current = bookPages[displayedPage];
+    const current = copy.hero.pages[displayedPage];
+    const activeColor = colors[displayedPage];
 
     function handlePageChange(nextIndex) {
         if (nextIndex === activePage) return;
@@ -169,7 +693,7 @@ export default function Hero() {
         setTargetPage(nextIndex);
         setFlipLayerDirection(nextIndex > activePage ? 'next' : 'prev');
         setFlipLayerActive(false);
-        setFlipKey(k => k + 1);
+        setFlipKey((value) => value + 1);
         setActivePage(nextIndex);
 
         raf1.current = requestAnimationFrame(() => {
@@ -178,56 +702,57 @@ export default function Hero() {
     }
 
     return (
-        <section
-            id="inicio"
-            style={{
-                minHeight: '100vh',
-                background: 'var(--bg)',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '40px 32px',
-                position: 'relative',
-            }}
-        >
+        <section id="inicio" style={{ minHeight: '100vh', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 32px', position: 'relative' }}>
             <div className="float-slow" style={{ position: 'absolute', top: '20px', right: '80px', opacity: 0.3, pointerEvents: 'none' }}>
-                <svg width="60" height="80" viewBox="0 0 60 80" fill="none">
-                    <path d="M30 75C30 75 5 55 5 35C5 20 15 5 30 5C45 5 55 20 55 35C55 55 30 75 30 75Z" fill="#5C7A50" opacity="0.6" />
-                    <path d="M30 75V20" stroke="#3d5e3f" strokeWidth="1.5" />
-                </svg>
+                <BotanicalSprig color="#8f957f" mirrored scale={1.1} />
             </div>
-            <div className="float-slow" style={{ position: 'absolute', bottom: '60px', left: '20px', opacity: 0.25, pointerEvents: 'none', transform: 'rotate(-20deg)', animationDelay: '2s' }}>
-                <svg width="50" height="65" viewBox="0 0 60 80" fill="none">
-                    <path d="M30 75C30 75 5 55 5 35C5 20 15 5 30 5C45 5 55 20 55 35C55 55 30 75 30 75Z" fill="#5C7A50" />
-                    <path d="M30 75V20" stroke="#3d5e3f" strokeWidth="1.5" />
-                </svg>
+            <div className="float-slow" style={{ position: 'absolute', bottom: '60px', left: '20px', opacity: 0.24, pointerEvents: 'none', transform: 'rotate(-20deg)', animationDelay: '2s' }}>
+                <BotanicalSprig color="#aaa899" scale={0.9} />
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'stretch', gap: '0', maxWidth: '920px', width: '100%' }}>
+            <div style={{ display: 'flex', alignItems: 'stretch', gap: 0, maxWidth: '920px', width: '100%' }}>
                 <div className="book-stage" style={{ flex: 1 }}>
                     <div
                         ref={bookRef}
                         className="reveal book-shell"
                         style={{
                             display: 'flex',
-                            borderRadius: '16px',
-                            overflow: 'hidden',
-                            boxShadow: '0 30px 70px rgba(0,0,0,0.22), 0 8px 20px rgba(0,0,0,0.12)',
-                            border: '8px solid #1E2E22',
+                            borderRadius: '30px',
+                            overflow: 'visible',
+                            boxShadow: '0 30px 70px rgba(0,0,0,0.18), 0 8px 20px rgba(0,0,0,0.10)',
+                            border: '10px solid #8f957f',
                             minHeight: '500px',
-                            background: '#FDFAF4',
+                            background: 'transparent',
+                            position: 'relative'
                         }}
                     >
-                        <div
-                            className={`book-page-shadow ${flipLayerDirection === 'next' ? 'book-page-shadow-next' : 'book-page-shadow-prev'} ${flipLayerActive ? 'book-page-shadow-active' : ''}`}
-                            aria-hidden="true"
-                        />
+                        <div aria-hidden="true" style={{ position: 'absolute', left: '-48px', top: '-34px', opacity: 0.58 }}>
+                            <BotanicalSprig color="#8f957f" mirrored scale={1.18} />
+                        </div>
+                        <div aria-hidden="true" style={{ position: 'absolute', left: '-22px', top: '96px', opacity: 0.42, transform: 'rotate(-12deg)' }}>
+                            <BotanicalFlower color="#cccdbf" />
+                        </div>
+                        <div aria-hidden="true" style={{ position: 'absolute', right: '-50px', top: '-28px', opacity: 0.5, transform: 'scaleX(-1)' }}>
+                            <BotanicalSprig color="#aaa899" scale={1.14} />
+                        </div>
+                        <div aria-hidden="true" style={{ position: 'absolute', right: '-24px', top: '102px', opacity: 0.4, transform: 'rotate(8deg) scaleX(-1)' }}>
+                            <BotanicalFlower color="#8f957f" />
+                        </div>
+                        <div aria-hidden="true" style={{ position: 'absolute', left: '-48px', bottom: '-34px', opacity: 0.5, transform: 'rotate(180deg)' }}>
+                            <BotanicalSprig color="#aaa899" scale={1.1} />
+                        </div>
+                        <div aria-hidden="true" style={{ position: 'absolute', left: '26px', bottom: '-26px', opacity: 0.34, transform: 'rotate(12deg)' }}>
+                            <BotanicalSprig color="#cccdbf" scale={0.92} />
+                        </div>
+                        <div aria-hidden="true" style={{ position: 'absolute', right: '-48px', bottom: '-34px', opacity: 0.5, transform: 'rotate(180deg) scaleX(-1)' }}>
+                            <BotanicalSprig color="#8f957f" scale={1.1} />
+                        </div>
+                        <div aria-hidden="true" style={{ position: 'absolute', right: '28px', bottom: '-26px', opacity: 0.34, transform: 'rotate(180deg) scaleX(-1)' }}>
+                            <BotanicalSprig color="#cccdbf" scale={0.92} />
+                        </div>
 
-                        <div
-                            className={`book-spine-press ${flipLayerActive ? 'book-spine-press-active' : ''}`}
-                            aria-hidden="true"
-                        />
+                        <div className={`book-page-shadow ${flipLayerDirection === 'next' ? 'book-page-shadow-next' : 'book-page-shadow-prev'} ${flipLayerActive ? 'book-page-shadow-active' : ''}`} aria-hidden="true" />
+                        <div className={`book-spine-press ${flipLayerActive ? 'book-spine-press-active' : ''}`} aria-hidden="true" />
 
                         <div
                             key={flipKey}
@@ -240,374 +765,223 @@ export default function Hero() {
                         >
                             <div className="book-flip-curvature" />
                             <div className="book-flip-face book-flip-face-front">
-                                <span className="book-flip-label" style={{ color: bookPages[previousPage].color }}>{bookPages[previousPage].tab}</span>
-                                <p className="book-flip-mini">{bookPages[previousPage].leftSubtitle}</p>
-                                <div className="book-flip-line" style={{ background: `linear-gradient(90deg, ${bookPages[previousPage].color}, #8B6D4D)` }} />
+                                <span className="book-flip-label" style={{ color: colors[previousPage] }}>{copy.hero.pages[previousPage].label}</span>
+                                <p className="book-flip-mini">{copy.hero.pages[previousPage].subtitle}</p>
+                                <div className="book-flip-line" style={{ background: `linear-gradient(90deg, ${colors[previousPage]}, #aaa899)` }} />
                             </div>
                             <div className="book-flip-face book-flip-face-back">
-                                <span className="book-flip-label" style={{ color: bookPages[targetPage].color }}>{bookPages[targetPage].tab}</span>
-                                <p className="book-flip-mini">{bookPages[targetPage].leftSubtitle}</p>
-                                <div className="book-flip-line" style={{ background: `linear-gradient(90deg, ${bookPages[targetPage].color}, #8B6D4D)` }} />
+                                <span className="book-flip-label" style={{ color: colors[targetPage] }}>{copy.hero.pages[targetPage].label}</span>
+                                <p className="book-flip-mini">{copy.hero.pages[targetPage].subtitle}</p>
+                                <div className="book-flip-line" style={{ background: `linear-gradient(90deg, ${colors[targetPage]}, #aaa899)` }} />
                             </div>
                             <div className="book-flip-edge" />
                         </div>
 
-                        <div
-                            style={{
-                                flex: '0 0 52%',
-                                background: '#FDFAF4',
-                                padding: '40px 36px 34px 40px',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                position: 'relative',
-                            }}
-                        >
-                            <span style={{
-                                fontFamily: 'Inter, sans-serif',
-                                fontSize: '10px',
-                                letterSpacing: '0.2em',
-                                fontWeight: '600',
-                                color: current.color,
-                                textTransform: 'uppercase',
-                                marginBottom: '10px',
-                            }}>
-                                {current.tab}
-                            </span>
-
-                            <h1 style={{
-                                fontFamily: 'Playfair Display, serif',
-                                fontSize: activePage === 0 ? '50px' : '42px',
-                                fontWeight: '700',
-                                lineHeight: '1.08',
-                                color: '#1E2E22',
-                                marginBottom: '12px',
-                            }}>
-                                {current.leftTitle[0]}<br />{current.leftTitle[1]}
+                        <div style={{ flex: '0 0 52%', background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(2px)', WebkitBackdropFilter: 'blur(2px)', padding: '40px 36px 34px 40px', display: 'flex', flexDirection: 'column', position: 'relative', borderTopLeftRadius: '20px', borderBottomLeftRadius: '20px' }}>
+                            <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 100% 0%, rgba(143,149,127,0.18), transparent 32%), radial-gradient(circle at 16% 14%, rgba(170,168,153,0.16), transparent 26%), radial-gradient(circle at 58% 88%, rgba(143,149,127,0.12), transparent 30%)', pointerEvents: 'none' }} />
+                            <div aria-hidden="true" style={{ position: 'absolute', top: '8px', right: '6px', opacity: 0.28 }}>
+                                <BotanicalSprig color="#8f957f" mirrored scale={0.75} />
+                            </div>
+                            <div aria-hidden="true" style={{ position: 'absolute', top: '70px', left: '-6px', opacity: 0.24, transform: 'rotate(-12deg)' }}>
+                                <BotanicalFlower color="#aaa899" />
+                            </div>
+                            <div aria-hidden="true" style={{ position: 'absolute', bottom: '10px', left: '10px', opacity: 0.22, transform: 'rotate(180deg)' }}>
+                                <BotanicalFlower color="#aaa899" />
+                            </div>
+                            <div aria-hidden="true" style={{ position: 'absolute', right: '-10px', top: '42%', opacity: 0.26, transform: 'scaleX(-1)' }}>
+                                <BotanicalSprig color="#cccdbf" scale={0.72} />
+                            </div>
+                            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', letterSpacing: '0.2em', fontWeight: '600', color: activeColor, textTransform: 'uppercase', marginBottom: '10px' }}>{current.label}</span>
+                            <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: activePage === 0 ? '50px' : '42px', fontWeight: '700', lineHeight: '1.08', color: '#2e3028', marginBottom: '12px', textAlign: activePage === 0 ? 'center' : 'left' }}>
+                                {activePage === 0 ? (
+                                    copy.hero.title
+                                ) : (
+                                    <>
+                                        {current.title[0]}
+                                        <br />
+                                        {current.title[1]}
+                                    </>
+                                )}
                             </h1>
 
-                            <p style={{
-                                fontFamily: 'Inter, sans-serif',
-                                fontSize: '11px',
-                                letterSpacing: '0.18em',
-                                fontWeight: '600',
-                                color: '#45634B',
-                                textTransform: 'uppercase',
-                                marginBottom: '8px',
-                            }}>
-                                {current.leftSubtitle}
-                            </p>
+                            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', letterSpacing: '0.18em', fontWeight: '600', color: '#6f7463', textTransform: 'uppercase', marginBottom: '8px' }}>{current.subtitle}</p>
 
-                            <div style={{ width: '52px', height: '2.5px', background: `linear-gradient(90deg, ${current.color}, #8B6D4D)`, borderRadius: '2px', marginBottom: '20px' }} />
+                            <div style={{ width: '52px', height: '2.5px', background: `linear-gradient(90deg, ${activeColor}, #aaa899)`, borderRadius: '2px', marginBottom: '20px' }} />
 
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
-                                {current.leftHighlights.map((item) => (
-                                    <div key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                                        <span style={{
-                                            width: '7px',
-                                            height: '7px',
-                                            borderRadius: '50%',
-                                            background: current.color,
-                                            marginTop: '6px',
-                                            flexShrink: 0,
-                                        }} />
-                                        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', lineHeight: '1.55', color: '#38533d' }}>{item}</p>
-                                    </div>
-                                ))}
+                            {activePage === 0 ? (
+                                <div style={{ display: 'grid', gap: '14px', marginBottom: '20px' }}>
+                                    <BookPageImage />
+                                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', lineHeight: '1.7', color: '#4a5344' }}>{copy.hero.intro}</p>
+                                </div>
+                            ) : activePage === 3 ? (
+                                <ProjectCarousel projects={projectCatalog} activeColor={activeColor} />
+                            ) : (
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: '11px',
+                                        marginBottom: '20px',
+                                    }}
+                                >
+                                    {current.highlights.map((item, itemIndex) => (
+                                        <div
+                                            key={item}
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'flex-start',
+                                                gap: '11px',
+                                                padding: '10px 12px',
+                                                borderRadius: '18px 8px 18px 8px',
+                                                background: 'rgba(255,255,255,0.34)',
+                                                border: `1px solid ${activeColor}30`,
+                                                boxShadow: '0 7px 16px rgba(49,57,43,0.07)',
+                                                backdropFilter: 'blur(4px)',
+                                                WebkitBackdropFilter: 'blur(4px)',
+                                            }}
+                                        >
+                                            <span
+                                                aria-hidden="true"
+                                                style={{
+                                                    width: '34px',
+                                                    height: '34px',
+                                                    borderRadius: '50%',
+                                                    background: `linear-gradient(145deg, ${activeColor}, #6f7863)`,
+                                                    color: '#fff',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    flexShrink: 0,
+                                                    boxShadow: `0 7px 14px ${activeColor}35`,
+                                                }}
+                                            >
+                                                {getHighlightIcon(activePage, item, itemIndex)}
+                                            </span>
+
+                                            <p
+                                                style={{
+                                                    fontFamily: 'Inter, sans-serif',
+                                                    fontSize: '12px',
+                                                    lineHeight: '1.55',
+                                                    color: '#3f493c',
+                                                    margin: 0,
+                                                }}
+                                            >
+                                                {item}
+                                            </p>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            <p style={{ fontFamily: 'Dancing Script, cursive', fontSize: '17px', color: '#6f7463', lineHeight: '1.5', marginTop: 'auto' }}>{current.tagline}</p>
+
+                            <div style={{ position: 'absolute', bottom: '18px', right: '12px', opacity: 0.18 }}>
+                                <BotanicalFlower color="#8f957f" />
                             </div>
 
-                            <p style={{
-                                fontFamily: 'Dancing Script, cursive',
-                                fontSize: '17px',
-                                color: '#45634B',
-                                lineHeight: '1.5',
-                                marginTop: 'auto',
-                            }}>
-                                {current.leftTagline}
-                            </p>
-
-                            <div style={{ position: 'absolute', bottom: '22px', right: '16px', opacity: 0.16 }}>
-                                <svg width="38" height="55" viewBox="0 0 60 80" fill="none">
-                                    <path d="M30 75C30 75 5 55 5 35C5 20 15 5 30 5C45 5 55 20 55 35C55 55 30 75 30 75Z" fill={current.color} />
-                                    <path d="M30 75V20" stroke="#2d4a35" strokeWidth="1.5" />
-                                </svg>
-                            </div>
-
-                            <div
-                                style={{
-                                    position: 'absolute',
-                                    right: 0,
-                                    top: '10%',
-                                    height: '80%',
-                                    width: '1px',
-                                    background: 'linear-gradient(180deg, transparent, rgba(69,99,75,0.2) 20%, rgba(69,99,75,0.2) 80%, transparent)',
-                                }}
-                            />
+                            <div style={{ position: 'absolute', right: 0, top: '10%', height: '80%', width: '1px', background: 'linear-gradient(180deg, transparent, rgba(143,149,127,0.22) 20%, rgba(143,149,127,0.22) 80%, transparent)' }} />
                         </div>
 
-                        <div
-                            style={{
-                                flex: '0 0 48%',
-                                position: 'relative',
-                                overflow: 'hidden',
-                                background: '#2d4a35',
-                            }}
-                        >
-                            <img
-                                src={heroImg}
-                                alt="Paisaje agrícola"
-                                style={{
-                                    position: 'absolute',
-                                    inset: 0,
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'cover',
-                                    objectPosition: 'center',
-                                }}
-                            />
-                            <div style={{ position: 'absolute', inset: 0, background: current.overlay }} />
+                        <div style={{ flex: '0 0 48%', position: 'relative', overflow: 'hidden', background: 'linear-gradient(180deg, #a9ada1 0%, #8f957f 100%)', borderTopRightRadius: '20px', borderBottomRightRadius: '20px' }}>
+                            <img src={heroImg} alt="Paisaje agrícola" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
+                            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(143,149,127,0.22) 0%, rgba(170,168,153,0.06) 60%, rgba(143,149,127,0.16) 100%)' }} />
 
-                            <div
-                                aria-hidden="true"
-                                style={{
-                                    position: 'absolute',
-                                    inset: 0,
-                                    pointerEvents: 'none',
-                                }}
-                            >
-                                <div
-                                    style={{
-                                        position: 'absolute',
-                                        inset: 0,
-                                        background: 'radial-gradient(circle at 16% 14%, rgba(198,224,188,0.2), transparent 44%), radial-gradient(circle at 82% 16%, rgba(173,207,165,0.17), transparent 36%), linear-gradient(180deg, rgba(250,255,246,0.04), rgba(16,39,25,0.2))',
-                                    }}
-                                />
-
-                                <div
-                                    className="float-slow"
-                                    style={{
-                                        position: 'absolute',
-                                        top: '8%',
-                                        left: '5%',
-                                        right: '5%',
-                                        opacity: 0.33,
-                                        animationDelay: '1.1s',
-                                    }}
-                                >
-                                    <svg width="100%" height="170" viewBox="0 0 560 170" preserveAspectRatio="none" fill="none">
-                                        <path d="M42 152C42 125 42 100 42 78" stroke="rgba(220,238,198,0.42)" strokeWidth="1.5" strokeLinecap="round" />
-                                        <path d="M42 88C53 77 63 65 70 52" stroke="rgba(220,238,198,0.4)" strokeWidth="1.2" strokeLinecap="round" />
-                                        <path d="M42 102C30 91 21 80 15 68" stroke="rgba(220,238,198,0.38)" strokeWidth="1.2" strokeLinecap="round" />
-                                        <path d="M13 71C24 55 41 47 58 51C73 54 84 66 85 82C70 84 56 90 44 100C30 93 18 84 13 71Z" fill="rgba(220,238,198,0.15)" />
-
-                                        <path d="M172 156C172 122 172 97 172 63" stroke="rgba(220,238,198,0.48)" strokeWidth="1.7" strokeLinecap="round" />
-                                        <path d="M172 74C184 63 197 48 208 30" stroke="rgba(220,238,198,0.44)" strokeWidth="1.3" strokeLinecap="round" />
-                                        <path d="M172 90C157 75 145 60 133 46" stroke="rgba(220,238,198,0.42)" strokeWidth="1.3" strokeLinecap="round" />
-                                        <path d="M128 50C142 31 163 22 186 27C207 32 224 50 227 74C205 80 188 90 173 106C156 95 140 79 128 50Z" fill="rgba(220,238,198,0.16)" />
-
-                                        <path d="M316 158C316 126 316 95 316 68" stroke="rgba(220,238,198,0.54)" strokeWidth="1.9" strokeLinecap="round" />
-                                        <path d="M316 78C332 63 345 46 356 26" stroke="rgba(220,238,198,0.5)" strokeWidth="1.4" strokeLinecap="round" />
-                                        <path d="M316 96C301 81 286 64 273 50" stroke="rgba(220,238,198,0.48)" strokeWidth="1.4" strokeLinecap="round" />
-                                        <path d="M266 54C284 30 311 18 338 25C366 31 387 55 390 86C362 91 340 103 319 123C298 110 278 90 266 54Z" fill="rgba(220,238,198,0.18)" />
-
-                                        <path d="M466 153C466 123 466 98 466 73" stroke="rgba(220,238,198,0.46)" strokeWidth="1.6" strokeLinecap="round" />
-                                        <path d="M466 82C477 72 488 59 498 46" stroke="rgba(220,238,198,0.42)" strokeWidth="1.2" strokeLinecap="round" />
-                                        <path d="M466 95C455 84 444 72 434 61" stroke="rgba(220,238,198,0.4)" strokeWidth="1.2" strokeLinecap="round" />
-                                        <path d="M432 64C445 46 463 38 482 41C502 45 516 60 519 79C500 83 485 92 469 104C455 96 442 83 432 64Z" fill="rgba(220,238,198,0.14)" />
-                                    </svg>
+                            <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+                                <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 16% 14%, rgba(255,255,255,0.18), transparent 44%), radial-gradient(circle at 82% 16%, rgba(255,255,255,0.12), transparent 36%), linear-gradient(180deg, rgba(250,255,246,0.03), rgba(17,22,16,0.16))' }} />
+                                <div style={{ position: 'absolute', inset: 0, opacity: 0.34 }}>
+                                    <BotanicalSprig color="#cccdbf" mirrored scale={1.25} style={{ position: 'absolute', top: '10%', left: '-18px' }} />
+                                    <BotanicalSprig color="#aaa899" scale={1.16} style={{ position: 'absolute', top: '16%', right: '-20px' }} />
+                                    <BotanicalFlower color="#8f957f" style={{ position: 'absolute', bottom: '16%', left: '12%' }} />
+                                    <BotanicalFlower color="#cccdbf" style={{ position: 'absolute', top: '20%', right: '14%' }} />
+                                    <BotanicalSprig color="#cccdbf" scale={0.9} style={{ position: 'absolute', left: '20%', bottom: '-14px', transform: 'rotate(-8deg)' }} />
+                                    <BotanicalSprig color="#8f957f" mirrored scale={0.92} style={{ position: 'absolute', right: '20%', top: '-12px', transform: 'rotate(8deg)' }} />
+                                    <BotanicalSprig color="#d5d0c2" scale={0.8} style={{ position: 'absolute', left: '8%', top: '52%', transform: 'rotate(-6deg)' }} />
+                                    <BotanicalFlower color="#d5d0c2" style={{ position: 'absolute', right: '8%', bottom: '22%', transform: 'scale(0.85)' }} />
                                 </div>
-
-                                <div
-                                    className="float-slow"
-                                    style={{
-                                        position: 'absolute',
-                                        top: '16%',
-                                        right: '8%',
-                                        opacity: 0.28,
-                                        animationDelay: '2.4s',
-                                    }}
-                                >
-                                    <svg width="120" height="140" viewBox="0 0 120 140" fill="none">
-                                        <path d="M60 131C60 131 59 95 60 52" stroke="rgba(220,238,198,0.52)" strokeWidth="1.8" strokeLinecap="round" />
-                                        <path d="M60 63C71 58 82 49 92 37" stroke="rgba(220,238,198,0.46)" strokeWidth="1.2" strokeLinecap="round" />
-                                        <path d="M60 76C48 68 37 57 27 46" stroke="rgba(220,238,198,0.46)" strokeWidth="1.2" strokeLinecap="round" />
-                                        <path d="M60 90C71 84 82 76 92 66" stroke="rgba(220,238,198,0.42)" strokeWidth="1.2" strokeLinecap="round" />
-                                        <path d="M60 103C49 96 39 88 29 80" stroke="rgba(220,238,198,0.42)" strokeWidth="1.2" strokeLinecap="round" />
-                                        <path d="M34 44C43 31 56 24 70 24C84 24 97 31 106 44C93 50 81 60 70 73C55 64 43 54 34 44Z" fill="rgba(220,238,198,0.16)" />
-                                    </svg>
-                                </div>
-
-                                <div
-                                    className="float-slow"
-                                    style={{
-                                        position: 'absolute',
-                                        left: '0',
-                                        right: '0',
-                                        bottom: '0',
-                                        opacity: 0.36,
-                                        animationDelay: '0.7s',
-                                    }}
-                                >
+                                <div className="float-slow" style={{ position: 'absolute', left: '0', right: '0', bottom: '0', opacity: 0.42, animationDelay: '0.7s' }}>
                                     <svg width="100%" height="132" viewBox="0 0 520 132" preserveAspectRatio="none" fill="none">
-                                        <path d="M0 102C46 90 88 83 134 85C180 87 216 99 262 102C306 105 344 94 389 86C435 78 474 80 520 91V132H0V102Z" fill="rgba(10,28,18,0.52)" />
-
-                                        <path d="M42 103C42 103 44 78 42 58" stroke="rgba(229,244,206,0.52)" strokeWidth="1.4" strokeLinecap="round" />
-                                        <path d="M42 67C51 61 59 53 65 44" stroke="rgba(229,244,206,0.48)" strokeWidth="1.1" strokeLinecap="round" />
-                                        <path d="M42 79C33 72 25 65 20 57" stroke="rgba(229,244,206,0.46)" strokeWidth="1.1" strokeLinecap="round" />
-
-                                        <path d="M126 97C126 97 127 73 126 47" stroke="rgba(229,244,206,0.56)" strokeWidth="1.5" strokeLinecap="round" />
-                                        <path d="M126 58C136 50 146 40 154 29" stroke="rgba(229,244,206,0.5)" strokeWidth="1.2" strokeLinecap="round" />
-                                        <path d="M126 71C115 61 106 51 99 41" stroke="rgba(229,244,206,0.48)" strokeWidth="1.2" strokeLinecap="round" />
-
-                                        <path d="M214 104C214 104 214 80 214 60" stroke="rgba(229,244,206,0.53)" strokeWidth="1.4" strokeLinecap="round" />
-                                        <path d="M214 71C223 64 231 57 238 49" stroke="rgba(229,244,206,0.47)" strokeWidth="1.1" strokeLinecap="round" />
-                                        <path d="M214 82C205 75 198 69 191 63" stroke="rgba(229,244,206,0.45)" strokeWidth="1.1" strokeLinecap="round" />
-
-                                        <path d="M302 106C302 106 303 79 302 51" stroke="rgba(229,244,206,0.57)" strokeWidth="1.5" strokeLinecap="round" />
-                                        <path d="M302 62C313 53 323 43 331 31" stroke="rgba(229,244,206,0.5)" strokeWidth="1.2" strokeLinecap="round" />
-                                        <path d="M302 76C292 66 282 56 274 47" stroke="rgba(229,244,206,0.48)" strokeWidth="1.2" strokeLinecap="round" />
-
-                                        <path d="M390 99C390 99 390 76 390 58" stroke="rgba(229,244,206,0.53)" strokeWidth="1.4" strokeLinecap="round" />
-                                        <path d="M390 67C399 60 407 53 413 46" stroke="rgba(229,244,206,0.47)" strokeWidth="1.1" strokeLinecap="round" />
-                                        <path d="M390 78C382 72 374 66 367 60" stroke="rgba(229,244,206,0.45)" strokeWidth="1.1" strokeLinecap="round" />
-
-                                        <path d="M476 95C476 95 477 70 476 43" stroke="rgba(229,244,206,0.56)" strokeWidth="1.5" strokeLinecap="round" />
-                                        <path d="M476 54C486 46 495 36 503 26" stroke="rgba(229,244,206,0.5)" strokeWidth="1.2" strokeLinecap="round" />
-                                        <path d="M476 66C466 57 457 49 449 41" stroke="rgba(229,244,206,0.48)" strokeWidth="1.2" strokeLinecap="round" />
+                                        <path d="M0 102C46 90 88 83 134 85C180 87 216 99 262 102C306 105 344 94 389 86C435 78 474 80 520 91V132H0V102Z" fill="rgba(143,149,127,0.32)" />
+                                        <path d="M42 103C42 103 44 78 42 58" stroke="rgba(250,250,244,0.58)" strokeWidth="1.6" strokeLinecap="round" />
+                                        <path d="M42 67C51 61 59 53 65 44" stroke="rgba(250,250,244,0.52)" strokeWidth="1.3" strokeLinecap="round" />
+                                        <path d="M126 97C126 97 127 73 126 47" stroke="rgba(250,250,244,0.62)" strokeWidth="1.7" strokeLinecap="round" />
+                                        <path d="M126 58C136 50 146 40 154 29" stroke="rgba(250,250,244,0.56)" strokeWidth="1.35" strokeLinecap="round" />
+                                        <path d="M214 104C214 104 214 80 214 60" stroke="rgba(250,250,244,0.58)" strokeWidth="1.6" strokeLinecap="round" />
+                                        <path d="M214 71C223 64 231 57 238 49" stroke="rgba(250,250,244,0.51)" strokeWidth="1.3" strokeLinecap="round" />
+                                        <path d="M302 106C302 106 303 79 302 51" stroke="rgba(250,250,244,0.62)" strokeWidth="1.7" strokeLinecap="round" />
+                                        <path d="M302 62C313 53 323 43 331 31" stroke="rgba(250,250,244,0.56)" strokeWidth="1.35" strokeLinecap="round" />
+                                        <path d="M390 99C390 99 390 76 390 58" stroke="rgba(250,250,244,0.58)" strokeWidth="1.6" strokeLinecap="round" />
+                                        <path d="M390 67C399 60 407 53 413 46" stroke="rgba(250,250,244,0.51)" strokeWidth="1.3" strokeLinecap="round" />
+                                        <path d="M476 95C476 95 477 70 476 43" stroke="rgba(250,250,244,0.62)" strokeWidth="1.7" strokeLinecap="round" />
+                                        <path d="M476 54C486 46 495 36 503 26" stroke="rgba(250,250,244,0.56)" strokeWidth="1.35" strokeLinecap="round" />
                                     </svg>
                                 </div>
                             </div>
 
-                            <div
-                                style={{
-                                    position: 'relative',
-                                    zIndex: 1,
-                                    padding: '34px 30px',
-                                    height: '100%',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    justifyContent: 'space-between',
-                                }}
-                            >
+                            <div style={{ position: 'relative', zIndex: 1, padding: '34px 30px', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                                 <div>
-                                    <span style={{
-                                        fontFamily: 'Playfair Display, serif',
-                                        fontSize: '64px',
-                                        lineHeight: '0.6',
-                                        color: 'rgba(255,255,255,0.68)',
-                                        marginBottom: '8px',
-                                        display: 'block',
-                                    }}>"</span>
-                                    <p style={{
-                                        fontFamily: 'Playfair Display, serif',
-                                        fontStyle: 'italic',
-                                        fontSize: '15px',
-                                        lineHeight: '1.65',
-                                        color: 'rgba(255,255,255,0.92)',
-                                        maxWidth: '230px',
-                                    }}>
-                                        {current.quote}
-                                    </p>
+                                    <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '64px', lineHeight: '0.6', color: 'rgba(248,248,241,0.88)', marginBottom: '8px', display: 'block' }}>"</span>
+                                    <p style={{ fontFamily: 'Playfair Display, serif', fontStyle: 'italic', fontSize: '15px', lineHeight: '1.65', color: 'rgba(248,248,241,0.99)', maxWidth: '230px' }}>{current.quote}</p>
                                 </div>
 
-                                <div style={{
-                                    background: 'rgba(0,0,0,0.18)',
-                                    border: '1px solid rgba(255,255,255,0.18)',
-                                    borderRadius: '10px',
-                                    padding: '14px 14px 10px',
-                                }}>
-                                    <p style={{
-                                        fontFamily: 'Inter, sans-serif',
-                                        fontSize: '10px',
-                                        letterSpacing: '0.14em',
-                                        textTransform: 'uppercase',
-                                        color: 'rgba(255,255,255,0.72)',
-                                        marginBottom: '8px',
-                                    }}>Datos relevantes</p>
-                                    {current.rightFacts.map((fact) => (
-                                        <p key={fact} style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'white', marginBottom: '5px', lineHeight: '1.35' }}>
-                                            • {fact}
-                                        </p>
+                                <div style={{ background: 'rgba(127,138,111,0.26)', border: '1px solid rgba(248,248,241,0.24)', borderRadius: '20px', padding: '14px 14px 10px', backdropFilter: 'blur(6px)' }}>
+                                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(248,248,241,0.9)', marginBottom: '8px' }}>Datos relevantes</p>
+                                    {current.facts.map((fact) => (
+                                        <p key={fact} style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(248,248,241,1)', marginBottom: '5px', lineHeight: '1.35' }}>• {fact}</p>
                                     ))}
+                                </div>
+
+                                <div aria-hidden="true" style={{ position: 'absolute', right: '-2px', top: '34%', opacity: 0.24 }}>
+                                    <BotanicalFlower color="#cccdbf" />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div
-                    ref={tabsRef}
-                    className="reveal-right reveal-delay-2"
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '8px',
-                        marginLeft: '-2px',
-                        justifyContent: 'center',
-                        zIndex: 4,
-                    }}
-                >
-                    {bookPages.map((tab, i) => (
+                <div ref={tabsRef} className="reveal-right reveal-delay-2" style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginLeft: '-6px', justifyContent: 'center', zIndex: 4 }}>
+                    {copy.hero.pages.map((tab, i) => (
                         <button
-                            key={tab.tab}
-                            aria-label={`Ir a página ${tab.tab}`}
+                            key={tab.label}
+                            aria-label={`Ir a página ${tab.label}`}
                             onClick={() => handlePageChange(i)}
                             style={{
-                                width: i === activePage ? '50px' : '40px',
-                                height: '56px',
-                                borderRadius: '0 10px 10px 0',
-                                background: tab.color,
+                                width: i === activePage ? '62px' : '56px',
+                                height: i === activePage ? '62px' : '56px',
+                                borderRadius: '999px',
+                                background: colors[i],
                                 border: i === activePage ? '1px solid rgba(255,255,255,0.32)' : '1px solid rgba(20,34,25,0.12)',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 cursor: 'pointer',
                                 opacity: i === activePage ? 1 : 0.88,
-                                transform: i === activePage ? 'translateX(6px) scale(1.02)' : 'translateX(0)',
+                                transform: i === activePage ? 'translateX(10px) scale(1.03)' : 'translateX(0)',
                                 boxShadow: i === activePage
-                                    ? `0 0 0 2px rgba(255,255,255,0.22), 0 0 0 6px ${tab.color}35, 0 12px 22px rgba(20,34,25,0.3), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 -1px 0 rgba(0,0,0,0.22)`
+                                    ? `0 0 0 2px rgba(255,255,255,0.22), 0 0 0 6px ${colors[i]}35, 0 12px 22px rgba(20,34,25,0.3), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 -1px 0 rgba(0,0,0,0.22)`
                                     : '0 7px 14px rgba(20,34,25,0.2), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -1px 0 rgba(0,0,0,0.18)',
                                 filter: i === activePage ? 'none' : 'saturate(0.78) brightness(0.92)',
                                 position: 'relative',
                                 overflow: 'hidden',
                                 transition: 'opacity 0.2s, transform 0.2s, width 0.2s, box-shadow 0.2s, border 0.2s, filter 0.2s',
                             }}
-                            onMouseEnter={e => {
+                            onMouseEnter={(event) => {
                                 if (i !== activePage) {
-                                    e.currentTarget.style.opacity = '1';
-                                    e.currentTarget.style.transform = 'translateX(2px)';
-                                    e.currentTarget.style.filter = 'saturate(0.92) brightness(0.98)';
+                                    event.currentTarget.style.opacity = '1';
+                                    event.currentTarget.style.transform = 'translateX(3px)';
+                                    event.currentTarget.style.filter = 'saturate(0.92) brightness(0.98)';
                                 }
                             }}
-                            onMouseLeave={e => {
+                            onMouseLeave={(event) => {
                                 if (i !== activePage) {
-                                    e.currentTarget.style.opacity = '0.88';
-                                    e.currentTarget.style.transform = 'translateX(0)';
-                                    e.currentTarget.style.filter = 'saturate(0.78) brightness(0.92)';
+                                    event.currentTarget.style.opacity = '0.88';
+                                    event.currentTarget.style.transform = 'translateX(0)';
+                                    event.currentTarget.style.filter = 'saturate(0.78) brightness(0.92)';
                                 }
                             }}
                         >
-                            <span
-                                aria-hidden="true"
-                                style={{
-                                    position: 'absolute',
-                                    left: 0,
-                                    top: 0,
-                                    bottom: 0,
-                                    width: '5px',
-                                    background: 'rgba(0,0,0,0.2)',
-                                }}
-                            />
-                            <span
-                                aria-hidden="true"
-                                style={{
-                                    position: 'absolute',
-                                    inset: 0,
-                                    background: 'linear-gradient(180deg, rgba(255,255,255,0.2), rgba(255,255,255,0) 40%, rgba(0,0,0,0.12))',
-                                }}
-                            />
-                            <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                {tab.icon}
-                            </span>
+                            <span aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(255,255,255,0.2), rgba(255,255,255,0) 40%, rgba(0,0,0,0.12))' }} />
+                            <span style={{ position: 'relative', zIndex: 1, width: '38px', height: '38px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.28)', background: 'rgba(0,0,0,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.22)' }}>{tabIcons[i] || icons.leaf}</span>
                         </button>
                     ))}
                 </div>

@@ -1,203 +1,381 @@
-import useReveal from '../../hooks/useReveal';
+import Container from '../common/Container';
+import Card from '../common/Card';
 import SectionTitle from '../common/SectionTitle';
+import EditableText from '../admin/EditableText';
 
-const education = [
-    {
-        degree: 'Doctorado en Territorio, Patrimonio y Medio Ambiente',
-        spec: 'Especialidad: Agroecología',
-        institution: 'Universidad de Granada',
-        location: 'Granada, España',
-        period: '2018 – 2023',
-        desc: 'Tesis doctoral centrada en la caracterización de sistemas agroecológicos en territorios periurbanos y la valorización del conocimiento local campesino. Mención Internacional.',
-        icon: (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-            </svg>
-        ),
-        color: '#2d4a35',
-        tag: 'Doctorado',
-    },
-    {
-        degree: 'Máster en Agricultura y Ganadería Ecológica',
-        spec: '',
-        institution: 'Universidad Pablo de Olavide (UPO)',
-        location: 'Sevilla, España',
-        period: '2015 – 2017',
-        desc: 'Formación avanzada en manejo ecológico de sistemas agropecuarios, certificación ecológica, biodiversidad agraria y políticas agroambientales europeas.',
-        icon: (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-                <path d="M6 12v5c0 1.657 2.686 3 6 3s6-1.343 6-3v-5" />
-            </svg>
-        ),
-        color: '#45634B',
-        tag: 'Máster',
-    },
-    {
-        degree: 'Ingeniería Agronómica',
-        spec: 'Mención: Gestión y Conservación del Medio Natural',
-        institution: 'Universidad de Córdoba',
-        location: 'Córdoba, España',
-        period: '2009 – 2015',
-        desc: 'Formación integral en ciencias agrarias, producción vegetal y animal, gestión del agua, edafología y planificación territorial sostenible.',
-        icon: (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 22s8-6 8-13A8 8 0 0 0 4 9c0 7 8 13 8 13z" />
-                <path d="M12 22V10" />
-            </svg>
-        ),
-        color: '#5C7A50',
-        tag: 'Grado',
-    },
-    {
-        degree: 'Curso Internacional de Agroecología Tropical',
-        spec: '',
-        institution: 'CATIE – Centro Agronómico Tropical de Investigación y Enseñanza',
-        location: 'Turrialba, Costa Rica',
-        period: '2016',
-        desc: 'Programa intensivo de tres meses sobre diseño de sistemas agroforestales, agricultura campesina y transición agroecológica en contextos tropicales.',
-        icon: (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2" />
-                <path d="M3 9h18M9 21V9" />
-            </svg>
-        ),
-        color: '#8B6D4D',
-        tag: 'Curso',
-    },
-];
+import { useEditor } from '../../context/EditorContext';
 
-const languages = [
-    { lang: 'Español', level: 'Nativo', pct: 100 },
-    { lang: 'Inglés', level: 'C1 – Avanzado', pct: 85 },
-    { lang: 'Francés', level: 'B1 – Intermedio', pct: 60 },
-    { lang: 'Portugués', level: 'B2 – Intermedio-Alto', pct: 72 },
-];
+function TimelineDot({ index }) {
+    const labels = ['D', 'M', 'I'];
 
-export default function Education() {
-    const titleRef = useReveal({ threshold: 0.2 });
+    const backgrounds = [
+        'linear-gradient(135deg, rgba(73,99,77,0.16), rgba(73,99,77,0.28))',
+        'linear-gradient(135deg, rgba(145,166,122,0.18), rgba(145,166,122,0.32))',
+        'linear-gradient(135deg, rgba(181,143,104,0.18), rgba(181,143,104,0.3))',
+    ];
 
     return (
-        <section id="formacion" style={{ padding: '80px 48px', background: 'transparent', position: 'relative' }}>
-            <div ref={titleRef} className="reveal">
-                <SectionTitle
-                    title="Formación académica"
-                    subtitle="Un recorrido multidisciplinar entre la agronomía, la ecología y el pensamiento territorial."
-                />
-            </div>
+        <div
+            aria-hidden="true"
+            style={{
+                width: '54px',
+                height: '54px',
+                borderRadius: '18px',
 
-            {/* Timeline */}
-            <div style={{ position: 'relative', paddingLeft: '32px', maxWidth: '820px' }}>
-                {/* Línea vertical */}
-                <div style={{
-                    position: 'absolute',
-                    left: '16px',
-                    top: '8px',
-                    bottom: '8px',
-                    width: '2px',
-                    background: 'linear-gradient(180deg, var(--green) 0%, rgba(69,99,75,0.15) 100%)',
-                    borderRadius: '2px',
-                }} />
+                background:
+                    backgrounds[index] ??
+                    backgrounds[backgrounds.length - 1],
 
-                {education.map((item, i) => (
-                    <EducationItem key={i} item={item} index={i} />
-                ))}
-            </div>
+                border: '1px solid rgba(73,99,77,0.12)',
 
-            {/* Idiomas */}
-            <div style={{ marginTop: '64px', maxWidth: '820px' }}>
-                <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '24px', color: '#1E2E22', marginBottom: '28px' }}>Idiomas</h3>
-                <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
-                    {languages.map((l) => (
-                        <div key={l.lang} style={{
-                            flex: '1 1 160px',
-                            background: 'var(--paper)',
-                            border: '1px solid rgba(69,99,75,0.15)',
-                            borderRadius: '12px',
-                            padding: '20px',
-                            boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
-                        }}>
-                            <p style={{ fontFamily: 'Playfair Display, serif', fontSize: '17px', color: '#1E2E22', marginBottom: '4px' }}>{l.lang}</p>
-                            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'var(--green)', marginBottom: '12px', fontWeight: '500' }}>{l.level}</p>
-                            <div style={{ height: '5px', background: 'rgba(69,99,75,0.12)', borderRadius: '10px', overflow: 'hidden' }}>
-                                <div style={{ height: '100%', width: `${l.pct}%`, background: 'linear-gradient(90deg, var(--green), #7E9C74)', borderRadius: '10px' }} />
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        </section>
+                display: 'grid',
+                placeItems: 'center',
+
+                color: 'var(--ink)',
+
+                fontFamily:
+                    'Inter, system-ui, sans-serif',
+
+                fontSize: '0.76rem',
+                fontWeight: '700',
+                letterSpacing: '0.1em',
+
+                flexShrink: 0,
+            }}
+        >
+            {labels[index] ?? String(index + 1)}
+        </div>
     );
 }
 
-function EducationItem({ item, index }) {
-    const ref = useReveal({ threshold: 0.15 });
-    return (
-        <div
-            ref={ref}
-            className="reveal"
-            style={{ marginBottom: '40px', paddingLeft: '32px', position: 'relative', animationDelay: `${index * 0.15}s` }}
-        >
-            {/* Nodo en la línea */}
-            <div style={{
-                position: 'absolute',
-                left: '-40px',
-                top: '10px',
-                width: '36px',
-                height: '36px',
-                borderRadius: '50%',
-                background: item.color,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: `0 4px 12px ${item.color}50`,
-                zIndex: 1,
-            }}>
-                {item.icon}
-            </div>
+export default function Education() {
+    const { content } = useEditor();
 
-            {/* Tarjeta */}
-            <div style={{
-                background: 'var(--paper)',
-                border: '1px solid rgba(69,99,75,0.12)',
-                borderRadius: '14px',
-                padding: '24px 28px',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
-                transition: 'box-shadow 0.2s',
+    const formation = content?.formation ?? {};
+
+    const degreeItems = Array.isArray(formation.items)
+        ? formation.items
+        : [];
+
+    const languageSkills = Array.isArray(formation.languages)
+        ? formation.languages
+        : [];
+
+    return (
+        <section
+            id="formacion"
+            style={{
+                padding: '18px 0 80px',
             }}
-                onMouseEnter={e => e.currentTarget.style.boxShadow = '0 8px 30px rgba(45,74,53,0.12)'}
-                onMouseLeave={e => e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.06)'}
-            >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8px', marginBottom: '8px' }}>
-                    <div>
-                        <span style={{
-                            fontFamily: 'Inter, sans-serif',
-                            fontSize: '10px',
-                            fontWeight: '600',
-                            letterSpacing: '0.1em',
-                            textTransform: 'uppercase',
-                            color: 'white',
-                            background: item.color,
-                            padding: '3px 10px',
-                            borderRadius: '20px',
-                            marginBottom: '8px',
-                            display: 'inline-block',
-                        }}>{item.tag}</span>
-                        <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '18px', color: '#1E2E22', lineHeight: '1.3', marginTop: '6px' }}>
-                            {item.degree}
-                        </h3>
-                        {item.spec && <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'var(--green)', marginTop: '3px', fontWeight: '500' }}>{item.spec}</p>}
-                    </div>
-                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(45,45,45,0.5)', whiteSpace: 'nowrap', marginTop: '4px' }}>{item.period}</span>
+        >
+            <Container>
+                <SectionTitle
+                    titlePath="formation.title"
+                    subtitlePath="formation.subtitle"
+                />
+
+                {/* Grados académicos */}
+                <div
+                    style={{
+                        display: 'grid',
+                        gap: '18px',
+                    }}
+                >
+                    {degreeItems.map((item, index) => (
+                        <Card
+                            key={`formation-degree-${index}`}
+                            style={{
+                                padding: '22px',
+
+                                display: 'grid',
+                                gridTemplateColumns:
+                                    'auto minmax(0, 1fr)',
+
+                                gap: '16px',
+                                alignItems: 'start',
+                            }}
+                        >
+                            <TimelineDot index={index} />
+
+                            <div>
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        justifyContent:
+                                            'space-between',
+                                        gap: '12px',
+                                        flexWrap: 'wrap',
+                                        alignItems: 'baseline',
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            minWidth: 0,
+                                        }}
+                                    >
+                                        <EditableText
+                                            path={`formation.items.${index}.badge`}
+                                            style={{
+                                                fontFamily:
+                                                    'Inter, system-ui, sans-serif',
+                                                fontSize: '0.72rem',
+                                                letterSpacing:
+                                                    '0.18em',
+                                                textTransform:
+                                                    'uppercase',
+                                                color: 'var(--green)',
+                                            }}
+                                        />
+
+                                        <EditableText
+                                            as="h3"
+                                            path={`formation.items.${index}.title`}
+                                            style={{
+                                                fontFamily:
+                                                    'Playfair Display, Georgia, serif',
+                                                fontSize: '1.4rem',
+                                                lineHeight: '1.3',
+                                                color: 'var(--ink)',
+                                                marginTop: '6px',
+                                            }}
+                                        />
+                                    </div>
+
+                                    <EditableText
+                                        as="span"
+                                        path={`formation.items.${index}.year`}
+                                        style={{
+                                            fontFamily:
+                                                'Inter, system-ui, sans-serif',
+                                            fontSize: '0.8rem',
+                                            color: 'var(--muted)',
+                                            flexShrink: 0,
+                                        }}
+                                    />
+                                </div>
+
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'baseline',
+                                        flexWrap: 'wrap',
+                                        gap: '5px',
+                                        marginTop: '10px',
+
+                                        fontFamily:
+                                            'Inter, system-ui, sans-serif',
+
+                                        fontSize: '0.92rem',
+                                        color: 'var(--muted)',
+                                    }}
+                                >
+                                    <EditableText
+                                        as="span"
+                                        path={`formation.items.${index}.institution`}
+                                        style={{
+                                            fontFamily: 'inherit',
+                                            fontSize: 'inherit',
+                                            color: 'inherit',
+                                        }}
+                                    />
+
+                                    <span aria-hidden="true">·</span>
+
+                                    <EditableText
+                                        as="span"
+                                        path={`formation.items.${index}.note`}
+                                        multiline
+                                        style={{
+                                            fontFamily: 'inherit',
+                                            fontSize: 'inherit',
+                                            lineHeight: '1.6',
+                                            color: 'inherit',
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        </Card>
+                    ))}
                 </div>
-                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: 'rgba(45,45,45,0.65)', marginBottom: '10px' }}>
-                    📍 {item.institution} · {item.location}
-                </p>
-                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: 'rgba(45,45,45,0.7)', lineHeight: '1.7' }}>
-                    {item.desc}
-                </p>
-            </div>
-        </div>
+
+                <div
+                    style={{
+                        display: 'grid',
+                        gap: '22px',
+
+                        gridTemplateColumns:
+                            'minmax(0, 1.2fr) minmax(320px, 0.8fr)',
+
+                        marginTop: '28px',
+                    }}
+                >
+                    {/* Idiomas */}
+                    <Card
+                        style={{
+                            padding: '24px',
+                        }}
+                    >
+                        <EditableText
+                            path="formation.languagesTitle"
+                            style={{
+                                fontFamily:
+                                    'Inter, system-ui, sans-serif',
+                                fontSize: '0.72rem',
+                                letterSpacing: '0.18em',
+                                textTransform: 'uppercase',
+                                color: 'var(--green)',
+                            }}
+                        />
+
+                        <div
+                            style={{
+                                display: 'grid',
+                                gap: '14px',
+                                marginTop: '16px',
+                            }}
+                        >
+                            {languageSkills.map((item, index) => (
+                                <div
+                                    key={`formation-language-${index}`}
+                                    style={{
+                                        padding: '16px 18px',
+                                        borderRadius: '20px',
+
+                                        background:
+                                            'rgba(255,255,255,0.72)',
+
+                                        border:
+                                            '1px solid rgba(73,99,77,0.1)',
+
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent:
+                                            'space-between',
+
+                                        gap: '14px',
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            flex: 1,
+                                            minWidth: 0,
+                                        }}
+                                    >
+                                        <EditableText
+                                            path={`formation.languages.${index}.lang`}
+                                            style={{
+                                                fontFamily:
+                                                    'Playfair Display, Georgia, serif',
+                                                fontSize: '1.05rem',
+                                                color: 'var(--ink)',
+                                            }}
+                                        />
+
+                                        <EditableText
+                                            path={`formation.languages.${index}.level`}
+                                            style={{
+                                                fontFamily:
+                                                    'Inter, system-ui, sans-serif',
+                                                fontSize: '0.82rem',
+                                                color: 'var(--muted)',
+                                                marginTop: '4px',
+                                            }}
+                                        />
+                                    </div>
+
+                                    <EditableText
+                                        as="span"
+                                        path={`formation.languages.${index}.code`}
+                                        style={{
+                                            padding: '8px 12px',
+                                            borderRadius: '999px',
+
+                                            background:
+                                                'rgba(73,99,77,0.08)',
+
+                                            color: 'var(--green)',
+
+                                            fontFamily:
+                                                'Inter, system-ui, sans-serif',
+
+                                            fontSize: '0.78rem',
+                                            fontWeight: '600',
+
+                                            flexShrink: 0,
+                                        }}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </Card>
+
+                    {/* Criterio de lectura */}
+                    <Card
+                        style={{
+                            padding: '24px',
+
+                            background:
+                                'linear-gradient(135deg, rgba(73,99,77,0.94), rgba(145,166,122,0.9))',
+
+                            color: 'white',
+
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                        }}
+                    >
+                        <div>
+                            <EditableText
+                                path="formation.reading.eyebrow"
+                                style={{
+                                    fontFamily:
+                                        'Inter, system-ui, sans-serif',
+
+                                    fontSize: '0.72rem',
+                                    letterSpacing: '0.18em',
+                                    textTransform: 'uppercase',
+
+                                    color:
+                                        'rgba(255,255,255,0.68)',
+                                }}
+                            />
+
+                            <EditableText
+                                as="h3"
+                                path="formation.reading.title"
+                                multiline
+                                style={{
+                                    fontFamily:
+                                        'Playfair Display, Georgia, serif',
+
+                                    fontSize: '1.55rem',
+                                    lineHeight: '1.3',
+
+                                    color: '#ffffff',
+                                    marginTop: '10px',
+                                }}
+                            />
+                        </div>
+
+                        <EditableText
+                            path="formation.reading.description"
+                            multiline
+                            style={{
+                                fontFamily:
+                                    'Inter, system-ui, sans-serif',
+
+                                fontSize: '0.95rem',
+                                lineHeight: '1.8',
+
+                                color:
+                                    'rgba(255,255,255,0.84)',
+
+                                marginTop: '18px',
+                            }}
+                        />
+                    </Card>
+                </div>
+            </Container>
+        </section>
     );
 }

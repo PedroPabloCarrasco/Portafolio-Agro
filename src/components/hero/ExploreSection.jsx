@@ -1,210 +1,907 @@
-import useReveal from '../../hooks/useReveal';
-import { useRef, useEffect } from 'react';
+import Container from '../common/Container';
+import Card from '../common/Card';
+import SectionTitle from '../common/SectionTitle';
+import { degreeItems, languageSkills } from '../../data/profile';
+import { useLanguage } from '../../context/LanguageContext';
 
-const delayClasses = ['', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3', 'reveal-delay-4'];
+const contentByLanguage = {
+    Español: {
+        sectionTitle: 'Trayectoria y formación',
+        sectionSubtitle:
+            'Una carrera dedicada a la agroecología, la investigación aplicada, la docencia universitaria y el trabajo territorial.',
 
-function RevealCard({ card, delay }) {
-    const ref = useRef(null);
-    useEffect(() => {
-        const el = ref.current;
-        if (!el) return;
-        const observer = new IntersectionObserver(
-            ([entry]) => { if (entry.isIntersecting) { el.classList.add('is-visible'); observer.disconnect(); } },
-            { threshold: 0.1 }
-        );
-        observer.observe(el);
-        return () => observer.disconnect();
-    }, []);
+        aboutLabel: 'Sobre mí',
+        aboutTitle: 'Agroecología, territorio y sistemas alimentarios sostenibles',
+        aboutText:
+            'Especialista en agroecología, diseño y planificación de agroecosistemas, con experiencia en procesos de transición agroecológica desarrollados junto a estudiantes, agricultores, comunidades rurales y equipos técnicos. Su trabajo integra investigación aplicada, docencia universitaria y trabajo de campo, vinculando el conocimiento académico con los desafíos reales de los territorios agrarios.',
 
+        photoLabel: 'Trabajo territorial',
+        photoTitle: 'Territorio, comunidad y paisaje',
+        photoBadge: 'Agroecología',
+
+        degreeLabel: 'Grados académicos',
+        languageLabel: 'Idiomas',
+
+        focusLabel: 'Enfoque profesional',
+        focusTitle:
+            'Investigación aplicada, conocimiento situado y transformación territorial.',
+        focusText:
+            'Su trabajo articula ciencia, metodologías participativas y conocimiento local para fortalecer sistemas agroalimentarios sostenibles, promover la biodiversidad funcional y acompañar procesos de transición agroecológica junto a agricultores, comunidades, estudiantes e instituciones.',
+
+        tags: [
+            'Agroecología',
+            'Sistemas alimentarios',
+            'Biodiversidad funcional',
+            'Desarrollo rural',
+        ],
+
+        degreeTranslations: {
+            Doctorado: 'Doctorado',
+            Máster: 'Máster',
+            Licenciatura: 'Licenciatura',
+            'Título profesional': 'Título profesional',
+        },
+
+        institutionConnector: '·',
+    },
+
+    English: {
+        sectionTitle: 'Career and education',
+        sectionSubtitle:
+            'A career dedicated to agroecology, applied research, university teaching, and territorial engagement.',
+
+        aboutLabel: 'About me',
+        aboutTitle: 'Agroecology, territory, and sustainable food systems',
+        aboutText:
+            'Specialist in agroecology and the design and planning of agroecosystems, with experience in agroecological transition processes developed alongside students, farmers, rural communities, and technical teams. Her work combines applied research, university teaching, and fieldwork, connecting academic knowledge with the real challenges of agricultural territories.',
+
+        photoLabel: 'Territorial work',
+        photoTitle: 'Territory, community, and landscape',
+        photoBadge: 'Agroecology',
+
+        degreeLabel: 'Academic degrees',
+        languageLabel: 'Languages',
+
+        focusLabel: 'Professional approach',
+        focusTitle:
+            'Applied research, situated knowledge, and territorial transformation.',
+        focusText:
+            'Her work combines science, participatory methodologies, and local knowledge to strengthen sustainable food systems, promote functional biodiversity, and support agroecological transition processes alongside farmers, communities, students, and institutions.',
+
+        tags: [
+            'Agroecology',
+            'Food systems',
+            'Functional biodiversity',
+            'Rural development',
+        ],
+
+        degreeTranslations: {
+            Doctorado: 'Doctorate',
+            Máster: "Master's degree",
+            Licenciatura: "Bachelor's degree",
+            'Título profesional': 'Professional degree',
+        },
+
+        institutionConnector: '·',
+    },
+
+    Português: {
+        sectionTitle: 'Trajetória e formação',
+        sectionSubtitle:
+            'Uma carreira dedicada à agroecologia, à pesquisa aplicada, à docência universitária e ao trabalho territorial.',
+
+        aboutLabel: 'Sobre mim',
+        aboutTitle: 'Agroecologia, território e sistemas alimentares sustentáveis',
+        aboutText:
+            'Especialista em agroecologia, desenho e planejamento de agroecossistemas, com experiência em processos de transição agroecológica desenvolvidos junto a estudantes, agricultores, comunidades rurais e equipes técnicas. Seu trabalho integra pesquisa aplicada, docência universitária e trabalho de campo, vinculando o conhecimento acadêmico aos desafios reais dos territórios agrários.',
+
+        photoLabel: 'Trabalho territorial',
+        photoTitle: 'Território, comunidade e paisagem',
+        photoBadge: 'Agroecologia',
+
+        degreeLabel: 'Graus acadêmicos',
+        languageLabel: 'Idiomas',
+
+        focusLabel: 'Abordagem profissional',
+        focusTitle:
+            'Pesquisa aplicada, conhecimento situado e transformação territorial.',
+        focusText:
+            'Seu trabalho articula ciência, metodologias participativas e conhecimento local para fortalecer sistemas alimentares sustentáveis, promover a biodiversidade funcional e acompanhar processos de transição agroecológica junto a agricultores, comunidades, estudantes e instituições.',
+
+        tags: [
+            'Agroecologia',
+            'Sistemas alimentares',
+            'Biodiversidade funcional',
+            'Desenvolvimento rural',
+        ],
+
+        degreeTranslations: {
+            Doctorado: 'Doutorado',
+            Máster: 'Mestrado',
+            Licenciatura: 'Licenciatura',
+            'Título profesional': 'Título profissional',
+        },
+
+        institutionConnector: '·',
+    },
+};
+
+const degreeContentByLanguage = {
+    Español: {
+        Doctorado: {
+            title: 'Doctora en Territorio, Patrimonio y Medio Ambiente',
+            note: 'Especialidad en Agroecología · Mención Internacional',
+        },
+        Máster: {
+            title: 'Máster Oficial en Agricultura y Ganadería Ecológica',
+            note: 'Metabolismo agrario y eficiencia energética en sistemas agrarios',
+        },
+        Licenciatura: {
+            title: 'Licenciada en Agronomía',
+            note: 'Especialidad en Producción Vegetal',
+        },
+        'Título profesional': {
+            title: 'Ingeniera Agrónoma',
+            note: 'Formación profesional en ciencias agronómicas',
+        },
+    },
+
+    English: {
+        Doctorado: {
+            title: 'PhD in Territory, Heritage and Environment',
+            note: 'Specialization in Agroecology · International Mention',
+        },
+        Máster: {
+            title: 'Official Master’s Degree in Organic Agriculture and Livestock',
+            note: 'Agrarian metabolism and energy efficiency in agricultural systems',
+        },
+        Licenciatura: {
+            title: 'Bachelor’s Degree in Agronomy',
+            note: 'Specialization in Plant Production',
+        },
+        'Título profesional': {
+            title: 'Agricultural Engineer',
+            note: 'Professional training in agricultural sciences',
+        },
+    },
+
+    Português: {
+        Doctorado: {
+            title: 'Doutora em Território, Patrimônio e Meio Ambiente',
+            note: 'Especialidade em Agroecologia · Menção Internacional',
+        },
+        Máster: {
+            title: 'Mestrado Oficial em Agricultura e Pecuária Ecológicas',
+            note: 'Metabolismo agrário e eficiência energética em sistemas agrários',
+        },
+        Licenciatura: {
+            title: 'Licenciada em Agronomia',
+            note: 'Especialidade em Produção Vegetal',
+        },
+        'Título profesional': {
+            title: 'Engenheira Agrônoma',
+            note: 'Formação profissional em ciências agronômicas',
+        },
+    },
+};
+
+const languageContentByLanguage = {
+    Español: {
+        Español: {
+            name: 'Español',
+            level: 'Lengua materna',
+            description: 'Dominio nativo oral y escrito.',
+        },
+        Portugués: {
+            name: 'Portugués',
+            level: 'Nivel avanzado',
+            description:
+                'Uso académico y profesional en docencia, investigación y gestión institucional.',
+        },
+        Inglés: {
+            name: 'Inglés',
+            level: 'Nivel intermedio alto',
+            description:
+                'Lectura académica, comunicación profesional y participación en actividades internacionales.',
+        },
+    },
+
+    English: {
+        Español: {
+            name: 'Spanish',
+            level: 'Native language',
+            description: 'Native oral and written proficiency.',
+        },
+        Portugués: {
+            name: 'Portuguese',
+            level: 'Advanced level',
+            description:
+                'Academic and professional use in teaching, research, and institutional management.',
+        },
+        Inglés: {
+            name: 'English',
+            level: 'Upper-intermediate level',
+            description:
+                'Academic reading, professional communication, and participation in international activities.',
+        },
+    },
+
+    Português: {
+        Español: {
+            name: 'Espanhol',
+            level: 'Língua materna',
+            description: 'Domínio nativo oral e escrito.',
+        },
+        Portugués: {
+            name: 'Português',
+            level: 'Nível avançado',
+            description:
+                'Uso acadêmico e profissional em docência, pesquisa e gestão institucional.',
+        },
+        Inglés: {
+            name: 'Inglês',
+            level: 'Nível intermediário alto',
+            description:
+                'Leitura acadêmica, comunicação profissional e participação em atividades internacionais.',
+        },
+    },
+};
+
+function ComalleFrame({ content }) {
     return (
-        <a
-            ref={ref}
-            href={card.href}
-            className={`reveal-scale ${delayClasses[delay] || ''}`}
+        <div
             style={{
-                flex: '0 0 170px',
-                minHeight: '200px',
-                borderRadius: '14px',
-                background: card.bg,
-                padding: '20px 16px 18px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '10px',
-                textDecoration: 'none',
                 position: 'relative',
+                minHeight: '300px',
+                borderRadius: '28px',
                 overflow: 'hidden',
-                transition: 'transform 0.2s, box-shadow 0.2s',
-                boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
-            }}
-            onMouseEnter={e => {
-                e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.boxShadow = '0 10px 28px rgba(0,0,0,0.18)';
-            }}
-            onMouseLeave={e => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.12)';
+                background:
+                    'linear-gradient(180deg, rgba(213,226,192,0.95) 0%, rgba(163,186,135,0.9) 42%, rgba(86,118,77,0.94) 100%)',
+                boxShadow:
+                    'inset 0 1px 0 rgba(255,255,255,0.18)',
             }}
         >
-            <div style={{ width: '42px', height: '42px', borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: '1.5px solid rgba(255,255,255,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {card.icon}
+            <div
+                style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background:
+                        'radial-gradient(circle at 20% 20%, rgba(255,255,255,0.42), transparent 18%), radial-gradient(circle at 80% 18%, rgba(255,255,255,0.28), transparent 20%), radial-gradient(circle at 50% 72%, rgba(255,255,255,0.18), transparent 28%)',
+                }}
+            />
+
+            <svg
+                viewBox="0 0 640 420"
+                aria-hidden="true"
+                style={{
+                    position: 'absolute',
+                    inset: 0,
+                    width: '100%',
+                    height: '100%',
+                }}
+                fill="none"
+                preserveAspectRatio="xMidYMid slice"
+            >
+                <path
+                    d="M0 282c70-42 123-60 176-60 68 0 121 20 186 60 56-34 112-51 168-51 48 0 89 11 110 25v164H0V282Z"
+                    fill="rgba(46,64,43,0.26)"
+                />
+
+                <path
+                    d="M78 250c24-70 67-119 128-148 8 48-2 98-30 150"
+                    stroke="rgba(255,255,255,0.44)"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                />
+
+                <path
+                    d="M104 268c22-11 43-17 63-17 28 0 55 9 82 27"
+                    stroke="rgba(255,255,255,0.34)"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                />
+
+                <path
+                    d="M445 210c29-51 65-82 109-94 9 48-1 98-30 148"
+                    stroke="rgba(255,255,255,0.38)"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                />
+
+                <path
+                    d="M425 252c27-10 52-15 76-15 30 0 59 8 86 24"
+                    stroke="rgba(255,255,255,0.34)"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                />
+
+                <circle
+                    cx="220"
+                    cy="154"
+                    r="64"
+                    fill="rgba(255,255,255,0.18)"
+                />
+
+                <path
+                    d="M196 158c8-16 21-24 39-24 18 0 31 8 39 24"
+                    stroke="rgba(255,255,255,0.82)"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                />
+
+                <path
+                    d="M194 180c11 8 24 12 41 12s30-4 41-12"
+                    stroke="rgba(255,255,255,0.6)"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                />
+
+                <path
+                    d="M418 142c9-18 25-28 48-28 19 0 34 8 44 24 8 17 7 36-3 58-19-4-34-11-45-22-17-1-31-9-44-32z"
+                    fill="rgba(255,255,255,0.16)"
+                />
+            </svg>
+
+            <div
+                style={{
+                    position: 'absolute',
+                    right: '18px',
+                    bottom: '18px',
+                    left: '18px',
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    justifyContent: 'space-between',
+                    gap: '16px',
+                    padding: '16px 18px',
+                    borderRadius: '22px',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    background: 'rgba(24,42,28,0.18)',
+                    backdropFilter: 'blur(10px)',
+                }}
+            >
+                <div>
+                    <p
+                        style={{
+                            margin: 0,
+                            fontFamily: 'Inter, system-ui, sans-serif',
+                            fontSize: '0.72rem',
+                            letterSpacing: '0.18em',
+                            textTransform: 'uppercase',
+                            color: 'rgba(255,255,255,0.68)',
+                        }}
+                    >
+                        {content.photoLabel}
+                    </p>
+
+                    <p
+                        style={{
+                            margin: '6px 0 0',
+                            fontFamily:
+                                'Playfair Display, Georgia, serif',
+                            fontSize: '1.2rem',
+                            color: 'white',
+                        }}
+                    >
+                        {content.photoTitle}
+                    </p>
+                </div>
+
+                <span
+                    style={{
+                        flexShrink: 0,
+                        padding: '8px 12px',
+                        borderRadius: '999px',
+                        border:
+                            '1px solid rgba(255,255,255,0.12)',
+                        background: 'rgba(255,255,255,0.12)',
+                        color: 'white',
+                        fontFamily:
+                            'Inter, system-ui, sans-serif',
+                        fontSize: '0.78rem',
+                    }}
+                >
+                    {content.photoBadge}
+                </span>
             </div>
-            <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '17px', fontWeight: '600', color: 'white', lineHeight: '1.2' }}>
-                {card.title}
-            </h3>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'rgba(255,255,255,0.75)', lineHeight: '1.5', flex: 1 }}>
-                {card.desc}
-            </p>
-            <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'rgba(255,255,255,0.18)', border: '1px solid rgba(255,255,255,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '4px' }}>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>
-            </div>
-            <div style={{ position: 'absolute', bottom: '-20px', right: '-20px', width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(255,255,255,0.06)', pointerEvents: 'none' }} />
-        </a>
+        </div>
     );
 }
 
-const cards = [
-    {
-        title: 'Sobre mí',
-        desc: 'Conoce mi trayectoria profesional, valores y motivación.',
-        color: '#45634B',
-        bg: 'linear-gradient(135deg, #3a5240 0%, #2d4a35 100%)',
-        icon: (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="8" r="4" />
-                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-            </svg>
-        ),
-        href: '#sobre-mi',
-    },
-    {
-        title: 'Formación',
-        desc: 'Mi preparación académica y especializaciones internacionales.',
-        color: '#5C7A50',
-        bg: 'linear-gradient(135deg, #4a6642 0%, #3a5434 100%)',
-        icon: (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-                <path d="M6 12v5c0 1.657 2.686 3 6 3s6-1.343 6-3v-5" />
-            </svg>
-        ),
-        href: '#formacion',
-    },
-    {
-        title: 'Experiencia',
-        desc: 'Proyectos, asesorías y colaboraciones en agroecología y sostenibilidad.',
-        color: '#8B6D4D',
-        bg: 'linear-gradient(135deg, #7a5e3e 0%, #6b4f32 100%)',
-        icon: (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="7" width="20" height="14" rx="2" />
-                <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
-            </svg>
-        ),
-        href: '#experiencia',
-    },
-    {
-        title: 'Proyectos',
-        desc: 'Iniciativas en agroecología, territorio y desarrollo rural sostenible.',
-        color: '#4E8080',
-        bg: 'linear-gradient(135deg, #3e6e6e 0%, #305e5e 100%)',
-        icon: (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 22s8-6 8-13A8 8 0 0 0 4 9c0 7 8 13 8 13z" />
-                <path d="M12 22V10" />
-            </svg>
-        ),
-        href: '#proyectos',
-    },
-    {
-        title: 'Publicaciones',
-        desc: 'Artículos, capítulos y publicaciones científicas.',
-        color: '#6E7F8C',
-        bg: 'linear-gradient(135deg, #5e6e7a 0%, #4e5f6c 100%)',
-        icon: (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2" />
-                <path d="M3 9h18M9 21V9" />
-            </svg>
-        ),
-        href: '#publicaciones',
-    },
-];
+function DegreeSeal({ item, language, content }) {
+    const fallbackDegree = {
+        title: item.title ?? 'Grado académico',
+        note: item.note ?? '',
+    };
+
+    const translatedDegree =
+        degreeContentByLanguage?.[language]?.[item.badge] ??
+        degreeContentByLanguage?.Español?.[item.badge] ??
+        fallbackDegree;
+
+    const translatedBadge =
+        content?.degreeTranslations?.[item.badge] ??
+        item.badge ??
+        'Grado académico';
+
+    const backgroundByDegree = {
+        Doctorado:
+            'linear-gradient(135deg, rgba(73,99,77,0.16), rgba(73,99,77,0.28))',
+
+        Máster:
+            'linear-gradient(135deg, rgba(145,166,122,0.18), rgba(145,166,122,0.3))',
+
+        Magíster:
+            'linear-gradient(135deg, rgba(145,166,122,0.18), rgba(145,166,122,0.3))',
+
+        Licenciatura:
+            'linear-gradient(135deg, rgba(181,143,104,0.16), rgba(181,143,104,0.28))',
+
+        'Título profesional':
+            'linear-gradient(135deg, rgba(119,137,112,0.16), rgba(119,137,112,0.28))',
+    };
+
+    const institutionCode =
+        item.code ??
+        (item.badge === 'Doctorado'
+            ? 'UGR'
+            : item.badge === 'Máster' || item.badge === 'Magíster'
+                ? 'UPO'
+                : 'UCT');
+
+    return (
+        <div
+            style={{
+                display: 'grid',
+                gridTemplateColumns: '56px minmax(0, 1fr)',
+                gap: '14px',
+                padding: '18px 0',
+                borderTop: '1px solid rgba(73,99,77,0.12)',
+            }}
+        >
+            <div
+                aria-label={item.institution ?? 'Institución académica'}
+                style={{
+                    width: '56px',
+                    height: '56px',
+                    borderRadius: '18px',
+                    display: 'grid',
+                    placeItems: 'center',
+                    border: '1px solid rgba(73,99,77,0.12)',
+
+                    background:
+                        backgroundByDegree[item.badge] ??
+                        'linear-gradient(135deg, rgba(119,137,112,0.16), rgba(119,137,112,0.28))',
+
+                    color: 'var(--ink)',
+                    fontFamily: 'Inter, system-ui, sans-serif',
+                    fontSize: '0.72rem',
+                    fontWeight: '700',
+                    letterSpacing: '0.08em',
+                }}
+            >
+                {institutionCode}
+            </div>
+
+            <div>
+                <div
+                    style={{
+                        display: 'flex',
+                        alignItems: 'baseline',
+                        justifyContent: 'space-between',
+                        gap: '12px',
+                        flexWrap: 'wrap',
+                    }}
+                >
+                    <div>
+                        <p
+                            style={{
+                                margin: 0,
+                                fontFamily: 'Inter, system-ui, sans-serif',
+                                fontSize: '0.72rem',
+                                letterSpacing: '0.16em',
+                                textTransform: 'uppercase',
+                                color: 'var(--green)',
+                            }}
+                        >
+                            {translatedBadge}
+                        </p>
+
+                        <h3
+                            style={{
+                                margin: '6px 0 0',
+                                fontFamily:
+                                    'Playfair Display, Georgia, serif',
+                                fontSize: '1.1rem',
+                                lineHeight: 1.35,
+                                color: 'var(--ink)',
+                            }}
+                        >
+                            {translatedDegree.title}
+                        </h3>
+                    </div>
+
+                    <span
+                        style={{
+                            fontFamily: 'Inter, system-ui, sans-serif',
+                            fontSize: '0.78rem',
+                            color: 'var(--muted)',
+                        }}
+                    >
+                        {item.year ?? ''}
+                    </span>
+                </div>
+
+                <p
+                    style={{
+                        margin: '8px 0 0',
+                        fontFamily: 'Inter, system-ui, sans-serif',
+                        fontSize: '0.9rem',
+                        lineHeight: 1.6,
+                        color: 'var(--muted)',
+                    }}
+                >
+                    {item.institution ?? ''}
+
+                    {item.country ? (
+                        <>
+                            {' '}
+                            {content?.institutionConnector ?? '·'}{' '}
+                            {item.country}
+                        </>
+                    ) : null}
+                </p>
+
+                {translatedDegree.note ? (
+                    <p
+                        style={{
+                            margin: '5px 0 0',
+                            fontFamily: 'Inter, system-ui, sans-serif',
+                            fontSize: '0.82rem',
+                            lineHeight: 1.55,
+                            color: 'var(--muted)',
+                        }}
+                    >
+                        {translatedDegree.note}
+                    </p>
+                ) : null}
+            </div>
+        </div>
+    );
+}
+
+function LanguageItem({ item, language }) {
+    const translatedLanguage =
+        languageContentByLanguage[language]?.[item.lang] ??
+        languageContentByLanguage.Español[item.lang];
+
+    return (
+        <div
+            style={{
+                padding: '18px',
+                borderRadius: '22px',
+                border: '1px solid rgba(73,99,77,0.1)',
+                background: 'rgba(255,255,255,0.72)',
+            }}
+        >
+            <div
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '14px',
+                }}
+            >
+                <div>
+                    <p
+                        style={{
+                            margin: 0,
+                            fontFamily:
+                                'Playfair Display, Georgia, serif',
+                            fontSize: '1.05rem',
+                            color: 'var(--ink)',
+                        }}
+                    >
+                        {translatedLanguage.name}
+                    </p>
+
+                    <p
+                        style={{
+                            margin: '4px 0 0',
+                            fontFamily:
+                                'Inter, system-ui, sans-serif',
+                            fontSize: '0.82rem',
+                            color: 'var(--muted)',
+                        }}
+                    >
+                        {translatedLanguage.level}
+                    </p>
+                </div>
+
+                <span
+                    style={{
+                        flexShrink: 0,
+                        padding: '8px 12px',
+                        borderRadius: '999px',
+                        background: 'rgba(73,99,77,0.08)',
+                        color: 'var(--green)',
+                        fontFamily: 'Inter, system-ui, sans-serif',
+                        fontSize: '0.78rem',
+                        fontWeight: '600',
+                    }}
+                >
+                    {item.code}
+                </span>
+            </div>
+
+            <p
+                style={{
+                    margin: '12px 0 0',
+                    fontFamily: 'Inter, system-ui, sans-serif',
+                    fontSize: '0.8rem',
+                    lineHeight: 1.55,
+                    color: 'var(--muted)',
+                }}
+            >
+                {translatedLanguage.description}
+            </p>
+        </div>
+    );
+}
 
 export default function ExploreSection() {
-    const titleRef = useReveal({ threshold: 0.3 });
+    const { language } = useLanguage();
+
+    const currentLanguage =
+        contentByLanguage[language] ? language : 'Español';
+
+    const content = contentByLanguage[currentLanguage];
+
     return (
         <section
             id="explora"
             style={{
-                background: 'transparent',
-                padding: '0 32px 60px 32px',
+                position: 'relative',
+                padding: '30px 0 90px',
             }}
         >
-            {/* Título */}
-            <div
-                ref={titleRef}
-                className="reveal"
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '16px',
-                    marginBottom: '32px',
-                }}
-            >
-                {/* Decoración izquierda */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <svg width="20" height="14" viewBox="0 0 20 14" fill="none">
-                        <path d="M1 7C4 3 8 1 12 3C16 5 18 9 18 9" stroke="#45634B" strokeWidth="1.2" strokeLinecap="round" />
-                        <path d="M12 3C13 0 15 1 14 4" stroke="#45634B" strokeWidth="1.2" strokeLinecap="round" />
-                    </svg>
-                    <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
-                        <path d="M8 18C8 18 2 13 2 8C2 4.7 4.7 2 8 2C11.3 2 14 4.7 14 8C14 13 8 18 8 18Z" fill="#45634B" opacity="0.5" />
-                        <path d="M8 18V6" stroke="#2d4a35" strokeWidth="1" />
-                    </svg>
-                </div>
+            <Container>
+                <SectionTitle
+                    title={content.sectionTitle}
+                    subtitle={content.sectionSubtitle}
+                    align="center"
+                />
 
-                <h2
+                <div
                     style={{
-                        fontFamily: 'Playfair Display, serif',
-                        fontStyle: 'italic',
-                        fontSize: '22px',
-                        color: '#2d4a35',
-                        fontWeight: '400',
-                        whiteSpace: 'nowrap',
+                        display: 'grid',
+                        gridTemplateColumns:
+                            'minmax(0, 1.1fr) minmax(320px, 0.9fr)',
+                        gap: '22px',
+                        alignItems: 'stretch',
                     }}
+                    className="explore-main-grid"
                 >
-                    Explora mi trabajo
-                </h2>
+                    <Card
+                        style={{
+                            padding: '24px',
+                            display: 'grid',
+                            gridTemplateColumns:
+                                'minmax(240px, 0.8fr) minmax(0, 1.2fr)',
+                            gap: '22px',
+                            alignItems: 'center',
+                        }}
+                        className="explore-about-card"
+                    >
+                        <ComalleFrame content={content} />
 
-                {/* Decoración derecha */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
-                        <path d="M8 18C8 18 2 13 2 8C2 4.7 4.7 2 8 2C11.3 2 14 4.7 14 8C14 13 8 18 8 18Z" fill="#45634B" opacity="0.5" />
-                        <path d="M8 18V6" stroke="#2d4a35" strokeWidth="1" />
-                    </svg>
-                    <svg width="20" height="14" viewBox="0 0 20 14" fill="none" style={{ transform: 'scaleX(-1)' }}>
-                        <path d="M1 7C4 3 8 1 12 3C16 5 18 9 18 9" stroke="#45634B" strokeWidth="1.2" strokeLinecap="round" />
-                        <path d="M12 3C13 0 15 1 14 4" stroke="#45634B" strokeWidth="1.2" strokeLinecap="round" />
-                    </svg>
+                        <div
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '18px',
+                            }}
+                        >
+                            <div>
+                                <p
+                                    style={{
+                                        margin: 0,
+                                        fontFamily:
+                                            'Inter, system-ui, sans-serif',
+                                        fontSize: '0.72rem',
+                                        letterSpacing: '0.18em',
+                                        textTransform: 'uppercase',
+                                        color: 'var(--green)',
+                                    }}
+                                >
+                                    {content.aboutLabel}
+                                </p>
+
+                                <h3
+                                    style={{
+                                        margin: '8px 0 0',
+                                        fontFamily:
+                                            'Playfair Display, Georgia, serif',
+                                        fontSize:
+                                            'clamp(1.45rem, 2.5vw, 1.85rem)',
+                                        lineHeight: 1.25,
+                                        color: 'var(--ink)',
+                                    }}
+                                >
+                                    {content.aboutTitle}
+                                </h3>
+                            </div>
+
+                            <p
+                                style={{
+                                    margin: 0,
+                                    fontFamily:
+                                        'Inter, system-ui, sans-serif',
+                                    fontSize: '0.96rem',
+                                    lineHeight: 1.8,
+                                    color: 'var(--muted)',
+                                }}
+                            >
+                                {content.aboutText}
+                            </p>
+
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexWrap: 'wrap',
+                                    gap: '10px',
+                                }}
+                            >
+                                {content.tags.map((value) => (
+                                    <span
+                                        key={value}
+                                        style={{
+                                            padding: '8px 12px',
+                                            borderRadius: '999px',
+                                            border:
+                                                '1px solid rgba(73,99,77,0.1)',
+                                            background:
+                                                'rgba(73,99,77,0.08)',
+                                            color: 'var(--green)',
+                                            fontFamily:
+                                                'Inter, system-ui, sans-serif',
+                                            fontSize: '0.8rem',
+                                        }}
+                                    >
+                                        {value}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    </Card>
+
+                    <Card style={{ padding: '24px' }}>
+                        <p
+                            style={{
+                                margin: 0,
+                                fontFamily:
+                                    'Inter, system-ui, sans-serif',
+                                fontSize: '0.72rem',
+                                letterSpacing: '0.18em',
+                                textTransform: 'uppercase',
+                                color: 'var(--green)',
+                            }}
+                        >
+                            {content.degreeLabel}
+                        </p>
+
+                        <div style={{ marginTop: '10px' }}>
+                            {degreeItems.map((item) => (
+                                <DegreeSeal
+                                    key={`${item.badge}-${item.title}`}
+                                    item={item}
+                                    language={currentLanguage}
+                                    content={content}
+                                />
+                            ))}
+                        </div>
+                    </Card>
+
+                    <Card style={{ padding: '24px' }}>
+                        <p
+                            style={{
+                                margin: 0,
+                                fontFamily:
+                                    'Inter, system-ui, sans-serif',
+                                fontSize: '0.72rem',
+                                letterSpacing: '0.18em',
+                                textTransform: 'uppercase',
+                                color: 'var(--green)',
+                            }}
+                        >
+                            {content.languageLabel}
+                        </p>
+
+                        <div
+                            style={{
+                                display: 'grid',
+                                gap: '14px',
+                                marginTop: '16px',
+                            }}
+                        >
+                            {languageSkills.map((item) => (
+                                <LanguageItem
+                                    key={item.lang}
+                                    item={item}
+                                    language={currentLanguage}
+                                />
+                            ))}
+                        </div>
+                    </Card>
+
+                    <Card
+                        style={{
+                            padding: '26px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                            color: 'white',
+                            background:
+                                'linear-gradient(135deg, rgba(73,99,77,0.96), rgba(112,139,91,0.94))',
+                        }}
+                    >
+                        <div>
+                            <p
+                                style={{
+                                    margin: 0,
+                                    fontFamily:
+                                        'Inter, system-ui, sans-serif',
+                                    fontSize: '0.72rem',
+                                    letterSpacing: '0.18em',
+                                    textTransform: 'uppercase',
+                                    color: 'rgba(255,255,255,0.68)',
+                                }}
+                            >
+                                {content.focusLabel}
+                            </p>
+
+                            <h3
+                                style={{
+                                    margin: '10px 0 0',
+                                    fontFamily:
+                                        'Playfair Display, Georgia, serif',
+                                    fontSize:
+                                        'clamp(1.4rem, 2.3vw, 1.65rem)',
+                                    lineHeight: 1.35,
+                                }}
+                            >
+                                {content.focusTitle}
+                            </h3>
+                        </div>
+
+                        <p
+                            style={{
+                                margin: '20px 0 0',
+                                fontFamily:
+                                    'Inter, system-ui, sans-serif',
+                                fontSize: '0.94rem',
+                                lineHeight: 1.8,
+                                color: 'rgba(255,255,255,0.84)',
+                            }}
+                        >
+                            {content.focusText}
+                        </p>
+                    </Card>
                 </div>
-            </div>
+            </Container>
 
-            {/* Cards con aparición escalonada */}
-            <div
-                style={{
-                    display: 'flex',
-                    gap: '14px',
-                    maxWidth: '960px',
-                    margin: '0 auto',
-                    overflowX: 'auto',
-                    paddingBottom: '8px',
-                }}
-            >
-                {cards.map((card, i) => (
-                    <RevealCard key={card.href} card={card} delay={i} />
-                ))}
-            </div>
+            <style>{`
+                @media (max-width: 1050px) {
+                    .explore-main-grid {
+                        grid-template-columns: 1fr !important;
+                    }
+                }
+
+                @media (max-width: 760px) {
+                    .explore-about-card {
+                        grid-template-columns: 1fr !important;
+                    }
+                }
+            `}</style>
         </section>
     );
 }
