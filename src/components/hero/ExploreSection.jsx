@@ -1,130 +1,61 @@
 import Container from '../common/Container';
 import Card from '../common/Card';
-import SectionTitle from '../common/SectionTitle';
+import EditableText from '../admin/EditableText';
+
 import { degreeItems, languageSkills } from '../../data/profile';
+import { defaultEditableContent } from '../../data/editableContent';
 import { useLanguage } from '../../context/LanguageContext';
+import { useEditor } from '../../context/EditorContext';
+
+/* =========================================================
+   CONTENIDO ESTRUCTURAL
+   Estos valores no se editan desde la interfaz.
+========================================================= */
 
 const contentByLanguage = {
     Español: {
-        sectionTitle: 'Trayectoria y formación',
-        sectionSubtitle:
-            'Una carrera dedicada a la agroecología, la investigación aplicada, la docencia universitaria y el trabajo territorial.',
-
-        aboutLabel: 'Sobre mí',
-        aboutTitle: 'Agroecología, territorio y sistemas alimentarios sostenibles',
-        aboutText:
-            'Especialista en agroecología, diseño y planificación de agroecosistemas, con experiencia en procesos de transición agroecológica desarrollados junto a estudiantes, agricultores, comunidades rurales y equipos técnicos. Su trabajo integra investigación aplicada, docencia universitaria y trabajo de campo, vinculando el conocimiento académico con los desafíos reales de los territorios agrarios.',
-
-        photoLabel: 'Trabajo territorial',
-        photoTitle: 'Territorio, comunidad y paisaje',
-        photoBadge: 'Agroecología',
-
-        degreeLabel: 'Grados académicos',
-        languageLabel: 'Idiomas',
-
-        focusLabel: 'Enfoque profesional',
-        focusTitle:
-            'Investigación aplicada, conocimiento situado y transformación territorial.',
-        focusText:
-            'Su trabajo articula ciencia, metodologías participativas y conocimiento local para fortalecer sistemas agroalimentarios sostenibles, promover la biodiversidad funcional y acompañar procesos de transición agroecológica junto a agricultores, comunidades, estudiantes e instituciones.',
-
-        tags: [
-            'Agroecología',
-            'Sistemas alimentarios',
-            'Biodiversidad funcional',
-            'Desarrollo rural',
-        ],
-
         degreeTranslations: {
             Doctorado: 'Doctorado',
             Máster: 'Máster',
+            Magíster: 'Máster',
             Licenciatura: 'Licenciatura',
             'Título profesional': 'Título profesional',
+            'Estudios universitarios': 'Estudios universitarios',
         },
 
         institutionConnector: '·',
     },
 
     English: {
-        sectionTitle: 'Career and education',
-        sectionSubtitle:
-            'A career dedicated to agroecology, applied research, university teaching, and territorial engagement.',
-
-        aboutLabel: 'About me',
-        aboutTitle: 'Agroecology, territory, and sustainable food systems',
-        aboutText:
-            'Specialist in agroecology and the design and planning of agroecosystems, with experience in agroecological transition processes developed alongside students, farmers, rural communities, and technical teams. Her work combines applied research, university teaching, and fieldwork, connecting academic knowledge with the real challenges of agricultural territories.',
-
-        photoLabel: 'Territorial work',
-        photoTitle: 'Territory, community, and landscape',
-        photoBadge: 'Agroecology',
-
-        degreeLabel: 'Academic degrees',
-        languageLabel: 'Languages',
-
-        focusLabel: 'Professional approach',
-        focusTitle:
-            'Applied research, situated knowledge, and territorial transformation.',
-        focusText:
-            'Her work combines science, participatory methodologies, and local knowledge to strengthen sustainable food systems, promote functional biodiversity, and support agroecological transition processes alongside farmers, communities, students, and institutions.',
-
-        tags: [
-            'Agroecology',
-            'Food systems',
-            'Functional biodiversity',
-            'Rural development',
-        ],
-
         degreeTranslations: {
             Doctorado: 'Doctorate',
             Máster: "Master's degree",
+            Magíster: "Master's degree",
             Licenciatura: "Bachelor's degree",
             'Título profesional': 'Professional degree',
+            'Estudios universitarios': 'University studies',
         },
 
         institutionConnector: '·',
     },
 
     Português: {
-        sectionTitle: 'Trajetória e formação',
-        sectionSubtitle:
-            'Uma carreira dedicada à agroecologia, à pesquisa aplicada, à docência universitária e ao trabalho territorial.',
-
-        aboutLabel: 'Sobre mim',
-        aboutTitle: 'Agroecologia, território e sistemas alimentares sustentáveis',
-        aboutText:
-            'Especialista em agroecologia, desenho e planejamento de agroecossistemas, com experiência em processos de transição agroecológica desenvolvidos junto a estudantes, agricultores, comunidades rurais e equipes técnicas. Seu trabalho integra pesquisa aplicada, docência universitária e trabalho de campo, vinculando o conhecimento acadêmico aos desafios reais dos territórios agrários.',
-
-        photoLabel: 'Trabalho territorial',
-        photoTitle: 'Território, comunidade e paisagem',
-        photoBadge: 'Agroecologia',
-
-        degreeLabel: 'Graus acadêmicos',
-        languageLabel: 'Idiomas',
-
-        focusLabel: 'Abordagem profissional',
-        focusTitle:
-            'Pesquisa aplicada, conhecimento situado e transformação territorial.',
-        focusText:
-            'Seu trabalho articula ciência, metodologias participativas e conhecimento local para fortalecer sistemas alimentares sustentáveis, promover a biodiversidade funcional e acompanhar processos de transição agroecológica junto a agricultores, comunidades, estudantes e instituições.',
-
-        tags: [
-            'Agroecologia',
-            'Sistemas alimentares',
-            'Biodiversidade funcional',
-            'Desenvolvimento rural',
-        ],
-
         degreeTranslations: {
             Doctorado: 'Doutorado',
             Máster: 'Mestrado',
+            Magíster: 'Mestrado',
             Licenciatura: 'Licenciatura',
             'Título profesional': 'Título profissional',
+            'Estudios universitarios': 'Estudos universitários',
         },
 
         institutionConnector: '·',
     },
 };
+
+/* =========================================================
+   TRADUCCIONES DE GRADOS ACADÉMICOS
+========================================================= */
 
 const degreeContentByLanguage = {
     Español: {
@@ -132,17 +63,30 @@ const degreeContentByLanguage = {
             title: 'Doctora en Territorio, Patrimonio y Medio Ambiente',
             note: 'Especialidad en Agroecología · Mención Internacional',
         },
+
         Máster: {
             title: 'Máster Oficial en Agricultura y Ganadería Ecológica',
             note: 'Metabolismo agrario y eficiencia energética en sistemas agrarios',
         },
+
+        Magíster: {
+            title: 'Máster Oficial en Agricultura y Ganadería Ecológica',
+            note: 'Metabolismo agrario y eficiencia energética en sistemas agrarios',
+        },
+
         Licenciatura: {
             title: 'Licenciada en Agronomía',
             note: 'Especialidad en Producción Vegetal',
         },
+
         'Título profesional': {
             title: 'Ingeniera Agrónoma',
-            note: 'Formación profesional en ciencias agronómicas',
+            note: 'Título profesional en Ingeniería Agronómica',
+        },
+
+        'Estudios universitarios': {
+            title: 'Estudios de Ingeniería Agronómica y Montes',
+            note: 'Escuela Técnica Superior de Ingeniería Agronómica y de Montes',
         },
     },
 
@@ -151,17 +95,35 @@ const degreeContentByLanguage = {
             title: 'PhD in Territory, Heritage and Environment',
             note: 'Specialization in Agroecology · International Mention',
         },
+
         Máster: {
-            title: 'Official Master’s Degree in Organic Agriculture and Livestock',
-            note: 'Agrarian metabolism and energy efficiency in agricultural systems',
+            title:
+                'Official Master’s Degree in Organic Agriculture and Livestock',
+            note:
+                'Agrarian metabolism and energy efficiency in agricultural systems',
         },
+
+        Magíster: {
+            title:
+                'Official Master’s Degree in Organic Agriculture and Livestock',
+            note:
+                'Agrarian metabolism and energy efficiency in agricultural systems',
+        },
+
         Licenciatura: {
             title: 'Bachelor’s Degree in Agronomy',
             note: 'Specialization in Plant Production',
         },
+
         'Título profesional': {
             title: 'Agricultural Engineer',
-            note: 'Professional training in agricultural sciences',
+            note: 'Professional degree in Agricultural Engineering',
+        },
+
+        'Estudios universitarios': {
+            title: 'Studies in Agricultural Engineering and Forestry',
+            note:
+                'Higher Technical School of Agricultural and Forestry Engineering',
         },
     },
 
@@ -170,35 +132,58 @@ const degreeContentByLanguage = {
             title: 'Doutora em Território, Patrimônio e Meio Ambiente',
             note: 'Especialidade em Agroecologia · Menção Internacional',
         },
+
         Máster: {
             title: 'Mestrado Oficial em Agricultura e Pecuária Ecológicas',
-            note: 'Metabolismo agrário e eficiência energética em sistemas agrários',
+            note:
+                'Metabolismo agrário e eficiência energética em sistemas agrários',
         },
+
+        Magíster: {
+            title: 'Mestrado Oficial em Agricultura e Pecuária Ecológicas',
+            note:
+                'Metabolismo agrário e eficiência energética em sistemas agrários',
+        },
+
         Licenciatura: {
             title: 'Licenciada em Agronomia',
             note: 'Especialidade em Produção Vegetal',
         },
+
         'Título profesional': {
             title: 'Engenheira Agrônoma',
-            note: 'Formação profissional em ciências agronômicas',
+            note: 'Título profissional em Engenharia Agronômica',
+        },
+
+        'Estudios universitarios': {
+            title: 'Estudos em Engenharia Agronômica e Florestal',
+            note:
+                'Escola Técnica Superior de Engenharia Agronômica e Florestal',
         },
     },
 };
 
+/* =========================================================
+   TRADUCCIONES DE IDIOMAS
+========================================================= */
+
 const languageContentByLanguage = {
     Español: {
-        Español: {
+        spanish: {
             name: 'Español',
             level: 'Lengua materna',
-            description: 'Dominio nativo oral y escrito.',
+            description:
+                'Dominio nativo oral, escrito, académico y profesional.',
         },
-        Portugués: {
+
+        portuguese: {
             name: 'Portugués',
             level: 'Nivel avanzado',
             description:
                 'Uso académico y profesional en docencia, investigación y gestión institucional.',
         },
-        Inglés: {
+
+        english: {
             name: 'Inglés',
             level: 'Nivel intermedio alto',
             description:
@@ -207,18 +192,21 @@ const languageContentByLanguage = {
     },
 
     English: {
-        Español: {
+        spanish: {
             name: 'Spanish',
             level: 'Native language',
-            description: 'Native oral and written proficiency.',
+            description:
+                'Native oral, written, academic, and professional proficiency.',
         },
-        Portugués: {
+
+        portuguese: {
             name: 'Portuguese',
             level: 'Advanced level',
             description:
                 'Academic and professional use in teaching, research, and institutional management.',
         },
-        Inglés: {
+
+        english: {
             name: 'English',
             level: 'Upper-intermediate level',
             description:
@@ -227,18 +215,21 @@ const languageContentByLanguage = {
     },
 
     Português: {
-        Español: {
+        spanish: {
             name: 'Espanhol',
             level: 'Língua materna',
-            description: 'Domínio nativo oral e escrito.',
+            description:
+                'Domínio nativo oral, escrito, acadêmico e profissional.',
         },
-        Portugués: {
+
+        portuguese: {
             name: 'Português',
             level: 'Nível avançado',
             description:
                 'Uso acadêmico e profissional em docência, pesquisa e gestão institucional.',
         },
-        Inglés: {
+
+        english: {
             name: 'Inglês',
             level: 'Nível intermediário alto',
             description:
@@ -247,70 +238,74 @@ const languageContentByLanguage = {
     },
 };
 
-function ComalleFrame({ content }) {
+/* =========================================================
+   ILUSTRACIÓN TERRITORIAL
+========================================================= */
+
+function ComalleFrame({ language }) {
     return (
         <div
             style={{
                 position: 'relative',
                 minHeight: '300px',
-                borderRadius: '28px',
                 overflow: 'hidden',
+                borderRadius: '28px',
                 background:
-                    'linear-gradient(180deg, rgba(213,226,192,0.95) 0%, rgba(163,186,135,0.9) 42%, rgba(86,118,77,0.94) 100%)',
-                boxShadow:
-                    'inset 0 1px 0 rgba(255,255,255,0.18)',
+                    'linear-gradient(180deg, #cccdbf 0%, #aaa899 48%, #8f957f 100%)',
+                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.22)',
             }}
         >
             <div
+                aria-hidden="true"
                 style={{
                     position: 'absolute',
                     inset: 0,
                     background:
-                        'radial-gradient(circle at 20% 20%, rgba(255,255,255,0.42), transparent 18%), radial-gradient(circle at 80% 18%, rgba(255,255,255,0.28), transparent 20%), radial-gradient(circle at 50% 72%, rgba(255,255,255,0.18), transparent 28%)',
+                        'radial-gradient(circle at 20% 20%, rgba(255,255,255,0.4), transparent 20%), radial-gradient(circle at 80% 18%, rgba(255,255,255,0.24), transparent 22%), radial-gradient(circle at 50% 72%, rgba(255,255,255,0.14), transparent 30%)',
                 }}
             />
 
             <svg
                 viewBox="0 0 640 420"
                 aria-hidden="true"
+                fill="none"
+                preserveAspectRatio="xMidYMid slice"
                 style={{
                     position: 'absolute',
                     inset: 0,
                     width: '100%',
                     height: '100%',
                 }}
-                fill="none"
-                preserveAspectRatio="xMidYMid slice"
             >
                 <path
                     d="M0 282c70-42 123-60 176-60 68 0 121 20 186 60 56-34 112-51 168-51 48 0 89 11 110 25v164H0V282Z"
-                    fill="rgba(46,64,43,0.26)"
+                    fill="rgba(52,54,47,0.24)"
                 />
 
                 <path
                     d="M78 250c24-70 67-119 128-148 8 48-2 98-30 150"
-                    stroke="rgba(255,255,255,0.44)"
+                    stroke="rgba(255,255,255,0.48)"
                     strokeWidth="3"
                     strokeLinecap="round"
                 />
 
                 <path
                     d="M104 268c22-11 43-17 63-17 28 0 55 9 82 27"
-                    stroke="rgba(255,255,255,0.34)"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                />
-
-                <path
-                    d="M445 210c29-51 65-82 109-94 9 48-1 98-30 148"
                     stroke="rgba(255,255,255,0.38)"
                     strokeWidth="3"
                     strokeLinecap="round"
                 />
 
                 <path
+                    d="M445 210c29-51 65-82 109-94 9 48-1 98-30 148"
+                    stroke="rgba(255,255,255,0.42)"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                />
+
+                <path
                     d="M425 252c27-10 52-15 76-15 30 0 59 8 86 24"
-                    stroke="rgba(255,255,255,0.34)"
+                    stroke="rgba(255,255,255,0.36)"
                     strokeWidth="3"
                     strokeLinecap="round"
                 />
@@ -319,7 +314,7 @@ function ComalleFrame({ content }) {
                     cx="220"
                     cy="154"
                     r="64"
-                    fill="rgba(255,255,255,0.18)"
+                    fill="rgba(255,255,255,0.16)"
                 />
 
                 <path
@@ -331,14 +326,14 @@ function ComalleFrame({ content }) {
 
                 <path
                     d="M194 180c11 8 24 12 41 12s30-4 41-12"
-                    stroke="rgba(255,255,255,0.6)"
+                    stroke="rgba(255,255,255,0.62)"
                     strokeWidth="3"
                     strokeLinecap="round"
                 />
 
                 <path
                     d="M418 142c9-18 25-28 48-28 19 0 34 8 44 24 8 17 7 36-3 58-19-4-34-11-45-22-17-1-31-9-44-32z"
-                    fill="rgba(255,255,255,0.16)"
+                    fill="rgba(255,255,255,0.14)"
                 />
             </svg>
 
@@ -354,99 +349,109 @@ function ComalleFrame({ content }) {
                     gap: '16px',
                     padding: '16px 18px',
                     borderRadius: '22px',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    background: 'rgba(24,42,28,0.18)',
+                    border: '1px solid rgba(255,255,255,0.16)',
+                    background: 'rgba(52,54,47,0.24)',
                     backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
                 }}
             >
                 <div>
-                    <p
+                    <EditableText
+                        as="p"
+                        path={`explore.${language}.photoLabel`}
                         style={{
                             margin: 0,
                             fontFamily: 'Inter, system-ui, sans-serif',
                             fontSize: '0.72rem',
                             letterSpacing: '0.18em',
                             textTransform: 'uppercase',
-                            color: 'rgba(255,255,255,0.68)',
+                            color: 'rgba(255,255,255,0.72)',
                         }}
-                    >
-                        {content.photoLabel}
-                    </p>
+                    />
 
-                    <p
+                    <EditableText
+                        as="p"
+                        path={`explore.${language}.photoTitle`}
                         style={{
                             margin: '6px 0 0',
                             fontFamily:
                                 'Playfair Display, Georgia, serif',
                             fontSize: '1.2rem',
-                            color: 'white',
+                            lineHeight: 1.4,
+                            color: '#ffffff',
                         }}
-                    >
-                        {content.photoTitle}
-                    </p>
+                    />
                 </div>
 
-                <span
+                <EditableText
+                    as="span"
+                    path={`explore.${language}.photoBadge`}
                     style={{
                         flexShrink: 0,
                         padding: '8px 12px',
                         borderRadius: '999px',
-                        border:
-                            '1px solid rgba(255,255,255,0.12)',
-                        background: 'rgba(255,255,255,0.12)',
-                        color: 'white',
-                        fontFamily:
-                            'Inter, system-ui, sans-serif',
+                        border: '1px solid rgba(255,255,255,0.18)',
+                        background: 'rgba(255,255,255,0.14)',
+                        color: '#ffffff',
+                        fontFamily: 'Inter, system-ui, sans-serif',
                         fontSize: '0.78rem',
                     }}
-                >
-                    {content.photoBadge}
-                </span>
+                />
             </div>
         </div>
     );
 }
 
+/* =========================================================
+   GRADOS ACADÉMICOS
+========================================================= */
+
 function DegreeSeal({ item, language, content }) {
+    const badge = item?.badge ?? 'Título profesional';
+
     const fallbackDegree = {
-        title: item.title ?? 'Grado académico',
-        note: item.note ?? '',
+        title: item?.title ?? 'Grado académico',
+        note: item?.note ?? '',
     };
 
     const translatedDegree =
-        degreeContentByLanguage?.[language]?.[item.badge] ??
-        degreeContentByLanguage?.Español?.[item.badge] ??
+        degreeContentByLanguage?.[language]?.[badge] ??
+        degreeContentByLanguage?.Español?.[badge] ??
         fallbackDegree;
 
     const translatedBadge =
-        content?.degreeTranslations?.[item.badge] ??
-        item.badge ??
-        'Grado académico';
+        content?.degreeTranslations?.[badge] ??
+        badge;
 
     const backgroundByDegree = {
         Doctorado:
-            'linear-gradient(135deg, rgba(73,99,77,0.16), rgba(73,99,77,0.28))',
+            'linear-gradient(135deg, rgba(143,149,127,0.18), rgba(143,149,127,0.32))',
 
         Máster:
-            'linear-gradient(135deg, rgba(145,166,122,0.18), rgba(145,166,122,0.3))',
+            'linear-gradient(135deg, rgba(204,205,191,0.48), rgba(143,149,127,0.24))',
 
         Magíster:
-            'linear-gradient(135deg, rgba(145,166,122,0.18), rgba(145,166,122,0.3))',
+            'linear-gradient(135deg, rgba(204,205,191,0.48), rgba(143,149,127,0.24))',
 
         Licenciatura:
-            'linear-gradient(135deg, rgba(181,143,104,0.16), rgba(181,143,104,0.28))',
+            'linear-gradient(135deg, rgba(170,168,153,0.22), rgba(204,205,191,0.5))',
 
         'Título profesional':
-            'linear-gradient(135deg, rgba(119,137,112,0.16), rgba(119,137,112,0.28))',
+            'linear-gradient(135deg, rgba(143,149,127,0.16), rgba(170,168,153,0.32))',
+
+        'Estudios universitarios':
+            'linear-gradient(135deg, rgba(204,205,191,0.46), rgba(170,168,153,0.28))',
     };
 
     const institutionCode =
-        item.code ??
-        (item.badge === 'Doctorado'
+        item?.code ??
+        (badge === 'Doctorado'
             ? 'UGR'
-            : item.badge === 'Máster' || item.badge === 'Magíster'
+            : badge === 'Máster' || badge === 'Magíster'
                 ? 'UPO'
-                : 'UCT');
+                : badge === 'Estudios universitarios'
+                    ? 'UCO'
+                    : 'UCT');
 
     return (
         <div
@@ -455,34 +460,32 @@ function DegreeSeal({ item, language, content }) {
                 gridTemplateColumns: '56px minmax(0, 1fr)',
                 gap: '14px',
                 padding: '18px 0',
-                borderTop: '1px solid rgba(73,99,77,0.12)',
+                borderTop: '1px solid rgba(143,149,127,0.2)',
             }}
         >
             <div
-                aria-label={item.institution ?? 'Institución académica'}
+                aria-label={item?.institution ?? 'Institución académica'}
                 style={{
                     width: '56px',
                     height: '56px',
-                    borderRadius: '18px',
                     display: 'grid',
                     placeItems: 'center',
-                    border: '1px solid rgba(73,99,77,0.12)',
-
+                    borderRadius: '18px',
+                    border: '1px solid rgba(143,149,127,0.22)',
                     background:
-                        backgroundByDegree[item.badge] ??
-                        'linear-gradient(135deg, rgba(119,137,112,0.16), rgba(119,137,112,0.28))',
-
+                        backgroundByDegree[badge] ??
+                        backgroundByDegree['Título profesional'],
                     color: 'var(--ink)',
                     fontFamily: 'Inter, system-ui, sans-serif',
-                    fontSize: '0.72rem',
-                    fontWeight: '700',
+                    fontSize: '0.7rem',
+                    fontWeight: 700,
                     letterSpacing: '0.08em',
                 }}
             >
                 {institutionCode}
             </div>
 
-            <div>
+            <div style={{ minWidth: 0 }}>
                 <div
                     style={{
                         display: 'flex',
@@ -492,11 +495,17 @@ function DegreeSeal({ item, language, content }) {
                         flexWrap: 'wrap',
                     }}
                 >
-                    <div>
+                    <div
+                        style={{
+                            minWidth: 0,
+                            flex: 1,
+                        }}
+                    >
                         <p
                             style={{
                                 margin: 0,
-                                fontFamily: 'Inter, system-ui, sans-serif',
+                                fontFamily:
+                                    'Inter, system-ui, sans-serif',
                                 fontSize: '0.72rem',
                                 letterSpacing: '0.16em',
                                 textTransform: 'uppercase',
@@ -522,12 +531,14 @@ function DegreeSeal({ item, language, content }) {
 
                     <span
                         style={{
-                            fontFamily: 'Inter, system-ui, sans-serif',
+                            flexShrink: 0,
+                            fontFamily:
+                                'Inter, system-ui, sans-serif',
                             fontSize: '0.78rem',
                             color: 'var(--muted)',
                         }}
                     >
-                        {item.year ?? ''}
+                        {item?.year ?? ''}
                     </span>
                 </div>
 
@@ -540,9 +551,9 @@ function DegreeSeal({ item, language, content }) {
                         color: 'var(--muted)',
                     }}
                 >
-                    {item.institution ?? ''}
+                    {item?.institution ?? ''}
 
-                    {item.country ? (
+                    {item?.country ? (
                         <>
                             {' '}
                             {content?.institutionConnector ?? '·'}{' '}
@@ -555,7 +566,8 @@ function DegreeSeal({ item, language, content }) {
                     <p
                         style={{
                             margin: '5px 0 0',
-                            fontFamily: 'Inter, system-ui, sans-serif',
+                            fontFamily:
+                                'Inter, system-ui, sans-serif',
                             fontSize: '0.82rem',
                             lineHeight: 1.55,
                             color: 'var(--muted)',
@@ -569,18 +581,35 @@ function DegreeSeal({ item, language, content }) {
     );
 }
 
+/* =========================================================
+   IDIOMAS
+========================================================= */
+
 function LanguageItem({ item, language }) {
+    const languageId =
+        item?.id ??
+        (item?.lang === 'Español'
+            ? 'spanish'
+            : item?.lang === 'Portugués'
+                ? 'portuguese'
+                : 'english');
+
     const translatedLanguage =
-        languageContentByLanguage[language]?.[item.lang] ??
-        languageContentByLanguage.Español[item.lang];
+        languageContentByLanguage?.[language]?.[languageId] ??
+        languageContentByLanguage?.Español?.[languageId] ?? {
+            name: item?.lang ?? 'Idioma',
+            level: item?.level ?? '',
+            description: item?.description ?? '',
+        };
 
     return (
         <div
             style={{
                 padding: '18px',
                 borderRadius: '22px',
-                border: '1px solid rgba(73,99,77,0.1)',
-                background: 'rgba(255,255,255,0.72)',
+                border: '1px solid rgba(143,149,127,0.2)',
+                background:
+                    'linear-gradient(145deg, rgba(255,255,255,0.76), rgba(204,205,191,0.34))',
             }}
         >
             <div
@@ -591,7 +620,7 @@ function LanguageItem({ item, language }) {
                     gap: '14px',
                 }}
             >
-                <div>
+                <div style={{ minWidth: 0 }}>
                     <p
                         style={{
                             margin: 0,
@@ -622,39 +651,69 @@ function LanguageItem({ item, language }) {
                         flexShrink: 0,
                         padding: '8px 12px',
                         borderRadius: '999px',
-                        background: 'rgba(73,99,77,0.08)',
-                        color: 'var(--green)',
+                        background: 'rgba(143,149,127,0.14)',
+                        color: 'var(--green-deep)',
                         fontFamily: 'Inter, system-ui, sans-serif',
                         fontSize: '0.78rem',
-                        fontWeight: '600',
+                        fontWeight: 700,
                     }}
                 >
-                    {item.code}
+                    {item?.code ?? ''}
                 </span>
             </div>
 
-            <p
-                style={{
-                    margin: '12px 0 0',
-                    fontFamily: 'Inter, system-ui, sans-serif',
-                    fontSize: '0.8rem',
-                    lineHeight: 1.55,
-                    color: 'var(--muted)',
-                }}
-            >
-                {translatedLanguage.description}
-            </p>
+            {translatedLanguage.description ? (
+                <p
+                    style={{
+                        margin: '12px 0 0',
+                        fontFamily: 'Inter, system-ui, sans-serif',
+                        fontSize: '0.8rem',
+                        lineHeight: 1.55,
+                        color: 'var(--muted)',
+                    }}
+                >
+                    {translatedLanguage.description}
+                </p>
+            ) : null}
         </div>
     );
 }
 
+/* =========================================================
+   SECCIÓN PRINCIPAL
+========================================================= */
+
 export default function ExploreSection() {
     const { language } = useLanguage();
+    const { content: editableContent } = useEditor();
 
     const currentLanguage =
-        contentByLanguage[language] ? language : 'Español';
+        contentByLanguage[language]
+            ? language
+            : 'Español';
 
-    const content = contentByLanguage[currentLanguage];
+    const staticContent =
+        contentByLanguage[currentLanguage] ??
+        contentByLanguage.Español;
+
+    const defaultExplore =
+        defaultEditableContent?.explore?.[currentLanguage] ??
+        defaultEditableContent?.explore?.Español ??
+        {};
+
+    const savedExplore =
+        editableContent?.explore?.[currentLanguage] ??
+        {};
+
+    const content = {
+        ...staticContent,
+        ...defaultExplore,
+        ...savedExplore,
+    };
+
+    const tags = Array.isArray(content.tags)
+        ? content.tags
+        : [];
 
     return (
         <section
@@ -665,13 +724,45 @@ export default function ExploreSection() {
             }}
         >
             <Container>
-                <SectionTitle
-                    title={content.sectionTitle}
-                    subtitle={content.sectionSubtitle}
-                    align="center"
-                />
+                <div
+                    style={{
+                        maxWidth: '760px',
+                        margin: '0 auto 38px',
+                        textAlign: 'center',
+                    }}
+                >
+                    <EditableText
+                        as="h2"
+                        path={`explore.${currentLanguage}.sectionTitle`}
+                        style={{
+                            margin: 0,
+                            fontFamily:
+                                'Playfair Display, Georgia, serif',
+                            fontSize:
+                                'clamp(2rem, 4.5vw, 3.5rem)',
+                            lineHeight: 1.08,
+                            color: 'var(--ink)',
+                        }}
+                    />
+
+                    <EditableText
+                        as="p"
+                        multiline
+                        path={`explore.${currentLanguage}.sectionSubtitle`}
+                        style={{
+                            maxWidth: '680px',
+                            margin: '14px auto 0',
+                            fontFamily:
+                                'Inter, system-ui, sans-serif',
+                            fontSize: '0.98rem',
+                            lineHeight: 1.75,
+                            color: 'var(--muted)',
+                        }}
+                    />
+                </div>
 
                 <div
+                    className="explore-main-grid"
                     style={{
                         display: 'grid',
                         gridTemplateColumns:
@@ -679,9 +770,9 @@ export default function ExploreSection() {
                         gap: '22px',
                         alignItems: 'stretch',
                     }}
-                    className="explore-main-grid"
                 >
                     <Card
+                        className="explore-about-card"
                         style={{
                             padding: '24px',
                             display: 'grid',
@@ -690,9 +781,10 @@ export default function ExploreSection() {
                             gap: '22px',
                             alignItems: 'center',
                         }}
-                        className="explore-about-card"
                     >
-                        <ComalleFrame content={content} />
+                        <ComalleFrame
+                            language={currentLanguage}
+                        />
 
                         <div
                             style={{
@@ -702,7 +794,9 @@ export default function ExploreSection() {
                             }}
                         >
                             <div>
-                                <p
+                                <EditableText
+                                    as="p"
+                                    path={`explore.${currentLanguage}.aboutLabel`}
                                     style={{
                                         margin: 0,
                                         fontFamily:
@@ -712,11 +806,12 @@ export default function ExploreSection() {
                                         textTransform: 'uppercase',
                                         color: 'var(--green)',
                                     }}
-                                >
-                                    {content.aboutLabel}
-                                </p>
+                                />
 
-                                <h3
+                                <EditableText
+                                    as="h3"
+                                    multiline
+                                    path={`explore.${currentLanguage}.aboutTitle`}
                                     style={{
                                         margin: '8px 0 0',
                                         fontFamily:
@@ -726,12 +821,13 @@ export default function ExploreSection() {
                                         lineHeight: 1.25,
                                         color: 'var(--ink)',
                                     }}
-                                >
-                                    {content.aboutTitle}
-                                </h3>
+                                />
                             </div>
 
-                            <p
+                            <EditableText
+                                as="p"
+                                multiline
+                                path={`explore.${currentLanguage}.aboutText`}
                                 style={{
                                     margin: 0,
                                     fontFamily:
@@ -740,9 +836,7 @@ export default function ExploreSection() {
                                     lineHeight: 1.8,
                                     color: 'var(--muted)',
                                 }}
-                            >
-                                {content.aboutText}
-                            </p>
+                            />
 
                             <div
                                 style={{
@@ -751,31 +845,35 @@ export default function ExploreSection() {
                                     gap: '10px',
                                 }}
                             >
-                                {content.tags.map((value) => (
-                                    <span
-                                        key={value}
+                                {tags.map((_, index) => (
+                                    <EditableText
+                                        key={`${currentLanguage}-tag-${index}`}
+                                        as="span"
+                                        path={`explore.${currentLanguage}.tags.${index}`}
                                         style={{
+                                            display: 'inline-flex',
                                             padding: '8px 12px',
                                             borderRadius: '999px',
                                             border:
-                                                '1px solid rgba(73,99,77,0.1)',
+                                                '1px solid rgba(143,149,127,0.2)',
                                             background:
-                                                'rgba(73,99,77,0.08)',
-                                            color: 'var(--green)',
+                                                'rgba(143,149,127,0.12)',
+                                            color:
+                                                'var(--green-deep)',
                                             fontFamily:
                                                 'Inter, system-ui, sans-serif',
                                             fontSize: '0.8rem',
                                         }}
-                                    >
-                                        {value}
-                                    </span>
+                                    />
                                 ))}
                             </div>
                         </div>
                     </Card>
 
                     <Card style={{ padding: '24px' }}>
-                        <p
+                        <EditableText
+                            as="p"
+                            path={`explore.${currentLanguage}.degreeLabel`}
                             style={{
                                 margin: 0,
                                 fontFamily:
@@ -785,14 +883,15 @@ export default function ExploreSection() {
                                 textTransform: 'uppercase',
                                 color: 'var(--green)',
                             }}
-                        >
-                            {content.degreeLabel}
-                        </p>
+                        />
 
                         <div style={{ marginTop: '10px' }}>
-                            {degreeItems.map((item) => (
+                            {degreeItems.map((item, index) => (
                                 <DegreeSeal
-                                    key={`${item.badge}-${item.title}`}
+                                    key={
+                                        item?.id ??
+                                        `${item?.badge ?? 'degree'}-${index}`
+                                    }
                                     item={item}
                                     language={currentLanguage}
                                     content={content}
@@ -802,7 +901,9 @@ export default function ExploreSection() {
                     </Card>
 
                     <Card style={{ padding: '24px' }}>
-                        <p
+                        <EditableText
+                            as="p"
+                            path={`explore.${currentLanguage}.languageLabel`}
                             style={{
                                 margin: 0,
                                 fontFamily:
@@ -812,9 +913,7 @@ export default function ExploreSection() {
                                 textTransform: 'uppercase',
                                 color: 'var(--green)',
                             }}
-                        >
-                            {content.languageLabel}
-                        </p>
+                        />
 
                         <div
                             style={{
@@ -823,29 +922,82 @@ export default function ExploreSection() {
                                 marginTop: '16px',
                             }}
                         >
-                            {languageSkills.map((item) => (
-                                <LanguageItem
-                                    key={item.lang}
-                                    item={item}
-                                    language={currentLanguage}
-                                />
-                            ))}
+                            {languageSkills.map(
+                                (item, index) => (
+                                    <LanguageItem
+                                        key={
+                                            item?.id ??
+                                            `language-${index}`
+                                        }
+                                        item={item}
+                                        language={
+                                            currentLanguage
+                                        }
+                                    />
+                                ),
+                            )}
                         </div>
                     </Card>
 
                     <Card
                         style={{
+                            position: 'relative',
+                            overflow: 'hidden',
                             padding: '26px',
                             display: 'flex',
                             flexDirection: 'column',
                             justifyContent: 'space-between',
-                            color: 'white',
+                            color: '#ffffff',
                             background:
-                                'linear-gradient(135deg, rgba(73,99,77,0.96), rgba(112,139,91,0.94))',
+                                'linear-gradient(135deg, #737966 0%, #8f957f 55%, #aaa899 100%)',
                         }}
                     >
-                        <div>
-                            <p
+                        <svg
+                            viewBox="0 0 180 220"
+                            aria-hidden="true"
+                            style={{
+                                position: 'absolute',
+                                right: '-36px',
+                                bottom: '-48px',
+                                width: '180px',
+                                height: '220px',
+                                opacity: 0.12,
+                                pointerEvents: 'none',
+                            }}
+                        >
+                            <path
+                                d="M84 216C81 164 89 112 126 34"
+                                fill="none"
+                                stroke="#fff"
+                                strokeWidth="3"
+                                strokeLinecap="round"
+                            />
+
+                            <path
+                                d="M105 89C137 81 153 60 154 31C125 34 107 53 105 89Z"
+                                fill="#fff"
+                            />
+
+                            <path
+                                d="M93 129C57 124 38 103 37 72C69 75 90 94 93 129Z"
+                                fill="#fff"
+                            />
+
+                            <path
+                                d="M88 170C118 165 135 148 137 121C109 123 91 142 88 170Z"
+                                fill="#fff"
+                            />
+                        </svg>
+
+                        <div
+                            style={{
+                                position: 'relative',
+                                zIndex: 1,
+                            }}
+                        >
+                            <EditableText
+                                as="p"
+                                path={`explore.${currentLanguage}.focusLabel`}
                                 style={{
                                     margin: 0,
                                     fontFamily:
@@ -853,13 +1005,15 @@ export default function ExploreSection() {
                                     fontSize: '0.72rem',
                                     letterSpacing: '0.18em',
                                     textTransform: 'uppercase',
-                                    color: 'rgba(255,255,255,0.68)',
+                                    color:
+                                        'rgba(255,255,255,0.7)',
                                 }}
-                            >
-                                {content.focusLabel}
-                            </p>
+                            />
 
-                            <h3
+                            <EditableText
+                                as="h3"
+                                multiline
+                                path={`explore.${currentLanguage}.focusTitle`}
                                 style={{
                                     margin: '10px 0 0',
                                     fontFamily:
@@ -867,24 +1021,28 @@ export default function ExploreSection() {
                                     fontSize:
                                         'clamp(1.4rem, 2.3vw, 1.65rem)',
                                     lineHeight: 1.35,
+                                    color: '#ffffff',
                                 }}
-                            >
-                                {content.focusTitle}
-                            </h3>
+                            />
                         </div>
 
-                        <p
+                        <EditableText
+                            as="p"
+                            multiline
+                            path={`explore.${currentLanguage}.focusText`}
                             style={{
+                                position: 'relative',
+                                zIndex: 1,
                                 margin: '20px 0 0',
+                                maxWidth: '95%',
                                 fontFamily:
                                     'Inter, system-ui, sans-serif',
                                 fontSize: '0.94rem',
                                 lineHeight: 1.8,
-                                color: 'rgba(255,255,255,0.84)',
+                                color:
+                                    'rgba(255,255,255,0.86)',
                             }}
-                        >
-                            {content.focusText}
-                        </p>
+                        />
                     </Card>
                 </div>
             </Container>

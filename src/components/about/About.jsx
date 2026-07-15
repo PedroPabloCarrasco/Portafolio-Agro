@@ -1,11 +1,10 @@
 import Container from '../common/Container';
 import Card from '../common/Card';
 import SectionTitle from '../common/SectionTitle';
-
 import EditableText from '../admin/EditableText';
 
+import { defaultEditableContent } from '../../data/editableContent';
 import { useEditor } from '../../context/EditorContext';
-import { useLanguage } from '../../context/LanguageContext';
 
 function FieldPortrait() {
     return (
@@ -17,11 +16,15 @@ function FieldPortrait() {
                 margin: '0 auto',
                 borderRadius: '50%',
                 overflow: 'hidden',
+                border: '8px solid rgba(204, 205, 191, 0.72)',
+                boxShadow:
+                    '0 24px 54px rgba(52, 54, 47, 0.16)',
+                background: 'var(--sage)',
             }}
         >
             <img
                 src="/images/claudia-profile.jpeg"
-                alt="Claudia Barrera"
+                alt="Claudia Paz Barrera Salas"
                 style={{
                     width: '100%',
                     height: '100%',
@@ -30,95 +33,213 @@ function FieldPortrait() {
                     display: 'block',
                 }}
             />
+
+            <div
+                aria-hidden="true"
+                style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background:
+                        'linear-gradient(180deg, transparent 62%, rgba(52,54,47,0.12) 100%)',
+                    pointerEvents: 'none',
+                }}
+            />
         </div>
     );
 }
 
+function BotanicalDecoration() {
+    return (
+        <svg
+            viewBox="0 0 180 240"
+            fill="none"
+            aria-hidden="true"
+            style={{
+                position: 'absolute',
+                right: '-32px',
+                bottom: '-58px',
+                width: '180px',
+                height: '240px',
+                opacity: 0.1,
+                pointerEvents: 'none',
+            }}
+        >
+            <path
+                d="M84 230C81 181 89 125 123 42"
+                stroke="var(--green)"
+                strokeWidth="3"
+                strokeLinecap="round"
+            />
+
+            <path
+                d="M101 103C132 96 149 75 151 47C123 49 104 70 101 103Z"
+                fill="var(--green)"
+            />
+
+            <path
+                d="M91 145C57 140 38 119 36 88C68 92 89 112 91 145Z"
+                fill="var(--sage)"
+            />
+
+            <path
+                d="M87 184C115 179 132 162 134 137C108 139 90 157 87 184Z"
+                fill="var(--green-light)"
+            />
+        </svg>
+    );
+}
+
 export default function About() {
-    const { copy } = useLanguage();
     const { content } = useEditor();
+
+    const defaultAbout =
+        defaultEditableContent?.about ?? {};
+
+    const savedAbout =
+        content?.about ?? {};
+
+    /*
+     * Combina los datos predeterminados con los datos
+     * guardados por el editor.
+     */
+    const about = {
+        ...defaultAbout,
+        ...savedAbout,
+    };
+
+    /*
+     * Validación segura de arreglos.
+     * Evita el error "Cannot read properties of undefined (reading 'map')".
+     */
+    const values = Array.isArray(savedAbout.values)
+        ? savedAbout.values
+        : Array.isArray(defaultAbout.values)
+            ? defaultAbout.values
+            : [];
+
+    const paragraphs = Array.isArray(savedAbout.paragraphs)
+        ? savedAbout.paragraphs
+        : Array.isArray(defaultAbout.paragraphs)
+            ? defaultAbout.paragraphs
+            : [];
+
+    const areas = Array.isArray(savedAbout.areas)
+        ? savedAbout.areas
+        : Array.isArray(defaultAbout.areas)
+            ? defaultAbout.areas
+            : [];
 
     return (
         <section
             id="sobre-mi"
             style={{
-                padding: '18px 0 80px',
+                position: 'relative',
+                overflow: 'hidden',
+                padding: '28px 0 88px',
             }}
         >
             <Container>
                 <SectionTitle
                     titlePath="about.title"
                     subtitlePath="about.description"
-
+                    align="center"
                 />
 
                 <div
+                    className="about-main-grid"
                     style={{
                         display: 'grid',
-                        gap: '22px',
                         gridTemplateColumns:
-                            'minmax(320px, 0.95fr) minmax(0, 1.05fr)',
+                            'minmax(300px, 0.88fr) minmax(0, 1.12fr)',
+                        gap: '22px',
+                        alignItems: 'stretch',
                     }}
                 >
                     {/* Columna izquierda */}
                     <Card
                         style={{
-                            padding: '24px',
+                            position: 'relative',
+                            overflow: 'hidden',
+                            padding: '26px',
+                            background:
+                                'linear-gradient(145deg, rgba(255,255,255,0.78), rgba(204,205,191,0.48))',
+                            border:
+                                '1px solid rgba(143,149,127,0.22)',
                         }}
                     >
-                        <FieldPortrait />
+                        <BotanicalDecoration />
 
                         <div
                             style={{
-                                display: 'grid',
-                                gap: '14px',
-                                marginTop: '20px',
+                                position: 'relative',
+                                zIndex: 1,
                             }}
                         >
-                            {content.about.values.map((item, index) => (
-                                <div
-                                    key={`about-value-${index}`}
-                                    style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '12px',
-                                        padding: '12px 14px',
-                                        borderRadius: '18px',
+                            <FieldPortrait />
 
-                                        background:
-                                            index % 2 === 0
-                                                ? 'rgba(73, 99, 77, 0.06)'
-                                                : 'rgba(181, 143, 104, 0.06)',
-
-                                        border:
-                                            '1px solid rgba(73, 99, 77, 0.08)',
-                                    }}
-                                >
-                                    <span
+                            <div
+                                style={{
+                                    display: 'grid',
+                                    gap: '12px',
+                                    marginTop: '22px',
+                                }}
+                            >
+                                {values.map((_, index) => (
+                                    <div
+                                        key={`about-value-${index}`}
                                         style={{
-                                            width: '10px',
-                                            height: '10px',
-                                            borderRadius: '50%',
-
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '12px',
+                                            padding: '13px 14px',
+                                            borderRadius:
+                                                index % 2 === 0
+                                                    ? '18px 8px 18px 8px'
+                                                    : '8px 18px 8px 18px',
                                             background:
-                                                'linear-gradient(135deg, var(--green), var(--sage))',
-
-                                            flexShrink: 0,
+                                                index % 2 === 0
+                                                    ? 'rgba(143,149,127,0.1)'
+                                                    : 'rgba(170,168,153,0.1)',
+                                            border:
+                                                '1px solid rgba(143,149,127,0.14)',
                                         }}
-                                    />
+                                    >
+                                        <span
+                                            aria-hidden="true"
+                                            style={{
+                                                width: '11px',
+                                                height: '11px',
+                                                flexShrink: 0,
+                                                borderRadius:
+                                                    index % 2 === 0
+                                                        ? '50% 50% 50% 12%'
+                                                        : '50% 12% 50% 50%',
+                                                background:
+                                                    'linear-gradient(135deg, var(--green), var(--sage))',
+                                                transform:
+                                                    index % 2 === 0
+                                                        ? 'rotate(35deg)'
+                                                        : 'rotate(-35deg)',
+                                                boxShadow:
+                                                    '0 0 0 5px rgba(143,149,127,0.09)',
+                                            }}
+                                        />
 
-                                    <EditableText
-                                        path={`about.values.${index}`}
-                                        style={{
-                                            flex: 1,
-                                            fontFamily:
-                                                'Inter, system-ui, sans-serif',
-                                            fontSize: '0.92rem',
-                                            color: 'var(--ink)',
-                                        }}
-                                    />
-                                </div>
-                            ))}
+                                        <EditableText
+                                            as="span"
+                                            path={`about.values.${index}`}
+                                            style={{
+                                                flex: 1,
+                                                fontFamily:
+                                                    'Inter, system-ui, sans-serif',
+                                                fontSize: '0.92rem',
+                                                lineHeight: 1.5,
+                                                color: 'var(--ink)',
+                                            }}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </Card>
 
@@ -127,101 +248,198 @@ export default function About() {
                         style={{
                             display: 'grid',
                             gap: '22px',
+                            alignContent: 'start',
                         }}
                     >
                         {/* Resumen profesional */}
                         <Card
                             style={{
+                                position: 'relative',
+                                overflow: 'hidden',
                                 padding: '28px',
+                                background:
+                                    'linear-gradient(145deg, rgba(255,255,255,0.82), rgba(204,205,191,0.35))',
+                                border:
+                                    '1px solid rgba(143,149,127,0.2)',
                             }}
                         >
-                            <EditableText
-                                path="about.label"
+                            <div
+                                aria-hidden="true"
                                 style={{
-                                    fontFamily:
-                                        'Inter, system-ui, sans-serif',
-                                    fontSize: '0.72rem',
-                                    letterSpacing: '0.18em',
-                                    textTransform: 'uppercase',
-                                    color: 'var(--green)',
+                                    position: 'absolute',
+                                    top: '-48px',
+                                    right: '-48px',
+                                    width: '150px',
+                                    height: '150px',
+                                    borderRadius:
+                                        '62% 38% 68% 32% / 42% 62% 38% 58%',
+                                    background:
+                                        'rgba(143,149,127,0.08)',
+                                    transform: 'rotate(20deg)',
                                 }}
                             />
 
-                            <EditableText
-                                as="h3"
-                                path="about.title"
+                            <div
                                 style={{
-                                    fontFamily:
-                                        'Playfair Display, Georgia, serif',
-                                    fontSize: '1.8rem',
-                                    lineHeight: '1.3',
-                                    color: 'var(--ink)',
-                                    marginTop: '10px',
+                                    position: 'relative',
+                                    zIndex: 1,
                                 }}
-                            />
+                            >
+                                <EditableText
+                                    as="p"
+                                    path="about.label"
+                                    style={{
+                                        margin: 0,
+                                        fontFamily:
+                                            'Inter, system-ui, sans-serif',
+                                        fontSize: '0.72rem',
+                                        letterSpacing: '0.18em',
+                                        textTransform: 'uppercase',
+                                        color: 'var(--green)',
+                                    }}
+                                />
 
-                            {content.about.paragraphs.map(
-                                (paragraph, index) => (
-                                    <EditableText
-                                        key={`about-paragraph-${index}`}
-                                        path={`about.paragraphs.${index}`}
-                                        multiline
-                                        style={{
-                                            fontFamily:
-                                                'Inter, system-ui, sans-serif',
-                                            fontSize: '1rem',
-                                            lineHeight: '1.85',
-                                            color: 'var(--muted)',
+                                <EditableText
+                                    as="h3"
+                                    path={
+                                        about.professionalTitle !==
+                                            undefined
+                                            ? 'about.professionalTitle'
+                                            : 'about.title'
+                                    }
+                                    multiline
+                                    style={{
+                                        margin: '10px 0 0',
+                                        fontFamily:
+                                            'Playfair Display, Georgia, serif',
+                                        fontSize:
+                                            'clamp(1.55rem, 2.7vw, 2rem)',
+                                        lineHeight: 1.28,
+                                        color: 'var(--ink)',
+                                    }}
+                                />
 
-                                            marginTop:
-                                                index === 0
-                                                    ? '16px'
-                                                    : '14px',
-
-                                            whiteSpace: 'pre-line',
-                                        }}
-                                    />
-                                ),
-                            )}
+                                <div
+                                    style={{
+                                        display: 'grid',
+                                        gap: '14px',
+                                        marginTop: '18px',
+                                    }}
+                                >
+                                    {paragraphs.map(
+                                        (_, index) => (
+                                            <EditableText
+                                                key={`about-paragraph-${index}`}
+                                                as="p"
+                                                path={`about.paragraphs.${index}`}
+                                                multiline
+                                                style={{
+                                                    margin: 0,
+                                                    fontFamily:
+                                                        'Inter, system-ui, sans-serif',
+                                                    fontSize:
+                                                        '0.96rem',
+                                                    lineHeight:
+                                                        1.82,
+                                                    color:
+                                                        'var(--muted)',
+                                                    whiteSpace:
+                                                        'pre-line',
+                                                }}
+                                            />
+                                        ),
+                                    )}
+                                </div>
+                            </div>
                         </Card>
 
                         {/* Áreas de especialización */}
                         <div
+                            className="about-areas-grid"
                             style={{
                                 display: 'grid',
-                                gap: '14px',
                                 gridTemplateColumns:
                                     'repeat(3, minmax(0, 1fr))',
+                                gap: '14px',
                             }}
                         >
-                            {content.about.areas.map((item, index) => (
+                            {areas.map((_, index) => (
                                 <Card
                                     key={`about-area-${index}`}
                                     style={{
-                                        padding: '18px',
+                                        position: 'relative',
+                                        overflow: 'hidden',
+                                        minHeight: '150px',
+                                        padding: '19px',
+                                        display: 'flex',
+                                        flexDirection:
+                                            'column',
+                                        justifyContent:
+                                            'space-between',
+                                        background:
+                                            index === 0
+                                                ? 'linear-gradient(145deg, rgba(143,149,127,0.16), rgba(255,255,255,0.76))'
+                                                : index === 1
+                                                    ? 'linear-gradient(145deg, rgba(204,205,191,0.52), rgba(255,255,255,0.78))'
+                                                    : 'linear-gradient(145deg, rgba(170,168,153,0.18), rgba(255,255,255,0.78))',
+                                        border:
+                                            '1px solid rgba(143,149,127,0.18)',
                                     }}
                                 >
-                                    <EditableText
-                                        path={`about.areas.${index}.label`}
+                                    <span
+                                        aria-hidden="true"
                                         style={{
-                                            fontFamily:
-                                                'Inter, system-ui, sans-serif',
-                                            fontSize: '0.72rem',
-                                            letterSpacing: '0.16em',
-                                            textTransform: 'uppercase',
-                                            color: 'var(--green)',
+                                            position:
+                                                'absolute',
+                                            right: '-14px',
+                                            bottom: '-14px',
+                                            width: '74px',
+                                            height: '74px',
+                                            borderRadius:
+                                                index % 2 === 0
+                                                    ? '70% 30% 70% 30%'
+                                                    : '30% 70% 30% 70%',
+                                            background:
+                                                'rgba(143,149,127,0.08)',
+                                            transform:
+                                                'rotate(24deg)',
                                         }}
                                     />
 
                                     <EditableText
-                                        path={`about.areas.${index}.value`}
+                                        as="p"
+                                        path={`about.areas.${index}.label`}
                                         style={{
+                                            position:
+                                                'relative',
+                                            zIndex: 1,
+                                            margin: 0,
+                                            fontFamily:
+                                                'Inter, system-ui, sans-serif',
+                                            fontSize: '0.7rem',
+                                            letterSpacing:
+                                                '0.14em',
+                                            textTransform:
+                                                'uppercase',
+                                            color:
+                                                'var(--green)',
+                                        }}
+                                    />
+
+                                    <EditableText
+                                        as="p"
+                                        path={`about.areas.${index}.value`}
+                                        multiline
+                                        style={{
+                                            position:
+                                                'relative',
+                                            zIndex: 1,
+                                            margin: '18px 0 0',
                                             fontFamily:
                                                 'Playfair Display, Georgia, serif',
-                                            fontSize: '1.02rem',
-                                            lineHeight: '1.4',
+                                            fontSize: '1.06rem',
+                                            lineHeight: 1.4,
                                             color: 'var(--ink)',
-                                            marginTop: '10px',
                                         }}
                                     />
                                 </Card>
@@ -230,6 +448,20 @@ export default function About() {
                     </div>
                 </div>
             </Container>
+
+            <style>{`
+                @media (max-width: 980px) {
+                    .about-main-grid {
+                        grid-template-columns: 1fr !important;
+                    }
+                }
+
+                @media (max-width: 700px) {
+                    .about-areas-grid {
+                        grid-template-columns: 1fr !important;
+                    }
+                }
+            `}</style>
         </section>
     );
 }
