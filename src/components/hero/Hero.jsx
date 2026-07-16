@@ -5,6 +5,146 @@ import { useLanguage } from '../../context/LanguageContext';
 
 const colors = ['#7f8a6f', '#a6a28f', '#d5d0c2', '#7f8a6f', '#a6a28f', '#d5d0c2'];
 
+const realHeroContent = {
+    title: 'Claudia Paz Barrera Salas',
+    intro:
+        'Especialista en agroecología, diseño y planificación de agroecosistemas, con experiencia en investigación aplicada, docencia universitaria y trabajo territorial. Su trayectoria integra diagnóstico predial, manejo ecológico del suelo, biodiversidad funcional y procesos participativos para fortalecer sistemas alimentarios sostenibles y resilientes.',
+    pages: [
+        {
+            label: 'Perfil',
+            title: ['Claudia Paz', 'Barrera Salas'],
+            subtitle: 'Ingeniera Agrónoma · Doctora en Agroecología',
+            highlights: [
+                'Especialista en transición agroecológica, diseño y planificación de agroecosistemas.',
+                'Experiencia en investigación aplicada, docencia universitaria y trabajo territorial.',
+                'Trabajo colaborativo con agricultores, estudiantes, comunidades rurales y equipos técnicos.',
+                'Enfoque en biodiversidad funcional, suelo, servicios ecosistémicos y resiliencia predial.',
+            ],
+            tagline: 'Ciencia, territorio y aprendizaje para transformar los sistemas alimentarios.',
+            quote: 'La agroecología conecta conocimiento científico, experiencia territorial y acción colectiva.',
+            facts: [
+                'Más de 20 años de experiencia profesional',
+                'Trayectoria académica en Chile, España y Portugal',
+                'Especialista en agroecología y sistemas alimentarios',
+            ],
+        },
+        {
+            label: 'Formación',
+            title: ['Formación', 'académica'],
+            subtitle: 'Grados y especialización internacional',
+            highlights: [
+                'Doctora en Territorio, Patrimonio y Medio Ambiente, especialidad Agroecología — Universidad de Granada, 2020–2023.',
+                'Máster Oficial en Agricultura y Ganadería Ecológica — Universidad Pablo de Olavide, 2017–2018.',
+                'Ingeniera Agrónoma y Licenciada en Agronomía — Universidad Católica de Temuco.',
+                'Estudios de Ingeniería Agronómica y Montes — Universidad de Córdoba, España, 2000–2003.',
+            ],
+            tagline: 'Una formación construida entre ciencias agrarias, territorio y sostenibilidad.',
+            quote: 'La formación interdisciplinaria permite comprender el agroecosistema como una realidad ecológica y social.',
+            facts: [
+                'Doctorado con Mención Internacional',
+                'Máster oficial en agricultura ecológica',
+                'Portugués C1 e inglés B1–B2',
+            ],
+        },
+        {
+            label: 'Experiencia',
+            title: ['Experiencia', 'profesional'],
+            subtitle: 'Investigación, docencia y dirección académica',
+            highlights: [
+                'Investigadora Postdoctoral del proyecto GrowLIFE en cE3c, Universidade de Lisboa, desde 2023.',
+                'Coordinadora del Laboratorio de Agroecología y Sistemas Alimentarios Locales, Universidad de Granada, desde 2024.',
+                'Investigadora Asociada del grupo STAND de la Universidad de Granada y del grupo GAMA de la Universidad de Santiago de Chile.',
+                'Directora del Centro Tecnológico para la Sustentabilidad y de la carrera Técnico en Agricultura Ecológica en IDMA.',
+            ],
+            tagline: 'Investigación rigurosa con presencia activa en los territorios.',
+            quote: 'La investigación aplicada adquiere sentido cuando genera capacidades y soluciones junto a las comunidades.',
+            facts: [
+                'Investigadora Postdoctoral en Portugal',
+                'Dirección académica y coordinación de equipos',
+                'Docencia de pregrado, posgrado y educación continua',
+            ],
+        },
+        {
+            label: 'Proyectos',
+            title: ['Proyectos', 'destacados'],
+            subtitle: 'Investigación aplicada y transición agroecológica',
+            highlights: [
+                'GrowLIFE: sistemas alimentarios sostenibles mediante investigación-acción y co-creación multiactor.',
+                'LIFT: Living Labs agroecológicos para transformar sistemas alimentarios y compras públicas.',
+                'AGROSEA: análisis comparado de sistemas agroalimentarios y desarrollo comunitario.',
+                'Valorización agroindustrial de subproductos de la quínoa en la Región de O’Higgins.',
+            ],
+            tagline: 'Proyectos que articulan evidencia, participación y transformación territorial.',
+            quote: 'Cada territorio requiere soluciones diseñadas con las personas que lo habitan y producen.',
+            facts: [
+                'Proyectos LIFE y Horizon Europe',
+                'Coordinación técnica y territorial',
+                'Investigación participativa y transferencia',
+            ],
+        },
+        {
+            label: 'Publicaciones',
+            title: ['Publicaciones', 'y divulgación'],
+            subtitle: 'Producción científica y materiales formativos',
+            highlights: [
+                'Más de 30 artículos científicos y publicaciones especializadas en agroecología, biodiversidad y sustentabilidad.',
+                'Capítulos de libros sobre plantas multifuncionales, aprendizaje agroecológico y conocimiento local.',
+                'Autora de manuales y guías sobre biopreparados, plantas multifuncionales, visitas participativas y trabajo de campo.',
+                'Participación sostenida en congresos internacionales de agroecología, sistemas alimentarios y ciencias ambientales.',
+            ],
+            tagline: 'Conocimiento científico comunicado para ampliar su impacto social y educativo.',
+            quote: 'Publicar también significa traducir la investigación en herramientas útiles para estudiantes y territorios.',
+            facts: [
+                '30+ artículos y publicaciones científicas',
+                'Libros, capítulos, manuales y guías',
+                'Congresos en Europa y América Latina',
+            ],
+        },
+        {
+            label: 'Contacto',
+            title: ['Contacto', 'profesional'],
+            subtitle: 'Colaboración académica y territorial',
+            highlights: [
+                'Correo profesional: barrerasalasclaudia@gmail.com',
+                'Correo institucional: cpsalas@ciencias.ulisboa.pt',
+                'Áreas de colaboración: agroecología, sistemas alimentarios, transición socioecológica y desarrollo territorial.',
+                'Disponibilidad para investigación, docencia, asesoría técnica, formación y proyectos interdisciplinarios.',
+            ],
+            tagline: 'Abierta a construir redes de colaboración científica, educativa y territorial.',
+            quote: 'Las transiciones sostenibles se fortalecen mediante redes, cooperación y conocimiento compartido.',
+            facts: [
+                'Universidade de Lisboa',
+                'Universidad de Granada',
+                'Colaboración internacional',
+            ],
+        },
+    ],
+};
+
+function hasContent(value) {
+    if (Array.isArray(value)) return value.length > 0;
+    return value !== undefined && value !== null && String(value).trim() !== '';
+}
+
+function mergeHeroPage(fallbackPage, translatedPage = {}) {
+    return {
+        ...fallbackPage,
+        ...Object.fromEntries(
+            Object.entries(translatedPage).filter(([, value]) => hasContent(value))
+        ),
+        highlights: hasContent(translatedPage.highlights)
+            ? translatedPage.highlights
+            : fallbackPage.highlights,
+        facts: hasContent(translatedPage.facts)
+            ? translatedPage.facts
+            : fallbackPage.facts,
+        title: hasContent(translatedPage.title)
+            ? translatedPage.title
+            : fallbackPage.title,
+    };
+}
+
+
 const icons = {
     leaf: (
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -119,15 +259,15 @@ function getHighlightIcon(pageIndex, item, itemIndex) {
 
 const projectCatalog = [
     {
-        id: 'agroecologia-territorial',
-        title: 'Agroecología y desarrollo territorial',
-        category: 'Investigación aplicada',
+        id: 'growlife',
+        title: 'GrowLIFE',
+        category: 'Proyecto europeo LIFE',
         description:
-            'Proyecto orientado al diseño de estrategias agroecológicas para fortalecer sistemas productivos locales, mejorar la resiliencia territorial y vincular conocimiento académico con prácticas de campo.',
-        location: 'Territorios rurales y comunidades agrícolas',
-        period: '2022 — Actualidad',
-        role: 'Investigadora y coordinadora técnica',
-        results: ['Diagnóstico participativo', 'Diseño de estrategias sostenibles', 'Transferencia de conocimiento'],
+            'Iniciativa orientada a promover sistemas alimentarios sostenibles mediante investigación-acción, cambios de comportamiento y procesos de co-creación con agricultores, actores territoriales e instituciones.',
+        location: 'Portugal',
+        period: '2023 — 2028',
+        role: 'Investigadora Postdoctoral',
+        results: ['Investigación aplicada', 'Procesos participativos', 'Indicadores territoriales'],
         images: [
             'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=85',
             'https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=1400&q=85',
@@ -135,31 +275,31 @@ const projectCatalog = [
         ],
     },
     {
-        id: 'ganaderia-ecologica',
-        title: 'Ganadería ecológica y bienestar animal',
-        category: 'Producción sostenible',
+        id: 'lift',
+        title: 'Agroecological Food System Living Labs — LIFT',
+        category: 'Horizon Europe',
         description:
-            'Evaluación de prácticas ganaderas de bajo impacto, integrando criterios de bienestar animal, manejo eficiente de recursos y adaptación de los sistemas productivos a escenarios de cambio climático.',
-        location: 'Predios ganaderos y centros experimentales',
-        period: '2021 — 2024',
-        role: 'Especialista agroecológica',
-        results: ['Protocolos de manejo', 'Indicadores de bienestar', 'Recomendaciones productivas'],
+            'Proyecto de Living Labs orientado a transformar sistemas agroalimentarios mediante producción, distribución, compra pública y consumo de alimentos agroecológicos sostenibles conectados en una red internacional.',
+        location: 'Portugal y red internacional',
+        period: '2025 — 2028',
+        role: 'Liderazgo metodológico y territorial',
+        results: ['Living Labs', 'Compra pública sostenible', 'Red internacional'],
         images: [
-            'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1400&q=85',
-            'https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=1400&q=85',
-            'https://images.unsplash.com/photo-1545468258-576dbac5faa9?auto=format&fit=crop&w=1400&q=85',
+            'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=1400&q=85',
+            'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=1400&q=85',
+            'https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=1400&q=85',
         ],
     },
     {
-        id: 'biodiversidad-productiva',
-        title: 'Biodiversidad en sistemas productivos',
-        category: 'Conservación y territorio',
+        id: 'agrosea',
+        title: 'Sistemas Agroalimentarios y Pesqueros — AGROSEA',
+        category: 'Investigación internacional',
         description:
-            'Estudio de la biodiversidad funcional presente en paisajes agrícolas y su relación con la productividad, la salud del suelo y la conservación de servicios ecosistémicos.',
-        location: 'Paisajes agrícolas mediterráneos',
-        period: '2020 — 2023',
-        role: 'Investigadora asociada',
-        results: ['Monitoreo de biodiversidad', 'Cartografía territorial', 'Buenas prácticas agrícolas'],
+            'Análisis comparado de sistemas agroalimentarios y pesqueros en Andalucía y México, con énfasis en prácticas comunitarias, organización territorial, saberes locales, sostenibilidad y resiliencia.',
+        location: 'España, México y América Latina',
+        period: '2020 — 2022',
+        role: 'Investigadora externa',
+        results: ['Análisis comparado', 'Desarrollo comunitario', 'Sistemas alimentarios'],
         images: [
             'https://images.unsplash.com/photo-1492496913980-501348b61469?auto=format&fit=crop&w=1400&q=85',
             'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=1400&q=85',
@@ -167,19 +307,19 @@ const projectCatalog = [
         ],
     },
     {
-        id: 'transferencia-rural',
-        title: 'Transferencia y capacitación rural',
-        category: 'Vinculación con el medio',
+        id: 'quinoa-ohiggins',
+        title: 'Valorización agroindustrial de subproductos de la quínoa',
+        category: 'Innovación agroindustrial',
         description:
-            'Programa de formación dirigido a agricultores, equipos técnicos y comunidades, enfocado en producción sustentable, gestión territorial y adopción de herramientas agroecológicas.',
-        location: 'Comunidades y organizaciones rurales',
-        period: '2019 — Actualidad',
-        role: 'Docente y asesora',
-        results: ['Talleres participativos', 'Material educativo', 'Acompañamiento técnico'],
+            'Proyecto para diseñar y validar una unidad demostrativa de cultivo de quínoa orientada a la cosecha de hojas, transferencia tecnológica y adopción de prácticas por pequeños agricultores del secano costero.',
+        location: 'Región de O’Higgins, Chile',
+        period: '2015 — 2019',
+        role: 'Responsable de unidad demostrativa',
+        results: ['Unidad demostrativa', 'Capacitación', 'Transferencia tecnológica'],
         images: [
-            'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=1400&q=85',
-            'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=1400&q=85',
-            'https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=1400&q=85',
+            'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1400&q=85',
+            'https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=1400&q=85',
+            'https://images.unsplash.com/photo-1545468258-576dbac5faa9?auto=format&fit=crop&w=1400&q=85',
         ],
     },
 ];
@@ -235,6 +375,7 @@ function ProjectCarousel({ projects, activeColor }) {
             }}
         >
             <article
+                className="project-card"
                 style={{
                     position: 'relative',
                     overflow: 'hidden',
@@ -307,6 +448,7 @@ function ProjectCarousel({ projects, activeColor }) {
                     >
                         <button
                             type="button"
+                            className="project-image-button"
                             onClick={previousImage}
                             aria-label="Ver imagen anterior del proyecto"
                             style={{
@@ -326,6 +468,7 @@ function ProjectCarousel({ projects, activeColor }) {
                         </button>
                         <button
                             type="button"
+                            className="project-image-button"
                             onClick={nextImage}
                             aria-label="Ver siguiente imagen del proyecto"
                             style={{
@@ -511,6 +654,7 @@ function ProjectCarousel({ projects, activeColor }) {
             >
                 <button
                     type="button"
+                    className="project-nav-button"
                     onClick={previousProject}
                     aria-label="Ver proyecto anterior"
                     style={{
@@ -561,6 +705,7 @@ function ProjectCarousel({ projects, activeColor }) {
 
                 <button
                     type="button"
+                    className="project-nav-button"
                     onClick={nextProject}
                     aria-label="Ver siguiente proyecto"
                     style={{
@@ -683,8 +828,18 @@ export default function Hero() {
         };
     }, []);
 
-    const current = copy.hero.pages[displayedPage];
-    const activeColor = colors[displayedPage];
+    const translatedHero = copy?.hero ?? {};
+    const pages = realHeroContent.pages.map((page, index) =>
+        mergeHeroPage(page, translatedHero.pages?.[index])
+    );
+    const heroTitle = hasContent(translatedHero.title)
+        ? translatedHero.title
+        : realHeroContent.title;
+    const heroIntro = hasContent(translatedHero.intro)
+        ? translatedHero.intro
+        : realHeroContent.intro;
+    const current = pages[displayedPage] ?? pages[0];
+    const activeColor = colors[displayedPage] ?? colors[0];
 
     function handlePageChange(nextIndex) {
         if (nextIndex === activePage) return;
@@ -702,7 +857,179 @@ export default function Hero() {
     }
 
     return (
-        <section id="inicio" style={{ minHeight: '100vh', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 32px', position: 'relative' }}>
+        <section id="inicio" className="hero-section" style={{ minHeight: '100vh', background: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 32px', position: 'relative' }}>
+            <style>{`
+                .hero-section {
+                    isolation: isolate;
+                }
+
+                .hero-book-layout {
+                    position: relative;
+                }
+
+                .book-shell {
+                    transition: box-shadow 240ms ease, transform 240ms ease;
+                }
+
+                .book-shell:hover {
+                    box-shadow:
+                        0 34px 82px rgba(26, 35, 24, 0.22),
+                        0 10px 24px rgba(26, 35, 24, 0.12) !important;
+                    transform: translateY(-2px);
+                }
+
+                .project-card {
+                    transition:
+                        transform 220ms ease,
+                        box-shadow 220ms ease,
+                        border-color 220ms ease;
+                }
+
+                .project-card:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 24px 46px rgba(42, 51, 38, 0.17) !important;
+                }
+
+                .project-image-button,
+                .project-nav-button,
+                .hero-tab-button {
+                    outline: none;
+                    -webkit-tap-highlight-color: transparent;
+                }
+
+                .project-image-button:hover {
+                    background: rgba(36, 45, 32, 0.78) !important;
+                    transform: scale(1.06);
+                }
+
+                .project-nav-button:hover {
+                    background: rgba(255, 255, 255, 0.82) !important;
+                    transform: translateY(-2px);
+                }
+
+                .project-image-button:focus-visible,
+                .project-nav-button:focus-visible,
+                .hero-tab-button:focus-visible {
+                    box-shadow: 0 0 0 3px rgba(248, 248, 242, 0.95), 0 0 0 6px rgba(95, 108, 84, 0.48) !important;
+                }
+
+                .hero-tab-button::after {
+                    content: attr(data-label);
+                    position: absolute;
+                    right: calc(100% + 12px);
+                    top: 50%;
+                    transform: translateY(-50%) translateX(4px);
+                    padding: 7px 10px;
+                    border-radius: 999px;
+                    background: rgba(45, 53, 42, 0.9);
+                    color: #fff;
+                    font-family: Inter, sans-serif;
+                    font-size: 10px;
+                    font-weight: 600;
+                    letter-spacing: 0.04em;
+                    white-space: nowrap;
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: opacity 180ms ease, transform 180ms ease;
+                }
+
+                .hero-tab-button:hover::after,
+                .hero-tab-button:focus-visible::after {
+                    opacity: 1;
+                    transform: translateY(-50%) translateX(0);
+                }
+
+                @media (prefers-reduced-motion: reduce) {
+                    .book-shell,
+                    .project-card,
+                    .project-image-button,
+                    .project-nav-button,
+                    .hero-tab-button {
+                        transition: none !important;
+                        animation: none !important;
+                    }
+                }
+
+                @media (max-width: 960px) {
+                    .hero-section {
+                        padding: 32px 18px !important;
+                    }
+
+                    .hero-book-layout {
+                        max-width: 760px !important;
+                    }
+
+                    .hero-tabs {
+                        margin-left: -10px !important;
+                    }
+                }
+
+                @media (max-width: 760px) {
+                    .hero-section {
+                        min-height: auto !important;
+                        padding: 28px 14px 42px !important;
+                    }
+
+                    .hero-book-layout {
+                        flex-direction: column;
+                        align-items: stretch !important;
+                        gap: 18px !important;
+                    }
+
+                    .book-shell {
+                        flex-direction: column;
+                        min-height: auto !important;
+                        border-width: 7px !important;
+                    }
+
+                    .book-left-page,
+                    .book-right-page {
+                        flex: 1 1 auto !important;
+                        width: 100% !important;
+                    }
+
+                    .book-left-page {
+                        padding: 32px 24px 28px !important;
+                        border-radius: 18px 18px 0 0 !important;
+                    }
+
+                    .book-right-page {
+                        min-height: 360px;
+                        border-radius: 0 0 18px 18px !important;
+                    }
+
+                    .hero-tabs {
+                        flex-direction: row !important;
+                        flex-wrap: wrap;
+                        justify-content: center !important;
+                        margin-left: 0 !important;
+                    }
+
+                    .hero-tab-button {
+                        width: 52px !important;
+                        height: 52px !important;
+                        transform: none !important;
+                    }
+
+                    .hero-tab-button::after {
+                        display: none;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    .book-left-page {
+                        padding: 28px 18px 24px !important;
+                    }
+
+                    .book-left-page h1 {
+                        font-size: 36px !important;
+                    }
+
+                    .book-right-page {
+                        min-height: 320px;
+                    }
+                }
+            `}</style>
             <div className="float-slow" style={{ position: 'absolute', top: '20px', right: '80px', opacity: 0.3, pointerEvents: 'none' }}>
                 <BotanicalSprig color="#8f957f" mirrored scale={1.1} />
             </div>
@@ -710,7 +1037,7 @@ export default function Hero() {
                 <BotanicalSprig color="#aaa899" scale={0.9} />
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'stretch', gap: 0, maxWidth: '920px', width: '100%' }}>
+            <div className="hero-book-layout" style={{ display: 'flex', alignItems: 'stretch', gap: 0, maxWidth: '920px', width: '100%' }}>
                 <div className="book-stage" style={{ flex: 1 }}>
                     <div
                         ref={bookRef}
@@ -765,19 +1092,19 @@ export default function Hero() {
                         >
                             <div className="book-flip-curvature" />
                             <div className="book-flip-face book-flip-face-front">
-                                <span className="book-flip-label" style={{ color: colors[previousPage] }}>{copy.hero.pages[previousPage].label}</span>
-                                <p className="book-flip-mini">{copy.hero.pages[previousPage].subtitle}</p>
+                                <span className="book-flip-label" style={{ color: colors[previousPage] }}>{pages[previousPage].label}</span>
+                                <p className="book-flip-mini">{pages[previousPage].subtitle}</p>
                                 <div className="book-flip-line" style={{ background: `linear-gradient(90deg, ${colors[previousPage]}, #aaa899)` }} />
                             </div>
                             <div className="book-flip-face book-flip-face-back">
-                                <span className="book-flip-label" style={{ color: colors[targetPage] }}>{copy.hero.pages[targetPage].label}</span>
-                                <p className="book-flip-mini">{copy.hero.pages[targetPage].subtitle}</p>
+                                <span className="book-flip-label" style={{ color: colors[targetPage] }}>{pages[targetPage].label}</span>
+                                <p className="book-flip-mini">{pages[targetPage].subtitle}</p>
                                 <div className="book-flip-line" style={{ background: `linear-gradient(90deg, ${colors[targetPage]}, #aaa899)` }} />
                             </div>
                             <div className="book-flip-edge" />
                         </div>
 
-                        <div style={{ flex: '0 0 52%', background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(2px)', WebkitBackdropFilter: 'blur(2px)', padding: '40px 36px 34px 40px', display: 'flex', flexDirection: 'column', position: 'relative', borderTopLeftRadius: '20px', borderBottomLeftRadius: '20px' }}>
+                        <div className="book-left-page" style={{ flex: '0 0 52%', background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(2px)', WebkitBackdropFilter: 'blur(2px)', padding: '40px 36px 34px 40px', display: 'flex', flexDirection: 'column', position: 'relative', borderTopLeftRadius: '20px', borderBottomLeftRadius: '20px' }}>
                             <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 100% 0%, rgba(143,149,127,0.18), transparent 32%), radial-gradient(circle at 16% 14%, rgba(170,168,153,0.16), transparent 26%), radial-gradient(circle at 58% 88%, rgba(143,149,127,0.12), transparent 30%)', pointerEvents: 'none' }} />
                             <div aria-hidden="true" style={{ position: 'absolute', top: '8px', right: '6px', opacity: 0.28 }}>
                                 <BotanicalSprig color="#8f957f" mirrored scale={0.75} />
@@ -792,9 +1119,9 @@ export default function Hero() {
                                 <BotanicalSprig color="#cccdbf" scale={0.72} />
                             </div>
                             <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', letterSpacing: '0.2em', fontWeight: '600', color: activeColor, textTransform: 'uppercase', marginBottom: '10px' }}>{current.label}</span>
-                            <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: activePage === 0 ? '50px' : '42px', fontWeight: '700', lineHeight: '1.08', color: '#2e3028', marginBottom: '12px', textAlign: activePage === 0 ? 'center' : 'left' }}>
-                                {activePage === 0 ? (
-                                    copy.hero.title
+                            <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: displayedPage === 0 ? '50px' : '42px', fontWeight: '700', lineHeight: '1.08', color: '#2e3028', marginBottom: '12px', textAlign: displayedPage === 0 ? 'center' : 'left' }}>
+                                {displayedPage === 0 ? (
+                                    heroTitle
                                 ) : (
                                     <>
                                         {current.title[0]}
@@ -808,12 +1135,12 @@ export default function Hero() {
 
                             <div style={{ width: '52px', height: '2.5px', background: `linear-gradient(90deg, ${activeColor}, #aaa899)`, borderRadius: '2px', marginBottom: '20px' }} />
 
-                            {activePage === 0 ? (
+                            {displayedPage === 0 ? (
                                 <div style={{ display: 'grid', gap: '14px', marginBottom: '20px' }}>
                                     <BookPageImage />
-                                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', lineHeight: '1.7', color: '#4a5344' }}>{copy.hero.intro}</p>
+                                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', lineHeight: '1.7', color: '#4a5344' }}>{heroIntro}</p>
                                 </div>
-                            ) : activePage === 3 ? (
+                            ) : displayedPage === 3 ? (
                                 <ProjectCarousel projects={projectCatalog} activeColor={activeColor} />
                             ) : (
                                 <div
@@ -883,7 +1210,7 @@ export default function Hero() {
                             <div style={{ position: 'absolute', right: 0, top: '10%', height: '80%', width: '1px', background: 'linear-gradient(180deg, transparent, rgba(143,149,127,0.22) 20%, rgba(143,149,127,0.22) 80%, transparent)' }} />
                         </div>
 
-                        <div style={{ flex: '0 0 48%', position: 'relative', overflow: 'hidden', background: 'linear-gradient(180deg, #a9ada1 0%, #8f957f 100%)', borderTopRightRadius: '20px', borderBottomRightRadius: '20px' }}>
+                        <div className="book-right-page" style={{ flex: '0 0 48%', position: 'relative', overflow: 'hidden', background: 'linear-gradient(180deg, #a9ada1 0%, #8f957f 100%)', borderTopRightRadius: '20px', borderBottomRightRadius: '20px' }}>
                             <img src={heroImg} alt="Paisaje agrícola" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
                             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(143,149,127,0.22) 0%, rgba(170,168,153,0.06) 60%, rgba(143,149,127,0.16) 100%)' }} />
 
@@ -939,11 +1266,13 @@ export default function Hero() {
                     </div>
                 </div>
 
-                <div ref={tabsRef} className="reveal-right reveal-delay-2" style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginLeft: '-6px', justifyContent: 'center', zIndex: 4 }}>
-                    {copy.hero.pages.map((tab, i) => (
+                <div ref={tabsRef} className="reveal-right reveal-delay-2 hero-tabs" style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginLeft: '-6px', justifyContent: 'center', zIndex: 4 }}>
+                    {pages.map((tab, i) => (
                         <button
                             key={tab.label}
                             aria-label={`Ir a página ${tab.label}`}
+                            data-label={tab.label}
+                            className="hero-tab-button"
                             onClick={() => handlePageChange(i)}
                             style={{
                                 width: i === activePage ? '62px' : '56px',
