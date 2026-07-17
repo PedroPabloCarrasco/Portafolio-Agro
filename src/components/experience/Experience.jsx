@@ -29,7 +29,7 @@ const fallbackContentByLanguage = {
         photoTitle:
             'Aprendizaje situado junto a agricultores, comunidades y equipos técnicos',
         photoBadge: 'Chile · España · Portugal',
-        degreeLabel: 'Grados académicos',
+
         degreeTranslations: {
             Doctorado: 'Doctorado',
             Máster: 'Máster',
@@ -117,46 +117,7 @@ const fallbackContentByLanguage = {
 };
 
 const fallbackDegrees = [
-    {
-        code: 'PhD',
-        badge: 'Doctorado',
-        title: 'Doctora en Territorio, Patrimonio y Medio Ambiente',
-        institution: 'Universidad de Granada, España',
-        year: '2020 — 2023',
-        note: 'Especialidad en Agroecología. Tesis sobre transiciones socioecológicas en la agricultura familiar campesina de Chile.',
-    },
-    {
-        code: 'MSc',
-        badge: 'Máster',
-        title: 'Máster Oficial en Agricultura y Ganadería Ecológica',
-        institution: 'Universidad Pablo de Olavide, Sevilla, España',
-        year: '2017 — 2018',
-        note: 'Especialización en metabolismo agrario y eficiencia energética de sistemas agrarios.',
-    },
-    {
-        code: 'Lic.',
-        badge: 'Licenciatura',
-        title: 'Licenciada en Agronomía',
-        institution: 'Universidad Católica de Temuco, Chile',
-        year: '2004',
-        note: 'Especialidad en producción vegetal y evaluación de sustentabilidad agraria mediante metodología MESMIS.',
-    },
-    {
-        code: 'Ing.',
-        badge: 'Ingeniera Agrónoma',
-        title: 'Ingeniera Agrónoma',
-        institution: 'Universidad Católica de Temuco, Chile',
-        year: '2005',
-        note: 'Formación profesional en producción agrícola, sustentabilidad y gestión de sistemas productivos.',
-    },
-    {
-        code: 'ETSIAM',
-        badge: 'Estudios internacionales',
-        title: 'Estudios de Ingeniería Agronómica y Montes',
-        institution: 'Universidad de Córdoba, España',
-        year: '2000 — 2003',
-        note: 'Formación complementaria en agroecología, ecología política, etnoecología y desarrollo rural.',
-    },
+
 ];
 
 const fallbackLanguages = [

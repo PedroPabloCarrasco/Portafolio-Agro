@@ -1,149 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import heroImg from '../../assets/hero.png';
 import useReveal from '../../hooks/useReveal';
-import { useLanguage } from '../../context/LanguageContext';
+import { useEditor } from '../../context/EditorContext';
+import EditableText from '../admin/EditableText';
 
 const colors = ['#7f8a6f', '#a6a28f', '#d5d0c2', '#7f8a6f', '#a6a28f', '#d5d0c2'];
-
-const realHeroContent = {
-    title: 'Claudia Paz Barrera Salas',
-    intro:
-        'Especialista en agroecología, diseño y planificación de agroecosistemas, con experiencia en investigación aplicada, docencia universitaria y trabajo territorial. Su trayectoria integra diagnóstico predial, manejo ecológico del suelo, biodiversidad funcional y procesos participativos para fortalecer sistemas alimentarios sostenibles y resilientes.',
-    pages: [
-        {
-            label: 'Perfil',
-            title: ['Claudia Paz', 'Barrera Salas'],
-            subtitle: 'Ingeniera Agrónoma · Doctora en Agroecología',
-            highlights: [
-                'Especialista en transición agroecológica, diseño y planificación de agroecosistemas.',
-                'Experiencia en investigación aplicada, docencia universitaria y trabajo territorial.',
-                'Trabajo colaborativo con agricultores, estudiantes, comunidades rurales y equipos técnicos.',
-                'Enfoque en biodiversidad funcional, suelo, servicios ecosistémicos y resiliencia predial.',
-            ],
-            tagline: 'Ciencia, territorio y aprendizaje para transformar los sistemas alimentarios.',
-            quote: 'La agroecología conecta conocimiento científico, experiencia territorial y acción colectiva.',
-            facts: [
-                'Más de 20 años de experiencia profesional',
-                'Trayectoria académica en Chile, España y Portugal',
-                'Especialista en agroecología y sistemas alimentarios',
-            ],
-        },
-        {
-            label: 'Formación',
-            title: ['Formación', 'académica'],
-            subtitle: 'Grados y especialización internacional',
-            highlights: [
-                'Doctora en Territorio, Patrimonio y Medio Ambiente, especialidad Agroecología — Universidad de Granada, 2020–2023.',
-                'Máster Oficial en Agricultura y Ganadería Ecológica — Universidad Pablo de Olavide, 2017–2018.',
-                'Ingeniera Agrónoma y Licenciada en Agronomía — Universidad Católica de Temuco.',
-                'Estudios de Ingeniería Agronómica y Montes — Universidad de Córdoba, España, 2000–2003.',
-            ],
-            tagline: 'Una formación construida entre ciencias agrarias, territorio y sostenibilidad.',
-            quote: 'La formación interdisciplinaria permite comprender el agroecosistema como una realidad ecológica y social.',
-            facts: [
-                'Doctorado con Mención Internacional',
-                'Máster oficial en agricultura ecológica',
-                'Portugués C1 e inglés B1–B2',
-            ],
-        },
-        {
-            label: 'Experiencia',
-            title: ['Experiencia', 'profesional'],
-            subtitle: 'Investigación, docencia y dirección académica',
-            highlights: [
-                'Investigadora Postdoctoral del proyecto GrowLIFE en cE3c, Universidade de Lisboa, desde 2023.',
-                'Coordinadora del Laboratorio de Agroecología y Sistemas Alimentarios Locales, Universidad de Granada, desde 2024.',
-                'Investigadora Asociada del grupo STAND de la Universidad de Granada y del grupo GAMA de la Universidad de Santiago de Chile.',
-                'Directora del Centro Tecnológico para la Sustentabilidad y de la carrera Técnico en Agricultura Ecológica en IDMA.',
-            ],
-            tagline: 'Investigación rigurosa con presencia activa en los territorios.',
-            quote: 'La investigación aplicada adquiere sentido cuando genera capacidades y soluciones junto a las comunidades.',
-            facts: [
-                'Investigadora Postdoctoral en Portugal',
-                'Dirección académica y coordinación de equipos',
-                'Docencia de pregrado, posgrado y educación continua',
-            ],
-        },
-        {
-            label: 'Proyectos',
-            title: ['Proyectos', 'destacados'],
-            subtitle: 'Investigación aplicada y transición agroecológica',
-            highlights: [
-                'GrowLIFE: sistemas alimentarios sostenibles mediante investigación-acción y co-creación multiactor.',
-                'LIFT: Living Labs agroecológicos para transformar sistemas alimentarios y compras públicas.',
-                'AGROSEA: análisis comparado de sistemas agroalimentarios y desarrollo comunitario.',
-                'Valorización agroindustrial de subproductos de la quínoa en la Región de O’Higgins.',
-            ],
-            tagline: 'Proyectos que articulan evidencia, participación y transformación territorial.',
-            quote: 'Cada territorio requiere soluciones diseñadas con las personas que lo habitan y producen.',
-            facts: [
-                'Proyectos LIFE y Horizon Europe',
-                'Coordinación técnica y territorial',
-                'Investigación participativa y transferencia',
-            ],
-        },
-        {
-            label: 'Publicaciones',
-            title: ['Publicaciones', 'y divulgación'],
-            subtitle: 'Producción científica y materiales formativos',
-            highlights: [
-                'Más de 30 artículos científicos y publicaciones especializadas en agroecología, biodiversidad y sustentabilidad.',
-                'Capítulos de libros sobre plantas multifuncionales, aprendizaje agroecológico y conocimiento local.',
-                'Autora de manuales y guías sobre biopreparados, plantas multifuncionales, visitas participativas y trabajo de campo.',
-                'Participación sostenida en congresos internacionales de agroecología, sistemas alimentarios y ciencias ambientales.',
-            ],
-            tagline: 'Conocimiento científico comunicado para ampliar su impacto social y educativo.',
-            quote: 'Publicar también significa traducir la investigación en herramientas útiles para estudiantes y territorios.',
-            facts: [
-                '30+ artículos y publicaciones científicas',
-                'Libros, capítulos, manuales y guías',
-                'Congresos en Europa y América Latina',
-            ],
-        },
-        {
-            label: 'Contacto',
-            title: ['Contacto', 'profesional'],
-            subtitle: 'Colaboración académica y territorial',
-            highlights: [
-                'Correo profesional: barrerasalasclaudia@gmail.com',
-                'Correo institucional: cpsalas@ciencias.ulisboa.pt',
-                'Áreas de colaboración: agroecología, sistemas alimentarios, transición socioecológica y desarrollo territorial.',
-                'Disponibilidad para investigación, docencia, asesoría técnica, formación y proyectos interdisciplinarios.',
-            ],
-            tagline: 'Abierta a construir redes de colaboración científica, educativa y territorial.',
-            quote: 'Las transiciones sostenibles se fortalecen mediante redes, cooperación y conocimiento compartido.',
-            facts: [
-                'Universidade de Lisboa',
-                'Universidad de Granada',
-                'Colaboración internacional',
-            ],
-        },
-    ],
-};
-
-function hasContent(value) {
-    if (Array.isArray(value)) return value.length > 0;
-    return value !== undefined && value !== null && String(value).trim() !== '';
-}
-
-function mergeHeroPage(fallbackPage, translatedPage = {}) {
-    return {
-        ...fallbackPage,
-        ...Object.fromEntries(
-            Object.entries(translatedPage).filter(([, value]) => hasContent(value))
-        ),
-        highlights: hasContent(translatedPage.highlights)
-            ? translatedPage.highlights
-            : fallbackPage.highlights,
-        facts: hasContent(translatedPage.facts)
-            ? translatedPage.facts
-            : fallbackPage.facts,
-        title: hasContent(translatedPage.title)
-            ? translatedPage.title
-            : fallbackPage.title,
-    };
-}
-
 
 const icons = {
     leaf: (
@@ -257,74 +118,7 @@ function getHighlightIcon(pageIndex, item, itemIndex) {
     return contentIcons.sustainability;
 }
 
-const projectCatalog = [
-    {
-        id: 'growlife',
-        title: 'GrowLIFE',
-        category: 'Proyecto europeo LIFE',
-        description:
-            'Iniciativa orientada a promover sistemas alimentarios sostenibles mediante investigación-acción, cambios de comportamiento y procesos de co-creación con agricultores, actores territoriales e instituciones.',
-        location: 'Portugal',
-        period: '2023 — 2028',
-        role: 'Investigadora Postdoctoral',
-        results: ['Investigación aplicada', 'Procesos participativos', 'Indicadores territoriales'],
-        images: [
-            'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=85',
-            'https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=1400&q=85',
-            'https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?auto=format&fit=crop&w=1400&q=85',
-        ],
-    },
-    {
-        id: 'lift',
-        title: 'Agroecological Food System Living Labs — LIFT',
-        category: 'Horizon Europe',
-        description:
-            'Proyecto de Living Labs orientado a transformar sistemas agroalimentarios mediante producción, distribución, compra pública y consumo de alimentos agroecológicos sostenibles conectados en una red internacional.',
-        location: 'Portugal y red internacional',
-        period: '2025 — 2028',
-        role: 'Liderazgo metodológico y territorial',
-        results: ['Living Labs', 'Compra pública sostenible', 'Red internacional'],
-        images: [
-            'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=1400&q=85',
-            'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=1400&q=85',
-            'https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=1400&q=85',
-        ],
-    },
-    {
-        id: 'agrosea',
-        title: 'Sistemas Agroalimentarios y Pesqueros — AGROSEA',
-        category: 'Investigación internacional',
-        description:
-            'Análisis comparado de sistemas agroalimentarios y pesqueros en Andalucía y México, con énfasis en prácticas comunitarias, organización territorial, saberes locales, sostenibilidad y resiliencia.',
-        location: 'España, México y América Latina',
-        period: '2020 — 2022',
-        role: 'Investigadora externa',
-        results: ['Análisis comparado', 'Desarrollo comunitario', 'Sistemas alimentarios'],
-        images: [
-            'https://images.unsplash.com/photo-1492496913980-501348b61469?auto=format&fit=crop&w=1400&q=85',
-            'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=1400&q=85',
-            'https://images.unsplash.com/photo-1471194402529-8e0f5a675de6?auto=format&fit=crop&w=1400&q=85',
-        ],
-    },
-    {
-        id: 'quinoa-ohiggins',
-        title: 'Valorización agroindustrial de subproductos de la quínoa',
-        category: 'Innovación agroindustrial',
-        description:
-            'Proyecto para diseñar y validar una unidad demostrativa de cultivo de quínoa orientada a la cosecha de hojas, transferencia tecnológica y adopción de prácticas por pequeños agricultores del secano costero.',
-        location: 'Región de O’Higgins, Chile',
-        period: '2015 — 2019',
-        role: 'Responsable de unidad demostrativa',
-        results: ['Unidad demostrativa', 'Capacitación', 'Transferencia tecnológica'],
-        images: [
-            'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1400&q=85',
-            'https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=1400&q=85',
-            'https://images.unsplash.com/photo-1545468258-576dbac5faa9?auto=format&fit=crop&w=1400&q=85',
-        ],
-    },
-];
-
-function ProjectCarousel({ projects, activeColor }) {
+function ProjectCarousel({ projects, activeColor, basePath = 'hero.projects' }) {
     const [projectIndex, setProjectIndex] = useState(0);
     const [imageIndex, setImageIndex] = useState(0);
 
@@ -434,7 +228,10 @@ function ProjectCarousel({ projects, activeColor }) {
                             backdropFilter: 'blur(7px)',
                         }}
                     >
-                        {project.category}
+                        <EditableText
+                            path={`${basePath}.${projectIndex}.category`}
+                            as="span"
+                        />
                     </span>
 
                     <div
@@ -531,7 +328,10 @@ function ProjectCarousel({ projects, activeColor }) {
                             color: '#2e352b',
                         }}
                     >
-                        {project.title}
+                        <EditableText
+                            path={`${basePath}.${projectIndex}.title`}
+                            as="span"
+                        />
                     </h3>
 
                     <p
@@ -543,7 +343,11 @@ function ProjectCarousel({ projects, activeColor }) {
                             color: '#505b4b',
                         }}
                     >
-                        {project.description}
+                        <EditableText
+                            path={`${basePath}.${projectIndex}.description`}
+                            as="span"
+                            multiline
+                        />
                     </p>
 
                     <div
@@ -581,7 +385,10 @@ function ProjectCarousel({ projects, activeColor }) {
                                     color: '#414b3d',
                                 }}
                             >
-                                {project.period}
+                                <EditableText
+                                    path={`${basePath}.${projectIndex}.period`}
+                                    as="span"
+                                />
                             </strong>
                         </div>
 
@@ -612,7 +419,11 @@ function ProjectCarousel({ projects, activeColor }) {
                                     color: '#414b3d',
                                 }}
                             >
-                                {project.role}
+                                <EditableText
+                                    path={`${basePath}.${projectIndex}.role`}
+                                    as="span"
+                                    multiline
+                                />
                             </strong>
                         </div>
                     </div>
@@ -624,7 +435,7 @@ function ProjectCarousel({ projects, activeColor }) {
                             gap: '6px',
                         }}
                     >
-                        {project.results.map((result) => (
+                        {project.results.map((result, resultIndex) => (
                             <span
                                 key={result}
                                 style={{
@@ -637,7 +448,10 @@ function ProjectCarousel({ projects, activeColor }) {
                                     fontSize: '9px',
                                 }}
                             >
-                                {result}
+                                <EditableText
+                                    path={`${basePath}.${projectIndex}.results.${resultIndex}`}
+                                    as="span"
+                                />
                             </span>
                         ))}
                     </div>
@@ -808,7 +622,7 @@ function BookPageImage() {
 }
 
 export default function Hero() {
-    const { copy } = useLanguage();
+    const { content } = useEditor();
     const bookRef = useReveal();
     const tabsRef = useReveal({ threshold: 0.2 });
     const [activePage, setActivePage] = useState(0);
@@ -828,18 +642,15 @@ export default function Hero() {
         };
     }, []);
 
-    const translatedHero = copy?.hero ?? {};
-    const pages = realHeroContent.pages.map((page, index) =>
-        mergeHeroPage(page, translatedHero.pages?.[index])
-    );
-    const heroTitle = hasContent(translatedHero.title)
-        ? translatedHero.title
-        : realHeroContent.title;
-    const heroIntro = hasContent(translatedHero.intro)
-        ? translatedHero.intro
-        : realHeroContent.intro;
+    const heroContent = content?.hero ?? {};
+    const pages = Array.isArray(heroContent.pages) ? heroContent.pages : [];
+    const projects = Array.isArray(heroContent.projects) ? heroContent.projects : [];
     const current = pages[displayedPage] ?? pages[0];
     const activeColor = colors[displayedPage] ?? colors[0];
+
+    if (!current) {
+        return null;
+    }
 
     function handlePageChange(nextIndex) {
         if (nextIndex === activePage) return;
@@ -1118,30 +929,55 @@ export default function Hero() {
                             <div aria-hidden="true" style={{ position: 'absolute', right: '-10px', top: '42%', opacity: 0.26, transform: 'scaleX(-1)' }}>
                                 <BotanicalSprig color="#cccdbf" scale={0.72} />
                             </div>
-                            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', letterSpacing: '0.2em', fontWeight: '600', color: activeColor, textTransform: 'uppercase', marginBottom: '10px' }}>{current.label}</span>
+                            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', letterSpacing: '0.2em', fontWeight: '600', color: activeColor, textTransform: 'uppercase', marginBottom: '10px' }}>
+                                <EditableText
+                                    path={`hero.pages.${displayedPage}.label`}
+                                    as="span"
+                                />
+                            </span>
                             <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: displayedPage === 0 ? '50px' : '42px', fontWeight: '700', lineHeight: '1.08', color: '#2e3028', marginBottom: '12px', textAlign: displayedPage === 0 ? 'center' : 'left' }}>
                                 {displayedPage === 0 ? (
-                                    heroTitle
+                                    <EditableText
+                                        path="hero.title"
+                                        as="span"
+                                    />
                                 ) : (
                                     <>
-                                        {current.title[0]}
+                                        <EditableText
+                                            path={`hero.pages.${displayedPage}.title.0`}
+                                            as="span"
+                                        />
                                         <br />
-                                        {current.title[1]}
+                                        <EditableText
+                                            path={`hero.pages.${displayedPage}.title.1`}
+                                            as="span"
+                                        />
                                     </>
                                 )}
                             </h1>
 
-                            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', letterSpacing: '0.18em', fontWeight: '600', color: '#6f7463', textTransform: 'uppercase', marginBottom: '8px' }}>{current.subtitle}</p>
+                            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', letterSpacing: '0.18em', fontWeight: '600', color: '#6f7463', textTransform: 'uppercase', marginBottom: '8px' }}>
+                                <EditableText
+                                    path={`hero.pages.${displayedPage}.subtitle`}
+                                    as="span"
+                                />
+                            </p>
 
                             <div style={{ width: '52px', height: '2.5px', background: `linear-gradient(90deg, ${activeColor}, #aaa899)`, borderRadius: '2px', marginBottom: '20px' }} />
 
                             {displayedPage === 0 ? (
                                 <div style={{ display: 'grid', gap: '14px', marginBottom: '20px' }}>
                                     <BookPageImage />
-                                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', lineHeight: '1.7', color: '#4a5344' }}>{heroIntro}</p>
+                                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', lineHeight: '1.7', color: '#4a5344' }}>
+                                        <EditableText
+                                            path="hero.intro"
+                                            as="span"
+                                            multiline
+                                        />
+                                    </p>
                                 </div>
                             ) : displayedPage === 3 ? (
-                                <ProjectCarousel projects={projectCatalog} activeColor={activeColor} />
+                                <ProjectCarousel projects={projects} activeColor={activeColor} basePath="hero.projects" />
                             ) : (
                                 <div
                                     style={{
@@ -1194,14 +1030,24 @@ export default function Hero() {
                                                     margin: 0,
                                                 }}
                                             >
-                                                {item}
+                                                <EditableText
+                                                    path={`hero.pages.${displayedPage}.highlights.${itemIndex}`}
+                                                    as="span"
+                                                    multiline
+                                                />
                                             </p>
                                         </div>
                                     ))}
                                 </div>
                             )}
 
-                            <p style={{ fontFamily: 'Dancing Script, cursive', fontSize: '17px', color: '#6f7463', lineHeight: '1.5', marginTop: 'auto' }}>{current.tagline}</p>
+                            <p style={{ fontFamily: 'Dancing Script, cursive', fontSize: '17px', color: '#6f7463', lineHeight: '1.5', marginTop: 'auto' }}>
+                                <EditableText
+                                    path={`hero.pages.${displayedPage}.tagline`}
+                                    as="span"
+                                    multiline
+                                />
+                            </p>
 
                             <div style={{ position: 'absolute', bottom: '18px', right: '12px', opacity: 0.18 }}>
                                 <BotanicalFlower color="#8f957f" />
@@ -1247,14 +1093,25 @@ export default function Hero() {
 
                             <div style={{ position: 'relative', zIndex: 1, padding: '34px 30px', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                                 <div>
-                                    <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '64px', lineHeight: '0.6', color: 'rgba(248,248,241,0.88)', marginBottom: '8px', display: 'block' }}>"</span>
-                                    <p style={{ fontFamily: 'Playfair Display, serif', fontStyle: 'italic', fontSize: '15px', lineHeight: '1.65', color: 'rgba(248,248,241,0.99)', maxWidth: '230px' }}>{current.quote}</p>
+                                    <p style={{ fontFamily: 'Playfair Display, serif', fontStyle: 'italic', fontSize: '15px', lineHeight: '1.65', color: 'rgba(248,248,241,0.99)', maxWidth: '230px' }}>
+                                        <EditableText
+                                            path={`hero.pages.${displayedPage}.quote`}
+                                            as="span"
+                                            multiline
+                                        />
+                                    </p>
                                 </div>
 
                                 <div style={{ background: 'rgba(127,138,111,0.26)', border: '1px solid rgba(248,248,241,0.24)', borderRadius: '20px', padding: '14px 14px 10px', backdropFilter: 'blur(6px)' }}>
-                                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(248,248,241,0.9)', marginBottom: '8px' }}>Datos relevantes</p>
-                                    {current.facts.map((fact) => (
-                                        <p key={fact} style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(248,248,241,1)', marginBottom: '5px', lineHeight: '1.35' }}>• {fact}</p>
+                                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(248,248,241,0.9)', marginBottom: '8px' }}>Antecedentes del currículum</p>
+                                    {current.facts.map((fact, factIndex) => (
+                                        <p key={fact} style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(248,248,241,1)', marginBottom: '5px', lineHeight: '1.35' }}>
+                                            •{' '}
+                                            <EditableText
+                                                path={`hero.pages.${displayedPage}.facts.${factIndex}`}
+                                                as="span"
+                                            />
+                                        </p>
                                     ))}
                                 </div>
 
