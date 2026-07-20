@@ -2,10 +2,100 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import heroImg from '../../assets/hero.png';
 import useReveal from '../../hooks/useReveal';
 import { useEditor } from '../../context/EditorContext';
+import { useLanguage } from '../../context/LanguageContext';
 import EditableText from '../admin/EditableText';
 
 const PAGE_COLORS = ['#7f8a6f', '#9b9d88', '#a8a391', '#7f8a6f', '#969b88', '#aaa899'];
 const EMPTY_ARRAY = [];
+
+const HERO_UI_BY_LANGUAGE = {
+    Español: {
+        portfolioLabel: 'Portafolio académico y profesional',
+        heading: 'Trayectoria, territorio e investigación aplicada',
+        territorialCaption: 'Agroecología · territorio · conocimiento aplicado',
+        visualMark: 'Investigación · docencia · territorio',
+        projectsPreparing: 'Proyectos en preparación',
+        projectsPreparingText: 'Pronto se incorporarán proyectos, resultados e imágenes.',
+        contentPreparing: 'Contenido en preparación',
+        contentPreparingText: 'Esta sección todavía no tiene elementos destacados.',
+        imageUnavailable: 'Imagen no disponible',
+        featuredProject: 'Proyecto destacado',
+        period: 'Periodo',
+        role: 'Rol',
+        previousImage: 'Imagen anterior',
+        nextImage: 'Imagen siguiente',
+        previousProject: 'Proyecto anterior',
+        nextProject: 'Proyecto siguiente',
+        selectProject: 'Seleccionar proyecto',
+        openProject: 'Abrir proyecto',
+        portfolioSections: 'Secciones del portafolio',
+        section: 'Sección',
+        of: 'de',
+        agriculturalImageAlt: 'Paisaje agrícola y trabajo territorial',
+        representativeImageAlt: 'Paisaje agrícola representativo',
+        imageAndHighlights: 'Imagen y antecedentes destacados',
+        defaultProject: 'Proyecto',
+    },
+    English: {
+        portfolioLabel: 'Academic and professional portfolio',
+        heading: 'Career, territory, and applied research',
+        territorialCaption: 'Agroecology · territory · applied knowledge',
+        visualMark: 'Research · teaching · territory',
+        projectsPreparing: 'Projects in preparation',
+        projectsPreparingText: 'Projects, results, and images will be added soon.',
+        contentPreparing: 'Content in preparation',
+        contentPreparingText: 'This section does not have featured items yet.',
+        imageUnavailable: 'Image unavailable',
+        featuredProject: 'Featured project',
+        period: 'Period',
+        role: 'Role',
+        previousImage: 'Previous image',
+        nextImage: 'Next image',
+        previousProject: 'Previous project',
+        nextProject: 'Next project',
+        selectProject: 'Select project',
+        openProject: 'Open project',
+        portfolioSections: 'Portfolio sections',
+        section: 'Section',
+        of: 'of',
+        agriculturalImageAlt: 'Agricultural landscape and territorial work',
+        representativeImageAlt: 'Representative agricultural landscape',
+        imageAndHighlights: 'Image and featured background information',
+        defaultProject: 'Project',
+    },
+    Português: {
+        portfolioLabel: 'Portfólio acadêmico e profissional',
+        heading: 'Trajetória, território e pesquisa aplicada',
+        territorialCaption: 'Agroecologia · território · conhecimento aplicado',
+        visualMark: 'Pesquisa · docência · território',
+        projectsPreparing: 'Projetos em preparação',
+        projectsPreparingText: 'Projetos, resultados e imagens serão adicionados em breve.',
+        contentPreparing: 'Conteúdo em preparação',
+        contentPreparingText: 'Esta seção ainda não possui elementos em destaque.',
+        imageUnavailable: 'Imagem indisponível',
+        featuredProject: 'Projeto em destaque',
+        period: 'Período',
+        role: 'Função',
+        previousImage: 'Imagem anterior',
+        nextImage: 'Próxima imagem',
+        previousProject: 'Projeto anterior',
+        nextProject: 'Próximo projeto',
+        selectProject: 'Selecionar projeto',
+        openProject: 'Abrir projeto',
+        portfolioSections: 'Seções do portfólio',
+        section: 'Seção',
+        of: 'de',
+        agriculturalImageAlt: 'Paisagem agrícola e trabalho territorial',
+        representativeImageAlt: 'Paisagem agrícola representativa',
+        imageAndHighlights: 'Imagem e informações em destaque',
+        defaultProject: 'Projeto',
+    },
+};
+
+function getHeroUi(language) {
+    return HERO_UI_BY_LANGUAGE[language] ?? HERO_UI_BY_LANGUAGE.Español;
+}
+
 
 function asArray(value) {
     return Array.isArray(value) ? value : EMPTY_ARRAY;
@@ -111,7 +201,7 @@ function EmptyState({ title, text }) {
     );
 }
 
-function ProjectShowcase({ projects, activeColor, basePath = 'hero.projects' }) {
+function ProjectShowcase({ projects, activeColor, ui, basePath = 'hero.projects' }) {
     const safeProjects = asArray(projects);
     const [projectIndex, setProjectIndex] = useState(0);
     const [imageIndex, setImageIndex] = useState(0);
@@ -124,7 +214,7 @@ function ProjectShowcase({ projects, activeColor, basePath = 'hero.projects' }) 
     }, [projectIndex, safeProjects.length]);
 
     if (safeProjects.length === 0) {
-        return <EmptyState title="Proyectos en preparación" text="Pronto se incorporarán proyectos, resultados e imágenes." />;
+        return <EmptyState title={ui.projectsPreparing} text={ui.projectsPreparingText} />;
     }
 
     const project = safeProjects[projectIndex] ?? safeProjects[0];
@@ -162,12 +252,12 @@ function ProjectShowcase({ projects, activeColor, basePath = 'hero.projects' }) 
                         <img
                             key={`${projectIndex}-${imageIndex}`}
                             src={images[imageIndex]}
-                            alt={`${project?.title ?? 'Proyecto'} — imagen ${imageIndex + 1}`}
+                            alt={`${project?.title ?? ui.defaultProject} — ${ui.section.toLowerCase()} ${imageIndex + 1}`}
                         />
                     ) : (
                         <div className="hero-v2-project-placeholder">
                             <Icon name="image" size={28} />
-                            <span>Imagen no disponible</span>
+                            <span>{ui.imageUnavailable}</span>
                         </div>
                     )}
 
@@ -179,11 +269,11 @@ function ProjectShowcase({ projects, activeColor, basePath = 'hero.projects' }) 
 
                     {images.length > 1 && (
                         <div className="hero-v2-image-nav">
-                            <button type="button" onClick={previousImage} aria-label="Imagen anterior">
+                            <button type="button" onClick={previousImage} aria-label={ui.previousImage}>
                                 <Icon name="arrowLeft" size={17} />
                             </button>
                             <span>{imageIndex + 1} / {images.length}</span>
-                            <button type="button" onClick={nextImage} aria-label="Imagen siguiente">
+                            <button type="button" onClick={nextImage} aria-label={ui.nextImage}>
                                 <Icon name="arrowRight" size={17} />
                             </button>
                         </div>
@@ -193,7 +283,7 @@ function ProjectShowcase({ projects, activeColor, basePath = 'hero.projects' }) 
                 <div className="hero-v2-project-content">
                     <div className="hero-v2-project-heading">
                         <div>
-                            <span className="hero-v2-kicker">Proyecto destacado</span>
+                            <span className="hero-v2-kicker">{ui.featuredProject}</span>
                             <h3><EditableText path={`${basePath}.${projectIndex}.title`} as="span" /></h3>
                         </div>
                         <span className="hero-v2-project-number">{String(projectIndex + 1).padStart(2, '0')}</span>
@@ -205,11 +295,11 @@ function ProjectShowcase({ projects, activeColor, basePath = 'hero.projects' }) 
 
                     <div className="hero-v2-project-meta">
                         <div>
-                            <span>Periodo</span>
+                            <span>{ui.period}</span>
                             <strong><EditableText path={`${basePath}.${projectIndex}.period`} as="span" /></strong>
                         </div>
                         <div>
-                            <span>Rol</span>
+                            <span>{ui.role}</span>
                             <strong><EditableText path={`${basePath}.${projectIndex}.role`} as="span" multiline /></strong>
                         </div>
                     </div>
@@ -228,24 +318,24 @@ function ProjectShowcase({ projects, activeColor, basePath = 'hero.projects' }) 
             </article>
 
             <div className="hero-v2-project-controls">
-                <button type="button" onClick={previousProject} aria-label="Proyecto anterior">
+                <button type="button" onClick={previousProject} aria-label={ui.previousProject}>
                     <Icon name="arrowLeft" size={18} />
                 </button>
 
-                <div className="hero-v2-project-dots" aria-label="Seleccionar proyecto">
+                <div className="hero-v2-project-dots" aria-label={ui.selectProject}>
                     {safeProjects.map((item, index) => (
                         <button
                             key={item?.id ?? `project-dot-${index}`}
                             type="button"
                             className={index === projectIndex ? 'is-active' : ''}
                             onClick={() => changeProject(index)}
-                            aria-label={`Abrir proyecto ${index + 1}`}
+                            aria-label={`${ui.openProject} ${index + 1}`}
                             aria-current={index === projectIndex ? 'true' : undefined}
                         />
                     ))}
                 </div>
 
-                <button type="button" onClick={nextProject} aria-label="Proyecto siguiente">
+                <button type="button" onClick={nextProject} aria-label={ui.nextProject}>
                     <Icon name="arrowRight" size={18} />
                 </button>
             </div>
@@ -253,11 +343,11 @@ function ProjectShowcase({ projects, activeColor, basePath = 'hero.projects' }) 
     );
 }
 
-function HighlightGrid({ items, pageIndex, activeColor }) {
+function HighlightGrid({ items, pageIndex, activeColor, ui }) {
     const safeItems = asArray(items);
 
     if (safeItems.length === 0) {
-        return <EmptyState title="Contenido en preparación" text="Esta sección todavía no tiene elementos destacados." />;
+        return <EmptyState title={ui.contentPreparing} text={ui.contentPreparingText} />;
     }
 
     return (
@@ -277,9 +367,9 @@ function HighlightGrid({ items, pageIndex, activeColor }) {
     );
 }
 
-function HeroTabs({ pages, activePage, onChange, disabled }) {
+function HeroTabs({ pages, activePage, onChange, disabled, ui }) {
     return (
-        <div className="hero-v2-tabs" role="tablist" aria-label="Secciones del portafolio">
+        <div className="hero-v2-tabs" role="tablist" aria-label={ui.portfolioSections}>
             {pages.map((page, index) => (
                 <button
                     key={`hero-tab-${index}`}
@@ -294,7 +384,7 @@ function HeroTabs({ pages, activePage, onChange, disabled }) {
                     style={{ '--tab-color': PAGE_COLORS[index] ?? PAGE_COLORS[0] }}
                 >
                     <span className="hero-v2-tab-icon"><Icon name={TAB_ICONS[index] ?? 'leaf'} size={18} /></span>
-                    <span className="hero-v2-tab-label">{page?.label ?? `Sección ${index + 1}`}</span>
+                    <span className="hero-v2-tab-label">{page?.label ?? `${ui.section} ${index + 1}`}</span>
                 </button>
             ))}
         </div>
@@ -303,6 +393,8 @@ function HeroTabs({ pages, activePage, onChange, disabled }) {
 
 export default function Hero() {
     const { content } = useEditor();
+    const { language } = useLanguage();
+    const ui = getHeroUi(language);
     const revealRef = useReveal({ threshold: 0.12 });
     const heroContent = content?.hero ?? {};
     const pages = asArray(heroContent.pages);
@@ -324,26 +416,40 @@ export default function Hero() {
         }
     }, [activePage, pages.length]);
 
-    const changePage = useCallback((nextIndex) => {
-        if (
-            isTransitioning ||
-            nextIndex === activePage ||
-            nextIndex < 0 ||
-            nextIndex >= pages.length
-        ) {
-            return;
-        }
+    const changePage = useCallback(
+        (nextIndex) => {
+            if (
+                isTransitioning ||
+                nextIndex === activePage ||
+                nextIndex < 0 ||
+                nextIndex >= pages.length
+            ) {
+                return;
+            }
 
-        setDirection(nextIndex > activePage ? 'next' : 'prev');
-        setActivePage(nextIndex);
-        setIsTransitioning(true);
+            setDirection(
+                nextIndex > activePage
+                    ? 'next'
+                    : 'prev',
+            );
 
-        window.setTimeout(() => {
-            setDisplayedPage(nextIndex);
-            window.setTimeout(() => setIsTransitioning(false), 260);
-        }, 180);
-    }, [activePage, isTransitioning, pages.length]);
+            setActivePage(nextIndex);
+            setIsTransitioning(true);
 
+            window.setTimeout(() => {
+                setDisplayedPage(nextIndex);
+
+                window.setTimeout(() => {
+                    setIsTransitioning(false);
+                }, 260);
+            }, 180);
+        },
+        [
+            activePage,
+            isTransitioning,
+            pages.length,
+        ],
+    );
     useEffect(() => {
         function onKeyDown(event) {
             if (isTransitioning || pages.length < 2) return;
@@ -1283,11 +1389,11 @@ export default function Hero() {
             <div ref={revealRef} className="hero-v2-shell reveal">
                 <header className="hero-v2-heading">
                     <div className="hero-v2-heading-copy">
-                        <span className="hero-v2-overline">Portafolio académico y profesional</span>
-                        <h2>Trayectoria, territorio e investigación aplicada</h2>
+                        <span className="hero-v2-overline">{ui.portfolioLabel}</span>
+                        <h2>{ui.heading}</h2>
                     </div>
 
-                    <div className="hero-v2-progress-wrap" aria-label={`Sección ${activePage + 1} de ${pages.length}`}>
+                    <div className="hero-v2-progress-wrap" aria-label={`${ui.section} ${activePage + 1} ${ui.of} ${pages.length}`}>
                         <div className="hero-v2-progress-meta">
                             <span>{String(activePage + 1).padStart(2, '0')}</span>
                             <span>{String(pages.length).padStart(2, '0')}</span>
@@ -1332,8 +1438,8 @@ export default function Hero() {
 
                                     <div className="hero-v2-home-grid">
                                         <div className="hero-v2-home-photo">
-                                            <img src={heroImg} alt="Paisaje agrícola y trabajo territorial" />
-                                            <span className="hero-v2-home-caption">Agroecología · territorio · conocimiento aplicado</span>
+                                            <img src={heroImg} alt={ui.agriculturalImageAlt} />
+                                            <span className="hero-v2-home-caption">{ui.territorialCaption}</span>
                                         </div>
 
                                         <div className="hero-v2-home-facts">
@@ -1347,9 +1453,9 @@ export default function Hero() {
                                     </div>
                                 </>
                             ) : displayedPage === 3 ? (
-                                <ProjectShowcase projects={projects} activeColor={activeColor} />
+                                <ProjectShowcase projects={projects} activeColor={activeColor} ui={ui} />
                             ) : (
-                                <HighlightGrid items={current?.highlights} pageIndex={displayedPage} activeColor={activeColor} />
+                                <HighlightGrid items={current?.highlights} pageIndex={displayedPage} activeColor={activeColor} ui={ui} />
                             )}
 
                             <p className="hero-v2-tagline">
@@ -1358,14 +1464,14 @@ export default function Hero() {
                         </div>
                     </div>
 
-                    <aside className="hero-v2-visual" aria-label="Imagen y antecedentes destacados">
-                        <img src={heroImg} alt="Paisaje agrícola representativo" />
+                    <aside className="hero-v2-visual" aria-label={ui.imageAndHighlights}>
+                        <img src={heroImg} alt={ui.representativeImageAlt} />
                         <div className="hero-v2-visual-overlay" />
 
                         <div className="hero-v2-visual-content">
                             <div className="hero-v2-visual-top">
                                 <span className="hero-v2-index">{String(displayedPage + 1).padStart(2, '0')}</span>
-                                <span className="hero-v2-visual-mark">Investigación · docencia · territorio</span>
+                                <span className="hero-v2-visual-mark">{ui.visualMark}</span>
                             </div>
 
                             <div className="hero-v2-quote-card">
@@ -1393,6 +1499,7 @@ export default function Hero() {
                     activePage={activePage}
                     onChange={changePage}
                     disabled={isTransitioning}
+                    ui={ui}
                 />
             </div>
         </section>
