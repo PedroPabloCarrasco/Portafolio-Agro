@@ -1,71 +1,142 @@
 import Container from '../common/Container';
-import Card from '../common/Card';
-import SectionTitle from '../common/SectionTitle';
 import EditableText from '../admin/EditableText';
-
 import { defaultEditableContent } from '../../data/editableContent';
 import { useEditor } from '../../context/EditorContext';
 
-const realAboutContent = {
+const fallbackContent = {
     title: 'Sobre mí',
     description:
-        'Agroecología, investigación aplicada y transformación de sistemas alimentarios',
-    label: 'Perfil profesional',
+        'Investigación aplicada, docencia universitaria y trabajo territorial para la transición hacia sistemas agroalimentarios sostenibles.',
+    label: 'Perfil académico y profesional',
     professionalTitle:
-        'Ciencia, territorio y aprendizaje para impulsar transiciones agroecológicas',
+        'Agroecología, conocimiento situado e innovación territorial para transformar los sistemas alimentarios',
     paragraphs: [
-        'Especialista en agroecología, diseño y planificación de agroecosistemas, con experiencia en investigación aplicada, docencia universitaria, extensión y trabajo territorial junto a agricultores, estudiantes, equipos técnicos e instituciones públicas.',
-        'Su trayectoria integra diagnóstico predial, planificación espacial y temporal, manejo ecológico del suelo, biodiversidad funcional y plantas multifuncionales para fortalecer servicios ecosistémicos, control biológico por conservación y resiliencia productiva.',
-        'Actualmente desarrolla investigación postdoctoral en la Universidad de Lisboa, coordina el Laboratorio de Agroecología y Sistemas Alimentarios Locales de la Universidad de Granada y participa en redes internacionales de investigación y formación.',
+        'Ingeniera Agrónoma y Doctora en Territorio, Patrimonio y Medio Ambiente, especializada en agroecología, diseño y planificación de agroecosistemas. Su trayectoria integra investigación aplicada, docencia universitaria, extensión y trabajo de campo junto a agricultores, estudiantes, equipos técnicos, comunidades rurales e instituciones.',
+        'Su trabajo aborda el diagnóstico y la planificación predial, el manejo ecológico del suelo y la incorporación de biodiversidad funcional, especialmente mediante plantas multifuncionales. Estas estrategias buscan fortalecer los servicios ecosistémicos, favorecer el control biológico por conservación y aumentar la estabilidad y resiliencia de los sistemas productivos.',
+        'Actualmente se desempeña como investigadora postdoctoral en el Centro de Ecología, Evolución y Cambios Ambientales de la Universidade de Lisboa, dentro del proyecto europeo GrowLIFE. Además, coordina el Laboratorio de Agroecología y Sistemas Alimentarios Locales de la Universidad de Granada y participa en redes internacionales de investigación, formación y transferencia de conocimiento.',
     ],
     values: [
-        'Más de 20 años de experiencia profesional y académica',
-        'Investigación, docencia y extensión con enfoque territorial',
-        'Experiencia internacional en Chile, España y Portugal',
-        'Trabajo colaborativo con comunidades rurales e instituciones',
+        'Más de veinte años de experiencia académica, técnica y territorial',
+        'Investigación interdisciplinaria y participativa con agricultores y comunidades',
+        'Docencia de pregrado, posgrado y educación continua en agroecología',
+        'Experiencia profesional e investigativa en Chile, España y Portugal',
     ],
     areas: [
         {
             label: 'Especialidad',
-            value: 'Agroecología y diseño de agroecosistemas',
+            value: 'Agroecología, diseño y planificación de agroecosistemas',
         },
         {
             label: 'Investigación',
-            value: 'Sistemas alimentarios sostenibles y transición agroecológica',
+            value: 'Transiciones agroecológicas y sistemas alimentarios sostenibles',
         },
         {
             label: 'Docencia',
-            value: 'Aprendizaje situado, extensión y formación universitaria',
-        },
-    ],
-    highlights: [
-        {
-            value: '2023 — Actualidad',
-            label: 'Investigadora postdoctoral',
-            detail: 'Universidade de Lisboa · Proyecto GrowLIFE',
-        },
-        {
-            value: '2024 — Actualidad',
-            label: 'Coordinadora LASAL',
-            detail: 'Universidad de Granada',
-        },
-        {
-            value: '30+',
-            label: 'Publicaciones',
-            detail: 'Artículos, capítulos y producción científica',
+            value: 'Aprendizaje situado, metodologías participativas y formación territorial',
         },
     ],
 };
+
+const timeline = [
+    {
+        value: '2023 — Actualidad',
+        label: 'Investigadora postdoctoral',
+        detail: 'cE3c · Universidade de Lisboa · Proyecto europeo GrowLIFE',
+    },
+    {
+        value: '2024 — Actualidad',
+        label: 'Coordinadora de LASAL',
+        detail: 'Laboratorio de Agroecología y Sistemas Alimentarios Locales · Universidad de Granada',
+    },
+    {
+        value: '2020 — Actualidad',
+        label: 'Investigadora asociada',
+        detail: 'Grupo STAND · Universidad de Granada',
+    },
+];
+
+const academicProfile = [
+    {
+        label: 'Cargo actual',
+        value: 'Investigadora postdoctoral en el cE3c de la Universidade de Lisboa',
+    },
+    {
+        label: 'Proyecto europeo',
+        value: 'GrowLIFE · Sistemas alimentarios sostenibles y transición agroecológica',
+    },
+    {
+        label: 'Coordinación',
+        value: 'Laboratorio de Agroecología y Sistemas Alimentarios Locales · Universidad de Granada',
+    },
+    {
+        label: 'Grupo de investigación',
+        value: 'Investigadora asociada del Grupo STAND · Universidad de Granada',
+    },
+    {
+        label: 'Doctorado',
+        value: 'Dra. en Territorio, Patrimonio y Medio Ambiente · Universidad de Granada',
+    },
+    {
+        label: 'Máster',
+        value: 'Máster en Agricultura y Ganadería Ecológicas · Universidad Pablo de Olavide',
+    },
+    {
+        label: 'Título profesional',
+        value: 'Ingeniera Agrónoma · Universidad Católica de Temuco',
+    },
+    {
+        label: 'Especialidad',
+        value: 'Agroecología, diseño y planificación de agroecosistemas',
+    },
+    {
+        label: 'Investigación',
+        value: 'Sistemas alimentarios sostenibles, biodiversidad funcional y transición agroecológica',
+    },
+    {
+        label: 'Docencia',
+        value: 'Pregrado, posgrado, doctorado y educación continua',
+    },
+    {
+        label: 'Trabajo territorial',
+        value: 'Agricultores, comunidades rurales, equipos técnicos e instituciones públicas',
+    },
+    {
+        label: 'Idiomas',
+        value: 'Español nativo · Portugués C1 · Inglés B1–B2',
+    },
+];
 
 function hasText(value) {
     return typeof value === 'string' && value.trim().length > 0;
 }
 
-function getArray(value, fallback) {
+function safeArray(value, fallback = []) {
     return Array.isArray(value) && value.length > 0 ? value : fallback;
 }
 
-function LeafIcon({ size = 18 }) {
+function EditableOrFallback({
+    as: Component = 'span',
+    path,
+    value,
+    fallback = '',
+    multiline = false,
+    className,
+}) {
+    if (hasText(value)) {
+        return (
+            <EditableText
+                as={Component}
+                path={path}
+                multiline={multiline}
+                className={className}
+            />
+        );
+    }
+
+    return <Component className={className}>{fallback}</Component>;
+}
+
+function ArrowIcon({ size = 18 }) {
     return (
         <svg
             width={size}
@@ -78,13 +149,13 @@ function LeafIcon({ size = 18 }) {
             strokeLinejoin="round"
             aria-hidden="true"
         >
-            <path d="M20 4c-7.5.2-12.4 3-14.7 8.3C3.8 15.8 5.7 20 9.7 20c6.1 0 10.3-6 10.3-16Z" />
-            <path d="M5 20c2.1-5.2 6.4-9 12.4-11.5" />
+            <path d="M5 12h14" />
+            <path d="m13 6 6 6-6 6" />
         </svg>
     );
 }
 
-function ResearchIcon({ size = 18 }) {
+function LeafIcon({ size = 19 }) {
     return (
         <svg
             width={size}
@@ -97,14 +168,33 @@ function ResearchIcon({ size = 18 }) {
             strokeLinejoin="round"
             aria-hidden="true"
         >
-            <circle cx="11" cy="11" r="6.5" />
-            <path d="m16 16 4 4" />
+            <path d="M20 4C12.8 4.2 7.8 7 5.5 12.4 4 16 5.8 20 9.7 20 15.8 20 20 14 20 4Z" />
+            <path d="M5 20c2.2-5.2 6.4-9 12.4-11.5" />
+        </svg>
+    );
+}
+
+function SearchIcon({ size = 19 }) {
+    return (
+        <svg
+            width={size}
+            height={size}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+        >
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-3.4-3.4" />
             <path d="M8 11h6M11 8v6" />
         </svg>
     );
 }
 
-function EducationIcon({ size = 18 }) {
+function EducationIcon({ size = 19 }) {
     return (
         <svg
             width={size}
@@ -123,901 +213,902 @@ function EducationIcon({ size = 18 }) {
     );
 }
 
-const areaIcons = [LeafIcon, ResearchIcon, EducationIcon];
+const areaIcons = [LeafIcon, SearchIcon, EducationIcon];
 
-function FieldPortrait() {
-    return (
-        <div className="about-portrait-wrap">
-            <div className="about-portrait-ring" aria-hidden="true" />
-
-            <div className="about-portrait">
-                <img
-                    src="/images/claudia-profile.jpeg"
-                    alt="Claudia Paz Barrera Salas"
-                />
-
-                <div className="about-portrait-overlay" aria-hidden="true" />
-            </div>
-
-            <div className="about-portrait-badge">
-                <span className="about-portrait-badge-icon">
-                    <LeafIcon size={16} />
-                </span>
-
-                <div>
-                    <strong>Especialista</strong>
-                    <span>Agroecología</span>
-                </div>
-            </div>
-        </div>
-    );
-}
-
-function BotanicalDecoration() {
+function BotanicalLine() {
     return (
         <svg
-            viewBox="0 0 180 240"
+            className="about-v2-botanical"
+            viewBox="0 0 240 310"
             fill="none"
             aria-hidden="true"
-            className="about-botanical-decoration"
         >
             <path
-                d="M84 230C81 181 89 125 123 42"
+                d="M76 294c10-75 38-145 88-232"
                 stroke="currentColor"
-                strokeWidth="3"
+                strokeWidth="2.2"
                 strokeLinecap="round"
             />
             <path
-                d="M101 103C132 96 149 75 151 47C123 49 104 70 101 103Z"
+                d="M125 130c38-2 63-24 70-61-38 4-63 25-70 61Z"
                 fill="currentColor"
+                opacity=".72"
             />
             <path
-                d="M91 145C57 140 38 119 36 88C68 92 89 112 91 145Z"
+                d="M103 184c-38-2-63-23-72-60 39 3 66 24 72 60Z"
                 fill="currentColor"
-                opacity="0.72"
+                opacity=".5"
             />
             <path
-                d="M87 184C115 179 132 162 134 137C108 139 90 157 87 184Z"
+                d="M91 233c30-2 52-19 60-47-31 2-53 18-60 47Z"
                 fill="currentColor"
-                opacity="0.48"
+                opacity=".32"
             />
         </svg>
-    );
-}
-
-function EditableOrFallback({
-    as: Component = 'span',
-    path,
-    value,
-    fallback,
-    multiline = false,
-    style,
-}) {
-    if (hasText(value)) {
-        return (
-            <EditableText
-                as={Component}
-                path={path}
-                multiline={multiline}
-                style={style}
-            />
-        );
-    }
-
-    return (
-        <Component style={style}>
-            {fallback}
-        </Component>
     );
 }
 
 export default function About() {
     const { content } = useEditor();
 
-    const defaultAbout = defaultEditableContent?.about ?? {};
-    const savedAbout = content?.about ?? {};
+    const saved = content?.about ?? {};
+    const defaults = defaultEditableContent?.about ?? {};
 
-    const about = {
-        ...realAboutContent,
-        ...defaultAbout,
-        ...savedAbout,
-    };
-
-    const values = getArray(
-        savedAbout.values,
-        getArray(defaultAbout.values, realAboutContent.values),
+    const paragraphs = safeArray(
+        saved.paragraphs,
+        safeArray(defaults.paragraphs, fallbackContent.paragraphs),
     );
 
-    const paragraphs = getArray(
-        savedAbout.paragraphs,
-        getArray(defaultAbout.paragraphs, realAboutContent.paragraphs),
+    const values = safeArray(
+        saved.values,
+        safeArray(defaults.values, fallbackContent.values),
     );
 
-    const areas = getArray(
-        savedAbout.areas,
-        getArray(defaultAbout.areas, realAboutContent.areas),
+    const areas = safeArray(
+        saved.areas,
+        safeArray(defaults.areas, fallbackContent.areas),
     );
-
-    const titleValue = savedAbout.title ?? defaultAbout.title;
-    const descriptionValue =
-        savedAbout.description ?? defaultAbout.description;
-
-    const useEditableSectionTitle =
-        hasText(titleValue) || hasText(descriptionValue);
 
     return (
-        <section id="sobre-mi" className="about-section">
-            <div className="about-glow about-glow-top" aria-hidden="true" />
-            <div className="about-glow about-glow-bottom" aria-hidden="true" />
+        <section id="sobre-mi" className="about-v2-section">
+            <div className="about-v2-orb about-v2-orb-one" aria-hidden="true" />
+            <div className="about-v2-orb about-v2-orb-two" aria-hidden="true" />
 
             <Container>
-                {useEditableSectionTitle ? (
-                    <SectionTitle
-                        titlePath="about.title"
-                        subtitlePath="about.description"
-                        align="center"
-                    />
-                ) : (
-                    <header className="about-heading">
-                        <span>Conoce mi trayectoria</span>
-                        <h2>{realAboutContent.title}</h2>
-                        <p>{realAboutContent.description}</p>
-                    </header>
-                )}
+                <header className="about-v2-header">
+                    <div>
+                        <span className="about-v2-eyebrow">
+                            <EditableOrFallback
+                                path="about.label"
+                                value={saved.label ?? defaults.label}
+                                fallback={fallbackContent.label}
+                            />
+                        </span>
 
-                <div className="about-main-grid">
-                    <Card className="about-profile-card">
-                        <BotanicalDecoration />
+                        <h2>
+                            <EditableOrFallback
+                                path="about.title"
+                                value={saved.title ?? defaults.title}
+                                fallback={fallbackContent.title}
+                            />
+                        </h2>
+                    </div>
 
-                        <div className="about-profile-content">
-                            <FieldPortrait />
+                    <p>
+                        <EditableOrFallback
+                            path="about.description"
+                            value={saved.description ?? defaults.description}
+                            fallback={fallbackContent.description}
+                            multiline
+                        />
+                    </p>
+                </header>
 
-                            <div className="about-identity">
-                                <span>Ingeniera Agrónoma · Doctora</span>
-                                <h3>Claudia Paz Barrera Salas</h3>
-                                <p>
-                                    Investigadora, docente y especialista en
-                                    agroecología.
-                                </p>
+                <div className="about-v2-layout">
+                    <article className="about-v2-portrait-card">
+                        <BotanicalLine />
+
+                        <div className="about-v2-photo">
+                            <img
+                                src="/images/claudia-profile.jpeg"
+                                alt="Claudia Paz Barrera Salas"
+                            />
+                            <div className="about-v2-photo-overlay" aria-hidden="true" />
+                        </div>
+
+                        <div className="about-v2-person">
+                            <span>Ingeniera Agrónoma · Dra. en Territorio, Patrimonio y Medio Ambiente</span>
+                            <h3>Claudia Paz Barrera Salas</h3>
+
+                            <p>
+                                Investigadora postdoctoral especializada en
+                                agroecología, sistemas alimentarios sostenibles y
+                                transición agroecológica, con experiencia en Chile,
+                                España y Portugal.
+                            </p>
+
+                            <div className="about-v2-profile-details">
+                                {academicProfile.map((item, index) => (
+                                    <div
+                                        key={`academic-profile-${index}`}
+                                        className="about-v2-profile-detail"
+                                    >
+                                        <small>{item.label}</small>
+                                        <strong>{item.value}</strong>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="about-v2-specialty">
+                            <span className="about-v2-specialty-icon">
+                                <LeafIcon size={17} />
+                            </span>
+                            <div>
+                                <small>Línea principal de investigación</small>
+                                <strong>Transición agroecológica y sistemas alimentarios sostenibles</strong>
+                            </div>
+                        </div>
+                    </article>
+
+                    <div className="about-v2-content">
+                        <article className="about-v2-story">
+                            <div className="about-v2-story-top">
+                                <div>
+                                    <span className="about-v2-kicker">
+                                        Trayectoria profesional
+                                    </span>
+
+                                    <h3>
+                                        <EditableOrFallback
+                                            path="about.professionalTitle"
+                                            value={
+                                                saved.professionalTitle ??
+                                                defaults.professionalTitle
+                                            }
+                                            fallback={
+                                                fallbackContent.professionalTitle
+                                            }
+                                            multiline
+                                        />
+                                    </h3>
+                                </div>
+
+                                <a href="#experiencia" className="about-v2-link">
+                                    Ver experiencia
+                                    <ArrowIcon size={17} />
+                                </a>
                             </div>
 
-                            <div className="about-values">
-                                {values.map((item, index) => {
-                                    const pathValue =
-                                        savedAbout.values?.[index] ??
-                                        defaultAbout.values?.[index];
+                            <div className="about-v2-paragraphs">
+                                {paragraphs.map((paragraph, index) => (
+                                    <EditableOrFallback
+                                        key={`about-paragraph-${index}`}
+                                        as="p"
+                                        path={`about.paragraphs.${index}`}
+                                        value={
+                                            saved.paragraphs?.[index] ??
+                                            defaults.paragraphs?.[index]
+                                        }
+                                        fallback={
+                                            typeof paragraph === 'string'
+                                                ? paragraph
+                                                : fallbackContent.paragraphs[
+                                                index
+                                                ] ?? ''
+                                        }
+                                        multiline
+                                    />
+                                ))}
+                            </div>
 
-                                    return (
+                            <div className="about-v2-timeline">
+                                {timeline.map((item, index) => (
+                                    <div
+                                        key={`about-timeline-${index}`}
+                                        className="about-v2-timeline-item"
+                                    >
+                                        <span className="about-v2-timeline-dot" />
+                                        <strong>{item.value}</strong>
+                                        <span>{item.label}</span>
+                                        <small>{item.detail}</small>
+                                    </div>
+                                ))}
+                            </div>
+                        </article>
+
+                        <div className="about-v2-bottom-grid">
+                            <article className="about-v2-values">
+                                <div className="about-v2-card-heading">
+                                    <span>Enfoque profesional</span>
+                                    <strong>Investigación, docencia y extensión vinculadas con los territorios</strong>
+                                </div>
+
+                                <div className="about-v2-values-list">
+                                    {values.map((item, index) => (
                                         <div
                                             key={`about-value-${index}`}
-                                            className="about-value-item"
+                                            className="about-v2-value"
                                         >
-                                            <span
-                                                className="about-value-marker"
-                                                aria-hidden="true"
-                                            />
+                                            <span>{String(index + 1).padStart(2, '0')}</span>
 
                                             <EditableOrFallback
-                                                as="span"
+                                                as="p"
                                                 path={`about.values.${index}`}
-                                                value={pathValue}
+                                                value={
+                                                    saved.values?.[index] ??
+                                                    defaults.values?.[index]
+                                                }
                                                 fallback={
                                                     typeof item === 'string'
                                                         ? item
-                                                        : realAboutContent
-                                                            .values[index] ??
-                                                        ''
-                                                }
-                                            />
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    </Card>
-
-                    <div className="about-right-column">
-                        <Card className="about-summary-card">
-                            <div className="about-summary-shape" aria-hidden="true" />
-
-                            <div className="about-summary-content">
-                                <EditableOrFallback
-                                    as="p"
-                                    path="about.label"
-                                    value={
-                                        savedAbout.label ??
-                                        defaultAbout.label
-                                    }
-                                    fallback={realAboutContent.label}
-                                    style={{
-                                        margin: 0,
-                                        fontFamily:
-                                            'Inter, system-ui, sans-serif',
-                                        fontSize: '0.72rem',
-                                        fontWeight: 700,
-                                        letterSpacing: '0.18em',
-                                        textTransform: 'uppercase',
-                                        color: 'var(--green)',
-                                    }}
-                                />
-
-                                <EditableOrFallback
-                                    as="h3"
-                                    path="about.professionalTitle"
-                                    value={
-                                        savedAbout.professionalTitle ??
-                                        defaultAbout.professionalTitle
-                                    }
-                                    fallback={
-                                        realAboutContent.professionalTitle
-                                    }
-                                    multiline
-                                    style={{
-                                        margin: '10px 0 0',
-                                        fontFamily:
-                                            'Playfair Display, Georgia, serif',
-                                        fontSize:
-                                            'clamp(1.7rem, 3vw, 2.35rem)',
-                                        lineHeight: 1.2,
-                                        color: 'var(--ink)',
-                                    }}
-                                />
-
-                                <div className="about-paragraphs">
-                                    {paragraphs.map((paragraph, index) => {
-                                        const pathValue =
-                                            savedAbout.paragraphs?.[index] ??
-                                            defaultAbout.paragraphs?.[index];
-
-                                        return (
-                                            <EditableOrFallback
-                                                key={`about-paragraph-${index}`}
-                                                as="p"
-                                                path={`about.paragraphs.${index}`}
-                                                value={pathValue}
-                                                fallback={
-                                                    typeof paragraph ===
-                                                        'string'
-                                                        ? paragraph
-                                                        : realAboutContent
-                                                            .paragraphs[
+                                                        : fallbackContent.values[
                                                         index
                                                         ] ?? ''
                                                 }
                                                 multiline
-                                                style={{
-                                                    margin: 0,
-                                                    fontFamily:
-                                                        'Inter, system-ui, sans-serif',
-                                                    fontSize: '0.97rem',
-                                                    lineHeight: 1.82,
-                                                    color: 'var(--muted)',
-                                                    whiteSpace: 'pre-line',
-                                                }}
                                             />
-                                        );
-                                    })}
+                                        </div>
+                                    ))}
                                 </div>
+                            </article>
 
-                                <div className="about-highlight-grid">
-                                    {realAboutContent.highlights.map(
-                                        (item) => (
-                                            <div
-                                                key={item.label}
-                                                className="about-highlight"
-                                            >
-                                                <strong>{item.value}</strong>
-                                                <span>{item.label}</span>
-                                                <small>{item.detail}</small>
-                                            </div>
-                                        ),
-                                    )}
-                                </div>
+                            <div className="about-v2-areas">
+                                {areas.slice(0, 3).map((area, index) => {
+                                    const Icon =
+                                        areaIcons[index % areaIcons.length];
+
+                                    const savedArea =
+                                        saved.areas?.[index] ?? {};
+                                    const defaultArea =
+                                        defaults.areas?.[index] ?? {};
+
+                                    const fallbackArea =
+                                        typeof area === 'object' && area
+                                            ? area
+                                            : fallbackContent.areas[index] ?? {
+                                                label: '',
+                                                value: '',
+                                            };
+
+                                    return (
+                                        <article
+                                            key={`about-area-${index}`}
+                                            className="about-v2-area"
+                                        >
+                                            <span className="about-v2-area-icon">
+                                                <Icon />
+                                            </span>
+
+                                            <EditableOrFallback
+                                                as="small"
+                                                path={`about.areas.${index}.label`}
+                                                value={
+                                                    savedArea.label ??
+                                                    defaultArea.label
+                                                }
+                                                fallback={
+                                                    fallbackArea.label ??
+                                                    fallbackContent.areas[index]
+                                                        ?.label ??
+                                                    ''
+                                                }
+                                            />
+
+                                            <EditableOrFallback
+                                                as="h4"
+                                                path={`about.areas.${index}.value`}
+                                                value={
+                                                    savedArea.value ??
+                                                    defaultArea.value
+                                                }
+                                                fallback={
+                                                    fallbackArea.value ??
+                                                    fallbackContent.areas[index]
+                                                        ?.value ??
+                                                    ''
+                                                }
+                                                multiline
+                                            />
+                                        </article>
+                                    );
+                                })}
                             </div>
-                        </Card>
-
-                        <div className="about-areas-grid">
-                            {areas.map((area, index) => {
-                                const Icon =
-                                    areaIcons[index % areaIcons.length];
-
-                                const savedArea =
-                                    savedAbout.areas?.[index] ?? {};
-                                const defaultArea =
-                                    defaultAbout.areas?.[index] ?? {};
-
-                                const labelValue =
-                                    savedArea.label ??
-                                    defaultArea.label;
-                                const valueValue =
-                                    savedArea.value ??
-                                    defaultArea.value;
-
-                                const fallbackArea =
-                                    typeof area === 'object' && area
-                                        ? area
-                                        : realAboutContent.areas[index] ?? {
-                                            label: '',
-                                            value: '',
-                                        };
-
-                                return (
-                                    <Card
-                                        key={`about-area-${index}`}
-                                        className={`about-area-card about-area-card-${index + 1
-                                            }`}
-                                    >
-                                        <span
-                                            className="about-area-bg"
-                                            aria-hidden="true"
-                                        />
-
-                                        <span className="about-area-icon">
-                                            <Icon />
-                                        </span>
-
-                                        <EditableOrFallback
-                                            as="p"
-                                            path={`about.areas.${index}.label`}
-                                            value={labelValue}
-                                            fallback={
-                                                fallbackArea.label ??
-                                                realAboutContent.areas[index]
-                                                    ?.label ??
-                                                ''
-                                            }
-                                            style={{
-                                                position: 'relative',
-                                                zIndex: 1,
-                                                margin: 0,
-                                                fontFamily:
-                                                    'Inter, system-ui, sans-serif',
-                                                fontSize: '0.7rem',
-                                                fontWeight: 700,
-                                                letterSpacing: '0.14em',
-                                                textTransform: 'uppercase',
-                                                color: 'var(--green)',
-                                            }}
-                                        />
-
-                                        <EditableOrFallback
-                                            as="p"
-                                            path={`about.areas.${index}.value`}
-                                            value={valueValue}
-                                            fallback={
-                                                fallbackArea.value ??
-                                                realAboutContent.areas[index]
-                                                    ?.value ??
-                                                ''
-                                            }
-                                            multiline
-                                            style={{
-                                                position: 'relative',
-                                                zIndex: 1,
-                                                margin: '18px 0 0',
-                                                fontFamily:
-                                                    'Playfair Display, Georgia, serif',
-                                                fontSize: '1.08rem',
-                                                lineHeight: 1.4,
-                                                color: 'var(--ink)',
-                                            }}
-                                        />
-                                    </Card>
-                                );
-                            })}
                         </div>
                     </div>
                 </div>
             </Container>
 
             <style>{`
-                .about-section {
+                .about-v2-section {
                     position: relative;
                     overflow: hidden;
-                    padding: 52px 0 104px;
+                    padding: clamp(74px, 9vw, 124px) 0;
+                    color: var(--ink, #30352e);
                 }
 
-                .about-glow {
+                .about-v2-orb {
                     position: absolute;
                     border-radius: 50%;
                     pointer-events: none;
-                    filter: blur(4px);
+                    filter: blur(8px);
                 }
 
-                .about-glow-top {
-                    top: 110px;
-                    right: -120px;
-                    width: 330px;
-                    height: 330px;
+                .about-v2-orb-one {
+                    top: 6%;
+                    right: -130px;
+                    width: 360px;
+                    height: 360px;
                     background: rgba(143, 149, 127, 0.08);
                 }
 
-                .about-glow-bottom {
-                    bottom: 20px;
-                    left: -130px;
-                    width: 300px;
-                    height: 300px;
-                    background: rgba(204, 205, 191, 0.13);
+                .about-v2-orb-two {
+                    left: -150px;
+                    bottom: 4%;
+                    width: 320px;
+                    height: 320px;
+                    background: rgba(204, 205, 191, 0.12);
                 }
 
-                .about-heading {
-                    max-width: 760px;
-                    margin: 0 auto 42px;
-                    text-align: center;
-                }
-
-                .about-heading > span {
-                    display: block;
-                    margin-bottom: 10px;
-                    font-family: Inter, system-ui, sans-serif;
-                    font-size: 0.72rem;
-                    font-weight: 700;
-                    letter-spacing: 0.18em;
-                    text-transform: uppercase;
-                    color: var(--green);
-                }
-
-                .about-heading h2 {
-                    margin: 0;
-                    font-family: "Playfair Display", Georgia, serif;
-                    font-size: clamp(2rem, 5vw, 3.5rem);
-                    line-height: 1.08;
-                    color: var(--ink);
-                }
-
-                .about-heading p {
-                    max-width: 620px;
-                    margin: 15px auto 0;
-                    font-family: Inter, system-ui, sans-serif;
-                    font-size: 1rem;
-                    line-height: 1.7;
-                    color: var(--muted);
-                }
-
-                .about-main-grid {
+                .about-v2-header {
                     display: grid;
-                    grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1.18fr);
-                    gap: 24px;
+                    grid-template-columns: minmax(0, .95fr) minmax(280px, .65fr);
+                    gap: 48px;
+                    align-items: end;
+                    padding-bottom: 30px;
+                    border-bottom: 1px solid rgba(143, 149, 127, 0.2);
+                }
+
+                .about-v2-eyebrow,
+                .about-v2-kicker,
+                .about-v2-card-heading > span {
+                    display: block;
+                    font-family: Inter, system-ui, sans-serif;
+                    font-size: .72rem;
+                    font-weight: 700;
+                    letter-spacing: .17em;
+                    text-transform: uppercase;
+                    color: var(--green, #7f8a6f);
+                }
+
+                .about-v2-header h2 {
+                    margin: 11px 0 0;
+                    font-family: "Playfair Display", Georgia, serif;
+                    font-size: clamp(2.7rem, 6vw, 5.5rem);
+                    font-weight: 600;
+                    line-height: .98;
+                    letter-spacing: -.035em;
+                    color: var(--ink, #30352e);
+                }
+
+                .about-v2-header > p {
+                    max-width: 520px;
+                    margin: 0;
+                    font-family: Inter, system-ui, sans-serif;
+                    font-size: clamp(.96rem, 1.4vw, 1.08rem);
+                    line-height: 1.8;
+                    color: var(--muted, #687064);
+                }
+
+                .about-v2-layout {
+                    display: grid;
+                    grid-template-columns: minmax(280px, .72fr) minmax(0, 1.55fr);
+                    gap: 26px;
+                    margin-top: 30px;
                     align-items: stretch;
                 }
 
-                .about-profile-card,
-                .about-summary-card,
-                .about-area-card {
-                    transition:
-                        transform 220ms ease,
-                        box-shadow 220ms ease,
-                        border-color 220ms ease;
+                .about-v2-portrait-card,
+                .about-v2-story,
+                .about-v2-values,
+                .about-v2-area {
+                    border: 1px solid rgba(143, 149, 127, 0.18);
+                    background: rgba(255, 255, 255, 0.68);
+                    box-shadow: 0 22px 60px rgba(42, 49, 38, 0.09);
+                    backdrop-filter: blur(14px);
                 }
 
-                .about-profile-card:hover,
-                .about-summary-card:hover,
-                .about-area-card:hover {
-                    transform: translateY(-4px);
-                    border-color: rgba(143, 149, 127, 0.3) !important;
-                    box-shadow: 0 24px 48px rgba(52, 54, 47, 0.12);
-                }
-
-                .about-profile-card {
+                .about-v2-portrait-card {
                     position: relative;
                     overflow: hidden;
-                    padding: 28px;
-                    background:
-                        linear-gradient(
-                            145deg,
-                            rgba(255, 255, 255, 0.88),
-                            rgba(204, 205, 191, 0.5)
-                        );
-                    border: 1px solid rgba(143, 149, 127, 0.22);
+                    min-height: 0;
+                    padding: 18px;
+                    border-radius: 30px;
                 }
 
-                .about-profile-content {
-                    position: relative;
-                    z-index: 1;
-                }
-
-                .about-botanical-decoration {
+                .about-v2-botanical {
                     position: absolute;
-                    right: -32px;
-                    bottom: -58px;
-                    width: 180px;
-                    height: 240px;
-                    color: var(--green);
-                    opacity: 0.09;
-                    pointer-events: none;
+                    right: -70px;
+                    bottom: -38px;
+                    width: 240px;
+                    color: var(--green, #7f8a6f);
+                    opacity: .1;
                 }
 
-                .about-portrait-wrap {
+                .about-v2-photo {
                     position: relative;
-                    width: min(100%, 360px);
-                    margin: 0 auto;
-                }
-
-                .about-portrait-ring {
-                    position: absolute;
-                    inset: -12px;
-                    border: 1px solid rgba(143, 149, 127, 0.2);
-                    border-radius: 50%;
-                    transform: rotate(-5deg);
-                }
-
-                .about-portrait {
-                    position: relative;
-                    width: 100%;
-                    aspect-ratio: 1 / 1;
+                    height: 390px;
                     overflow: hidden;
-                    border: 8px solid rgba(204, 205, 191, 0.74);
-                    border-radius: 50%;
-                    background: var(--sage);
-                    box-shadow:
-                        0 28px 60px rgba(52, 54, 47, 0.18),
-                        inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+                    border-radius: 22px;
+                    background: #d5d0c2;
                 }
 
-                .about-portrait img {
+                .about-v2-photo img {
                     width: 100%;
                     height: 100%;
                     display: block;
                     object-fit: cover;
                     object-position: center;
+                    transition: transform 600ms ease;
                 }
 
-                .about-portrait-overlay {
+                .about-v2-portrait-card:hover .about-v2-photo img {
+                    transform: scale(1.025);
+                }
+
+                .about-v2-photo-overlay {
                     position: absolute;
                     inset: 0;
                     background:
-                        linear-gradient(
-                            180deg,
-                            transparent 58%,
-                            rgba(52, 54, 47, 0.16) 100%
-                        );
-                    pointer-events: none;
+                        linear-gradient(180deg, transparent 55%, rgba(33, 42, 30, .24)),
+                        linear-gradient(120deg, rgba(143, 149, 127, .12), transparent 45%);
                 }
 
-                .about-portrait-badge {
+                .about-v2-person {
+                    position: relative;
+                    z-index: 1;
+                    padding: 25px 8px 108px;
+                }
+
+                .about-v2-person > span {
+                    font-family: Inter, system-ui, sans-serif;
+                    font-size: .68rem;
+                    font-weight: 700;
+                    letter-spacing: .13em;
+                    text-transform: uppercase;
+                    color: var(--green, #7f8a6f);
+                }
+
+                .about-v2-person h3 {
+                    margin: 8px 0 0;
+                    font-family: "Playfair Display", Georgia, serif;
+                    font-size: clamp(1.7rem, 3vw, 2.25rem);
+                    line-height: 1.05;
+                    color: var(--ink, #30352e);
+                }
+
+                .about-v2-person p {
+                    margin: 10px 0 0;
+                    font-family: Inter, system-ui, sans-serif;
+                    font-size: .9rem;
+                    line-height: 1.65;
+                    color: var(--muted, #687064);
+                }
+
+                .about-v2-profile-details {
+                    display: grid;
+                    gap: 0;
+                    margin-top: 22px;
+                    border-top: 1px solid rgba(143, 149, 127, .17);
+                }
+
+                .about-v2-profile-detail {
+                    display: grid;
+                    grid-template-columns: minmax(105px, .58fr) minmax(0, 1.42fr);
+                    gap: 14px;
+                    padding: 12px 0;
+                    border-bottom: 1px solid rgba(143, 149, 127, .14);
+                }
+
+                .about-v2-profile-detail small,
+                .about-v2-profile-detail strong {
+                    display: block;
+                    font-family: Inter, system-ui, sans-serif;
+                }
+
+                .about-v2-profile-detail small {
+                    padding-top: 2px;
+                    font-size: .62rem;
+                    font-weight: 700;
+                    letter-spacing: .09em;
+                    text-transform: uppercase;
+                    color: var(--green, #7f8a6f);
+                }
+
+                .about-v2-profile-detail strong {
+                    font-size: .77rem;
+                    font-weight: 600;
+                    line-height: 1.48;
+                    color: var(--ink, #30352e);
+                }
+
+                .about-v2-profile-detail:last-child {
+                    border-bottom: 0;
+                }
+
+                .about-v2-specialty {
                     position: absolute;
-                    right: -8px;
+                    left: 27px;
+                    right: 27px;
                     bottom: 22px;
+                    z-index: 2;
                     display: flex;
                     align-items: center;
-                    gap: 9px;
-                    padding: 9px 12px 9px 9px;
-                    border: 1px solid rgba(255, 255, 255, 0.5);
-                    border-radius: 999px;
-                    background: rgba(248, 248, 243, 0.9);
-                    box-shadow: 0 12px 28px rgba(52, 54, 47, 0.16);
-                    backdrop-filter: blur(10px);
+                    gap: 11px;
+                    padding: 11px 13px;
+                    border: 1px solid rgba(143, 149, 127, .18);
+                    border-radius: 16px;
+                    background: rgba(247, 247, 241, .88);
+                    backdrop-filter: blur(12px);
                 }
 
-                .about-portrait-badge-icon {
-                    width: 32px;
-                    height: 32px;
+                .about-v2-specialty-icon {
+                    width: 37px;
+                    height: 37px;
                     display: grid;
                     place-items: center;
-                    border-radius: 50%;
-                    background: var(--green);
+                    flex-shrink: 0;
+                    border-radius: 12px;
+                    background: var(--green, #7f8a6f);
                     color: white;
                 }
 
-                .about-portrait-badge strong,
-                .about-portrait-badge span {
+                .about-v2-specialty small,
+                .about-v2-specialty strong {
                     display: block;
                     font-family: Inter, system-ui, sans-serif;
                 }
 
-                .about-portrait-badge strong {
-                    font-size: 0.72rem;
-                    color: var(--ink);
+                .about-v2-specialty small {
+                    font-size: .63rem;
+                    color: var(--muted, #687064);
                 }
 
-                .about-portrait-badge div > span {
-                    margin-top: 1px;
-                    font-size: 0.64rem;
-                    color: var(--muted);
+                .about-v2-specialty strong {
+                    margin-top: 2px;
+                    font-size: .83rem;
+                    color: var(--ink, #30352e);
                 }
 
-                .about-identity {
-                    margin-top: 26px;
-                    text-align: center;
-                }
-
-                .about-identity > span {
-                    display: block;
-                    font-family: Inter, system-ui, sans-serif;
-                    font-size: 0.7rem;
-                    font-weight: 700;
-                    letter-spacing: 0.14em;
-                    text-transform: uppercase;
-                    color: var(--green);
-                }
-
-                .about-identity h3 {
-                    margin: 8px 0 0;
-                    font-family: "Playfair Display", Georgia, serif;
-                    font-size: clamp(1.45rem, 3vw, 1.9rem);
-                    line-height: 1.2;
-                    color: var(--ink);
-                }
-
-                .about-identity p {
-                    margin: 8px 0 0;
-                    font-family: Inter, system-ui, sans-serif;
-                    font-size: 0.88rem;
-                    line-height: 1.55;
-                    color: var(--muted);
-                }
-
-                .about-values {
-                    display: grid;
-                    gap: 11px;
-                    margin-top: 24px;
-                }
-
-                .about-value-item {
-                    display: flex;
-                    align-items: center;
-                    gap: 12px;
-                    padding: 13px 14px;
-                    border: 1px solid rgba(143, 149, 127, 0.14);
-                    border-radius: 16px 7px 16px 7px;
-                    background: rgba(255, 255, 255, 0.44);
-                    font-family: Inter, system-ui, sans-serif;
-                    font-size: 0.88rem;
-                    line-height: 1.5;
-                    color: var(--ink);
-                }
-
-                .about-value-item:nth-child(even) {
-                    border-radius: 7px 16px 7px 16px;
-                }
-
-                .about-value-marker {
-                    width: 11px;
-                    height: 11px;
-                    flex-shrink: 0;
-                    border-radius: 50% 50% 50% 12%;
-                    background:
-                        linear-gradient(135deg, var(--green), var(--sage));
-                    transform: rotate(35deg);
-                    box-shadow: 0 0 0 5px rgba(143, 149, 127, 0.09);
-                }
-
-                .about-right-column {
+                .about-v2-content {
                     display: grid;
                     gap: 22px;
-                    align-content: start;
                 }
 
-                .about-summary-card {
-                    position: relative;
-                    overflow: hidden;
-                    padding: clamp(24px, 4vw, 36px);
-                    background:
-                        linear-gradient(
-                            145deg,
-                            rgba(255, 255, 255, 0.9),
-                            rgba(204, 205, 191, 0.34)
-                        );
-                    border: 1px solid rgba(143, 149, 127, 0.2);
+                .about-v2-story {
+                    padding: clamp(25px, 4vw, 42px);
+                    border-radius: 30px;
                 }
 
-                .about-summary-shape {
-                    position: absolute;
-                    top: -72px;
-                    right: -62px;
-                    width: 210px;
-                    height: 210px;
-                    border-radius: 62% 38% 68% 32% / 42% 62% 38% 58%;
-                    background: rgba(143, 149, 127, 0.08);
-                    transform: rotate(20deg);
+                .about-v2-story-top {
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 30px;
+                    align-items: flex-start;
                 }
 
-                .about-summary-content {
-                    position: relative;
-                    z-index: 1;
+                .about-v2-story h3 {
+                    max-width: 760px;
+                    margin: 11px 0 0;
+                    font-family: "Playfair Display", Georgia, serif;
+                    font-size: clamp(2rem, 4vw, 3.55rem);
+                    font-weight: 600;
+                    line-height: 1.04;
+                    letter-spacing: -.025em;
+                    color: var(--ink, #30352e);
                 }
 
-                .about-paragraphs {
+                .about-v2-link {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 8px;
+                    flex-shrink: 0;
+                    padding: 10px 0;
+                    font-family: Inter, system-ui, sans-serif;
+                    font-size: .78rem;
+                    font-weight: 700;
+                    text-decoration: none;
+                    color: var(--green, #7f8a6f);
+                }
+
+                .about-v2-link svg {
+                    transition: transform 180ms ease;
+                }
+
+                .about-v2-link:hover svg {
+                    transform: translateX(4px);
+                }
+
+                .about-v2-paragraphs {
                     display: grid;
-                    gap: 14px;
-                    margin-top: 19px;
-                }
-
-                .about-highlight-grid {
-                    display: grid;
-                    grid-template-columns: repeat(3, minmax(0, 1fr));
-                    gap: 10px;
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                    gap: 16px 28px;
                     margin-top: 26px;
                 }
 
-                .about-highlight {
-                    min-width: 0;
-                    padding: 15px 13px;
-                    border: 1px solid rgba(143, 149, 127, 0.16);
-                    border-radius: 17px 7px 17px 7px;
-                    background: rgba(255, 255, 255, 0.48);
+                .about-v2-paragraphs p {
+                    margin: 0;
+                    font-family: Inter, system-ui, sans-serif;
+                    font-size: .95rem;
+                    line-height: 1.82;
+                    color: var(--muted, #687064);
+                    white-space: pre-line;
                 }
 
-                .about-highlight strong,
-                .about-highlight span,
-                .about-highlight small {
+                .about-v2-paragraphs p:first-child {
+                    grid-column: 1 / -1;
+                    max-width: 900px;
+                    font-size: 1.02rem;
+                    color: var(--ink, #30352e);
+                }
+
+                .about-v2-timeline {
+                    display: grid;
+                    grid-template-columns: repeat(3, minmax(0, 1fr));
+                    gap: 12px;
+                    margin-top: 30px;
+                    padding-top: 26px;
+                    border-top: 1px solid rgba(143, 149, 127, .16);
+                }
+
+                .about-v2-timeline-item {
+                    position: relative;
+                    padding-left: 16px;
+                }
+
+                .about-v2-timeline-dot {
+                    position: absolute;
+                    left: 0;
+                    top: 5px;
+                    width: 6px;
+                    height: 6px;
+                    border-radius: 50%;
+                    background: var(--green, #7f8a6f);
+                    box-shadow: 0 0 0 5px rgba(143, 149, 127, .1);
+                }
+
+                .about-v2-timeline-item strong,
+                .about-v2-timeline-item > span:not(.about-v2-timeline-dot),
+                .about-v2-timeline-item small {
                     display: block;
                     font-family: Inter, system-ui, sans-serif;
                 }
 
-                .about-highlight strong {
-                    font-size: 1.05rem;
-                    color: var(--green);
+                .about-v2-timeline-item strong {
+                    font-size: .92rem;
+                    color: var(--green, #7f8a6f);
                 }
 
-                .about-highlight span {
-                    margin-top: 4px;
-                    font-size: 0.72rem;
+                .about-v2-timeline-item > span:not(.about-v2-timeline-dot) {
+                    margin-top: 5px;
+                    font-size: .76rem;
                     font-weight: 700;
-                    color: var(--ink);
+                    color: var(--ink, #30352e);
                 }
 
-                .about-highlight small {
+                .about-v2-timeline-item small {
                     margin-top: 4px;
-                    font-size: 0.63rem;
-                    line-height: 1.4;
-                    color: var(--muted);
+                    font-size: .67rem;
+                    line-height: 1.5;
+                    color: var(--muted, #687064);
                 }
 
-                .about-areas-grid {
+                .about-v2-bottom-grid {
                     display: grid;
-                    grid-template-columns: repeat(3, minmax(0, 1fr));
-                    gap: 14px;
+                    grid-template-columns: minmax(0, 1.08fr) minmax(250px, .92fr);
+                    gap: 22px;
                 }
 
-                .about-area-card {
+                .about-v2-values {
+                    padding: 27px;
+                    border-radius: 26px;
+                }
+
+                .about-v2-card-heading strong {
+                    display: block;
+                    margin-top: 7px;
+                    font-family: "Playfair Display", Georgia, serif;
+                    font-size: 1.5rem;
+                    line-height: 1.2;
+                    color: var(--ink, #30352e);
+                }
+
+                .about-v2-values-list {
+                    display: grid;
+                    margin-top: 20px;
+                }
+
+                .about-v2-value {
+                    display: grid;
+                    grid-template-columns: 34px 1fr;
+                    gap: 12px;
+                    align-items: start;
+                    padding: 14px 0;
+                    border-top: 1px solid rgba(143, 149, 127, .14);
+                }
+
+                .about-v2-value > span {
+                    font-family: Inter, system-ui, sans-serif;
+                    font-size: .68rem;
+                    font-weight: 700;
+                    color: var(--green, #7f8a6f);
+                }
+
+                .about-v2-value p {
+                    margin: 0;
+                    font-family: Inter, system-ui, sans-serif;
+                    font-size: .85rem;
+                    line-height: 1.55;
+                    color: var(--ink, #30352e);
+                }
+
+                .about-v2-areas {
+                    display: grid;
+                    grid-template-rows: repeat(3, 1fr);
+                    gap: 11px;
+                }
+
+                .about-v2-area {
                     position: relative;
                     overflow: hidden;
-                    min-height: 178px;
-                    padding: 20px;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: flex-end;
-                    border: 1px solid rgba(143, 149, 127, 0.18);
+                    min-height: 126px;
+                    padding: 19px 20px 17px 75px;
+                    border-radius: 22px;
+                    transition:
+                        transform 200ms ease,
+                        border-color 200ms ease,
+                        box-shadow 200ms ease;
                 }
 
-                .about-area-card-1 {
-                    background:
-                        linear-gradient(
-                            145deg,
-                            rgba(143, 149, 127, 0.16),
-                            rgba(255, 255, 255, 0.82)
-                        );
+                .about-v2-area:hover {
+                    transform: translateY(-3px);
+                    border-color: rgba(143, 149, 127, .34);
+                    box-shadow: 0 25px 52px rgba(42, 49, 38, .12);
                 }
 
-                .about-area-card-2 {
-                    background:
-                        linear-gradient(
-                            145deg,
-                            rgba(204, 205, 191, 0.56),
-                            rgba(255, 255, 255, 0.84)
-                        );
-                }
-
-                .about-area-card-3 {
-                    background:
-                        linear-gradient(
-                            145deg,
-                            rgba(170, 168, 153, 0.2),
-                            rgba(255, 255, 255, 0.84)
-                        );
-                }
-
-                .about-area-bg {
+                .about-v2-area-icon {
                     position: absolute;
-                    right: -20px;
-                    bottom: -22px;
-                    width: 94px;
-                    height: 94px;
-                    border-radius: 70% 30% 70% 30%;
-                    background: rgba(143, 149, 127, 0.08);
-                    transform: rotate(24deg);
-                }
-
-                .about-area-card:nth-child(even) .about-area-bg {
-                    border-radius: 30% 70% 30% 70%;
-                }
-
-                .about-area-icon {
-                    position: absolute;
-                    top: 17px;
                     left: 18px;
-                    width: 38px;
-                    height: 38px;
+                    top: 18px;
+                    width: 40px;
+                    height: 40px;
                     display: grid;
                     place-items: center;
-                    border: 1px solid rgba(143, 149, 127, 0.18);
-                    border-radius: 50%;
-                    background: rgba(255, 255, 255, 0.62);
-                    color: var(--green);
+                    border-radius: 14px;
+                    background: rgba(143, 149, 127, .12);
+                    color: var(--green, #7f8a6f);
                 }
 
-                @media (max-width: 980px) {
-                    .about-main-grid {
+                .about-v2-area small {
+                    display: block;
+                    font-family: Inter, system-ui, sans-serif;
+                    font-size: .66rem;
+                    font-weight: 700;
+                    letter-spacing: .12em;
+                    text-transform: uppercase;
+                    color: var(--green, #7f8a6f);
+                }
+
+                .about-v2-area h4 {
+                    margin: 9px 0 0;
+                    font-family: "Playfair Display", Georgia, serif;
+                    font-size: 1.07rem;
+                    line-height: 1.35;
+                    color: var(--ink, #30352e);
+                }
+
+                @media (max-width: 1050px) {
+                    .about-v2-layout {
                         grid-template-columns: 1fr;
                     }
 
-                    .about-profile-card {
-                        max-width: none;
-                    }
-
-                    .about-profile-content {
+                    .about-v2-portrait-card {
+                        min-height: auto;
                         display: grid;
-                        grid-template-columns: minmax(230px, 0.7fr) minmax(0, 1.3fr);
-                        column-gap: 28px;
-                        align-items: center;
+                        grid-template-columns: minmax(240px, .72fr) minmax(0, 1.28fr);
+                        gap: 28px;
                     }
 
-                    .about-portrait-wrap {
-                        grid-row: span 2;
+                    .about-v2-photo {
+                        height: 390px;
                     }
 
-                    .about-identity {
-                        margin-top: 0;
-                        text-align: left;
+                    .about-v2-person {
+                        align-self: center;
+                        padding: 20px 20px 88px 0;
                     }
 
-                    .about-values {
-                        margin-top: 18px;
+                    .about-v2-specialty {
+                        left: calc(50% + 4px);
+                        right: 28px;
                     }
                 }
 
-                @media (max-width: 760px) {
-                    .about-section {
-                        padding: 34px 0 76px;
+                @media (max-width: 800px) {
+                    .about-v2-header {
+                        grid-template-columns: 1fr;
+                        gap: 18px;
                     }
 
-                    .about-profile-content {
+                    .about-v2-story-top {
                         display: block;
                     }
 
-                    .about-identity {
-                        margin-top: 26px;
-                        text-align: center;
+                    .about-v2-link {
+                        margin-top: 13px;
                     }
 
-                    .about-highlight-grid {
+                    .about-v2-paragraphs,
+                    .about-v2-timeline,
+                    .about-v2-bottom-grid {
                         grid-template-columns: 1fr;
                     }
 
-                    .about-areas-grid {
-                        grid-template-columns: 1fr;
+                    .about-v2-paragraphs p:first-child {
+                        grid-column: auto;
                     }
 
-                    .about-area-card {
-                        min-height: 150px;
+                    .about-v2-areas {
+                        grid-template-rows: none;
                     }
                 }
 
-                @media (max-width: 480px) {
-                    .about-profile-card,
-                    .about-summary-card {
-                        padding: 20px;
+                @media (max-width: 620px) {
+                    .about-v2-section {
+                        padding: 64px 0 82px;
                     }
 
-                    .about-portrait-badge {
-                        right: 0;
-                        bottom: 10px;
-                        transform: scale(0.9);
-                        transform-origin: right bottom;
+                    .about-v2-layout {
+                        margin-top: 20px;
+                    }
+
+                    .about-v2-portrait-card {
+                        display: block;
+                        padding: 14px;
+                        border-radius: 24px;
+                    }
+
+                    .about-v2-photo {
+                        height: min(115vw, 440px);
+                    }
+
+                    .about-v2-person {
+                        padding: 22px 7px 96px;
+                    }
+
+                    .about-v2-profile-detail {
+                        grid-template-columns: 1fr;
+                        gap: 5px;
+                        padding: 12px 0;
+                    }
+
+                    .about-v2-specialty {
+                        left: 21px;
+                        right: 21px;
+                        bottom: 18px;
+                    }
+
+                    .about-v2-story,
+                    .about-v2-values {
+                        padding: 22px;
+                        border-radius: 24px;
+                    }
+
+                    .about-v2-story h3 {
+                        font-size: clamp(1.9rem, 10vw, 2.8rem);
                     }
                 }
 
                 @media (prefers-reduced-motion: reduce) {
-                    .about-profile-card,
-                    .about-summary-card,
-                    .about-area-card {
+                    .about-v2-photo img,
+                    .about-v2-area,
+                    .about-v2-link svg {
                         transition: none;
                     }
 
-                    .about-profile-card:hover,
-                    .about-summary-card:hover,
-                    .about-area-card:hover {
+                    .about-v2-portrait-card:hover .about-v2-photo img,
+                    .about-v2-area:hover,
+                    .about-v2-link:hover svg {
                         transform: none;
                     }
                 }
