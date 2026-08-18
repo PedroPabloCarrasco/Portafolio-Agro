@@ -1,19 +1,20 @@
+/*
 import {
-    // Edit3,
+    Edit3,
     RotateCcw,
-    // Save,
-    // X,
+    Save,
+    X,
 } from 'lucide-react';
 
 import { useEditor } from '../../context/EditorContext';
 
 export default function EditorToolbar() {
     const {
-        // isEditing,
+        isEditing,
         message,
-        // startEditing,
-        // saveContent,
-        // cancelEditing,
+        startEditing,
+        saveContent,
+        cancelEditing,
         resetContent,
     } = useEditor();
 
@@ -30,17 +31,12 @@ export default function EditorToolbar() {
                     gap: '8px',
                     padding: '8px',
                     borderRadius: '999px',
-                    background:
-                        'rgba(255, 255, 255, 0.94)',
-                    border:
-                        '1px solid rgba(73, 99, 77, 0.16)',
-                    boxShadow:
-                        '0 16px 42px rgba(31, 43, 34, 0.18)',
+                    background: 'rgba(255, 255, 255, 0.94)',
+                    border: '1px solid rgba(73, 99, 77, 0.16)',
+                    boxShadow: '0 16px 42px rgba(31, 43, 34, 0.18)',
                     backdropFilter: 'blur(14px)',
                 }}
             >
-
-                {/*
                 {!isEditing ? (
                     <button
                         type="button"
@@ -72,7 +68,6 @@ export default function EditorToolbar() {
                         </button>
                     </>
                 )}
-                */}
 
                 <button
                     type="button"
@@ -99,13 +94,11 @@ export default function EditorToolbar() {
                         borderRadius: '999px',
                         background: '#49634d',
                         color: '#ffffff',
-                        fontFamily:
-                            'Inter, system-ui, sans-serif',
+                        fontFamily: 'Inter, system-ui, sans-serif',
                         fontSize: '0.85rem',
                         fontWeight: 700,
                         textAlign: 'center',
-                        boxShadow:
-                            '0 12px 34px rgba(31, 43, 34, 0.22)',
+                        boxShadow: '0 12px 34px rgba(31, 43, 34, 0.22)',
                     }}
                 >
                     {message}
@@ -115,7 +108,6 @@ export default function EditorToolbar() {
     );
 }
 
-/*
 const primaryButtonStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -131,7 +123,6 @@ const primaryButtonStyle = {
     fontWeight: 700,
     cursor: 'pointer',
 };
-*/
 
 const iconButtonStyle = {
     display: 'grid',
@@ -145,3 +136,9 @@ const iconButtonStyle = {
     color: '#49634d',
     cursor: 'pointer',
 };
+*/
+
+// Componente deshabilitado temporalmente.
+export default function EditorToolbar() {
+    return null;
+}
