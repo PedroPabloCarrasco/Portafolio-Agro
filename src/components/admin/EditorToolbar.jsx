@@ -1,19 +1,19 @@
 import {
-    Edit3,
+    // Edit3,
     RotateCcw,
-    Save,
-    X,
+    // Save,
+    // X,
 } from 'lucide-react';
 
 import { useEditor } from '../../context/EditorContext';
 
 export default function EditorToolbar() {
     const {
-        isEditing,
+        // isEditing,
         message,
-        startEditing,
-        saveContent,
-        cancelEditing,
+        // startEditing,
+        // saveContent,
+        // cancelEditing,
         resetContent,
     } = useEditor();
 
@@ -39,6 +39,8 @@ export default function EditorToolbar() {
                     backdropFilter: 'blur(14px)',
                 }}
             >
+
+                {/*
                 {!isEditing ? (
                     <button
                         type="button"
@@ -70,6 +72,7 @@ export default function EditorToolbar() {
                         </button>
                     </>
                 )}
+                */}
 
                 <button
                     type="button"
@@ -112,6 +115,7 @@ export default function EditorToolbar() {
     );
 }
 
+/*
 const primaryButtonStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -127,6 +131,7 @@ const primaryButtonStyle = {
     fontWeight: 700,
     cursor: 'pointer',
 };
+*/
 
 const iconButtonStyle = {
     display: 'grid',

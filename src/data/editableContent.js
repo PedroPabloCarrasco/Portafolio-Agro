@@ -564,6 +564,34 @@ export const defaultEditableContent = {
 
         subtitle:
             'Disponible para colaboraciones en investigación, agroecología, docencia, sistemas alimentarios sostenibles y desarrollo territorial.',
+
+        message:
+            'Estoy disponible para colaborar en proyectos de investigación, docencia, agroecología y desarrollo territorial.',
+
+        informationTitle: 'Información de contacto',
+
+        links: [
+            {
+                label: 'Correo personal',
+                value: 'barrerasalasclaudia@gmail.com',
+                href: 'mailto:barrerasalasclaudia@gmail.com',
+            },
+            {
+                label: 'Correo institucional',
+                value: 'cpsalas@ciencias.ulisboa.pt',
+                href: 'mailto:cpsalas@ciencias.ulisboa.pt',
+            },
+            {
+                label: 'LinkedIn',
+                value: 'Perfil profesional',
+                href: 'https://www.linkedin.com/',
+            },
+            {
+                label: 'Ubicación',
+                value: 'Lisboa, Portugal',
+                href: 'https://maps.google.com/?q=Lisboa,Portugal',
+            },
+        ],
     },
 
     explore: {

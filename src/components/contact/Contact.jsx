@@ -26,11 +26,57 @@ export default function Contact() {
     const [sent, setSent] = useState(false);
     const [error, setError] = useState('');
 
-    const contactLinks = Array.isArray(
-        content?.contact?.links,
-    )
-        ? content.contact.links
-        : [];
+    const defaultContactLinks = [
+        {
+            label:
+                language === 'English'
+                    ? 'Personal email'
+                    : language === 'Português'
+                        ? 'E-mail pessoal'
+                        : 'Correo personal',
+            value: 'barrerasalasclaudia@gmail.com',
+            href: 'mailto:barrerasalasclaudia@gmail.com',
+        },
+        {
+            label:
+                language === 'English'
+                    ? 'Institutional email'
+                    : language === 'Português'
+                        ? 'E-mail institucional'
+                        : 'Correo institucional',
+            value: 'cpsalas@ciencias.ulisboa.pt',
+            href: 'mailto:cpsalas@ciencias.ulisboa.pt',
+        },
+    ];
+
+    const contactLinks =
+        Array.isArray(content?.contact?.links) &&
+            content.contact.links.length > 0
+            ? content.contact.links
+            : defaultContactLinks;
+
+    const contactEyebrow =
+        content?.contact?.eyebrow ||
+        (language === 'English'
+            ? 'Contact'
+            : language === 'Português'
+                ? 'Contato'
+                : 'Contacto');
+
+    const contactMessage =
+        content?.contact?.message ||
+        (language === 'English'
+            ? 'I welcome opportunities for collaboration in research, university teaching, and interdisciplinary projects focused on agroecology, sustainable food systems, biodiversity, and territorial development.'
+            : language === 'Português'
+                ? 'Estou aberta a colaborações em pesquisa, docência universitária e projetos interdisciplinares voltados para a agroecologia, os sistemas alimentares sustentáveis, a biodiversidade e o desenvolvimento territorial.'
+                : 'Abierta a colaborar en iniciativas de investigación, docencia universitaria y proyectos interdisciplinarios orientados a la agroecología, los sistemas alimentarios sostenibles, la biodiversidad y el desarrollo territorial.');
+    const informationTitle =
+        content?.contact?.informationTitle ||
+        (language === 'English'
+            ? 'Contact information'
+            : language === 'Português'
+                ? 'Informações de contato'
+                : 'Información de contacto');
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -406,47 +452,42 @@ export default function Contact() {
                             gap: '22px',
                         }}
                     >
-                        {/* Frase editable */}
+                        {/* Frase de contacto */}
                         <Card
                             style={{
                                 padding: '24px',
-
+                                minHeight: '155px',
                                 background:
                                     'linear-gradient(180deg, rgba(73,99,77,0.96), rgba(50,69,51,0.98))',
-
                                 color: 'white',
                             }}
                         >
-                            <EditableText
-                                path="contact.eyebrow"
+                            <p
                                 style={{
-                                    fontFamily:
-                                        'Inter, system-ui, sans-serif',
-
+                                    margin: 0,
+                                    fontFamily: 'Inter, system-ui, sans-serif',
                                     fontSize: '0.72rem',
                                     letterSpacing: '0.18em',
                                     textTransform: 'uppercase',
-
-                                    color:
-                                        'rgba(255,255,255,0.66)',
+                                    color: 'rgba(255,255,255,0.66)',
                                 }}
-                            />
+                            >
+                                Contacto
+                            </p>
 
-                            <EditableText
-                                path="contact.message"
-                                multiline
+                            <p
                                 style={{
-                                    fontFamily:
-                                        'Playfair Display, Georgia, serif',
-
+                                    margin: '16px 0 0',
+                                    fontFamily: 'Playfair Display, Georgia, serif',
                                     fontSize: '1.55rem',
                                     lineHeight: '1.5',
-
                                     color: '#ffffff',
-                                    marginTop: '12px',
                                     whiteSpace: 'pre-line',
                                 }}
-                            />
+                            >
+                                Construyamos colaboraciones que conecten la investigación,
+                                la docencia y la transformación agroecológica de los territorios.
+                            </p>
                         </Card>
 
                         {/* Información editable */}
@@ -455,19 +496,33 @@ export default function Contact() {
                                 padding: '24px',
                             }}
                         >
-                            <EditableText
-                                path="contact.informationTitle"
-                                style={{
-                                    fontFamily:
-                                        'Inter, system-ui, sans-serif',
-
-                                    fontSize: '0.72rem',
-                                    letterSpacing: '0.18em',
-                                    textTransform: 'uppercase',
-
-                                    color: 'var(--green)',
-                                }}
-                            />
+                            {isEditing ? (
+                                <EditableText
+                                    path="contact.informationTitle"
+                                    style={{
+                                        fontFamily:
+                                            'Inter, system-ui, sans-serif',
+                                        fontSize: '0.72rem',
+                                        letterSpacing: '0.18em',
+                                        textTransform: 'uppercase',
+                                        color: 'var(--green)',
+                                    }}
+                                />
+                            ) : (
+                                <p
+                                    style={{
+                                        margin: 0,
+                                        fontFamily:
+                                            'Inter, system-ui, sans-serif',
+                                        fontSize: '0.72rem',
+                                        letterSpacing: '0.18em',
+                                        textTransform: 'uppercase',
+                                        color: 'var(--green)',
+                                    }}
+                                >
+                                    {informationTitle}
+                                </p>
+                            )}
 
                             <div
                                 style={{
